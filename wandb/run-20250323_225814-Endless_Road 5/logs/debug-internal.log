@@ -1,0 +1,15 @@
+{"time":"2025-03-23T22:58:14.9354794+02:00","level":"INFO","msg":"stream: starting","core version":"0.19.7","symlink path":"C:\\Users\\Gilad\\Downloads\\Game-3\\Game-3\\wandb\\run-20250323_225814-Endless_Road 5\\logs\\debug-core.log"}
+{"time":"2025-03-23T22:58:15.8761073+02:00","level":"INFO","msg":"created new stream","id":"Endless_Road 5"}
+{"time":"2025-03-23T22:58:15.8761073+02:00","level":"INFO","msg":"stream: started","id":"Endless_Road 5"}
+{"time":"2025-03-23T22:58:15.8766165+02:00","level":"INFO","msg":"writer: Do: started","stream_id":"Endless_Road 5"}
+{"time":"2025-03-23T22:58:15.8766165+02:00","level":"INFO","msg":"handler: started","stream_id":"Endless_Road 5"}
+{"time":"2025-03-23T22:58:15.8766165+02:00","level":"INFO","msg":"sender: started","stream_id":"Endless_Road 5"}
+{"time":"2025-03-23T22:58:16.1180026+02:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-03-23T22:58:19.6687618+02:00","level":"INFO","msg":"stream: closing","id":"Endless_Road 5"}
+{"time":"2025-03-23T22:58:19.6687618+02:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-03-23T22:58:19.6687618+02:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-03-23T22:58:20.4634025+02:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-03-23T22:58:20.9495682+02:00","level":"INFO","msg":"handler: closed","stream_id":"Endless_Road 5"}
+{"time":"2025-03-23T22:58:20.9495682+02:00","level":"INFO","msg":"writer: Close: closed","stream_id":"Endless_Road 5"}
+{"time":"2025-03-23T22:58:20.9495682+02:00","level":"INFO","msg":"sender: closed","stream_id":"Endless_Road 5"}
+{"time":"2025-03-23T22:58:20.9502811+02:00","level":"INFO","msg":"stream: closed","id":"Endless_Road 5"}

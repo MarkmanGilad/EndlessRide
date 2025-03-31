@@ -1,0 +1,126 @@
+epoch: 0 loss: 0.0000000 LR: [0.0001]  score: 0 step 265
+epoch: 1 loss: 0.0000000 LR: [0.0001]  score: 0 step 137
+epoch: 2 loss: 0.2050584 LR: [0.0001]  score: 0 step 338
+epoch: 3 loss: 0.0018627 LR: [0.0001]  score: 1 step 138
+epoch: 4 loss: 0.0141530 LR: [0.0001]  score: 0 step 179
+epoch: 5 loss: 0.0045470 LR: [0.0001]  score: 1 step 278
+epoch: 6 loss: 0.0038458 LR: [0.0001]  score: 2 step 166
+epoch: 7 loss: 0.0044471 LR: [0.0001]  score: 0 step 193
+epoch: 8 loss: 0.0040001 LR: [0.0001]  score: 0 step 172
+epoch: 9 loss: 0.0058303 LR: [0.0001]  score: 0 step 186
+average score last 10 games: 0.4
+epoch: 10 loss: 0.0069240 LR: [0.0001]  score: 2 step 359
+epoch: 11 loss: 0.0037095 LR: [0.0001]  score: 0 step 143
+epoch: 12 loss: 0.2138938 LR: [0.0001]  score: 0 step 152
+epoch: 13 loss: 0.0095452 LR: [0.0001]  score: 0 step 124
+epoch: 14 loss: 0.0041281 LR: [0.0001]  score: 0 step 155
+epoch: 15 loss: 0.7578749 LR: [0.0001]  score: 3 step 379
+epoch: 16 loss: 0.0074468 LR: [0.0001]  score: 0 step 202
+epoch: 17 loss: 0.0084164 LR: [0.0001]  score: 0 step 207
+epoch: 18 loss: 0.0072457 LR: [0.0001]  score: 1 step 320
+epoch: 19 loss: 0.0153511 LR: [0.0001]  score: 0 step 141
+average score last 10 games: 0.6
+epoch: 20 loss: 0.3874603 LR: [0.0001]  score: 1 step 215
+epoch: 21 loss: 0.6166635 LR: [0.0001]  score: 0 step 166
+epoch: 22 loss: 0.1373253 LR: [0.0001]  score: 3 step 302
+epoch: 23 loss: 0.0170699 LR: [0.0001]  score: 0 step 244
+epoch: 24 loss: 0.0354762 LR: [0.0001]  score: 2 step 322
+epoch: 25 loss: 0.1871042 LR: [0.0001]  score: 3 step 295
+epoch: 26 loss: 0.0265919 LR: [0.0001]  score: 0 step 130
+epoch: 27 loss: 0.0173486 LR: [0.0001]  score: 1 step 174
+epoch: 28 loss: 0.0209900 LR: [0.0001]  score: 0 step 207
+epoch: 29 loss: 0.0058746 LR: [0.0001]  score: 1 step 298
+average score last 10 games: 1.1
+epoch: 30 loss: 0.0030562 LR: [0.0001]  score: 1 step 207
+epoch: 31 loss: 0.3853476 LR: [0.0001]  score: 2 step 280
+epoch: 32 loss: 0.0148921 LR: [0.0001]  score: 0 step 257
+epoch: 33 loss: 0.0079121 LR: [0.0001]  score: 1 step 142
+epoch: 34 loss: 0.2379389 LR: [0.0001]  score: 2 step 251
+epoch: 35 loss: 0.0051910 LR: [0.0001]  score: 3 step 197
+epoch: 36 loss: 0.2615545 LR: [0.0001]  score: 0 step 128
+epoch: 37 loss: 0.2230975 LR: [0.0001]  score: 0 step 191
+epoch: 38 loss: 0.1545829 LR: [0.0001]  score: 2 step 272
+epoch: 39 loss: 0.0050038 LR: [0.0001]  score: 0 step 124
+average score last 10 games: 1.1
+epoch: 40 loss: 0.1974286 LR: [0.0001]  score: 0 step 124
+epoch: 41 loss: 0.0119505 LR: [0.0001]  score: 0 step 224
+epoch: 42 loss: 0.1706737 LR: [0.0001]  score: 0 step 166
+epoch: 43 loss: 0.0128470 LR: [0.0001]  score: 1 step 311
+epoch: 44 loss: 0.0435038 LR: [0.0001]  score: 0 step 185
+epoch: 45 loss: 0.1948213 LR: [0.0001]  score: 0 step 176
+epoch: 46 loss: 0.1514832 LR: [0.0001]  score: 0 step 166
+epoch: 47 loss: 0.2244591 LR: [0.0001]  score: 0 step 156
+epoch: 48 loss: 0.0043395 LR: [0.0001]  score: 3 step 199
+epoch: 49 loss: 0.1145115 LR: [0.0001]  score: 0 step 156
+average score last 10 games: 0.4
+epoch: 50 loss: 0.0058421 LR: [0.0001]  score: 0 step 160
+epoch: 51 loss: 0.1455574 LR: [0.0001]  score: 0 step 252
+epoch: 52 loss: 0.0101064 LR: [0.0001]  score: 1 step 225
+epoch: 53 loss: 0.1214531 LR: [0.0001]  score: 1 step 141
+epoch: 54 loss: 0.1670017 LR: [0.0001]  score: 0 step 184
+epoch: 55 loss: 0.2887334 LR: [0.0001]  score: 0 step 240
+epoch: 56 loss: 0.0101977 LR: [0.0001]  score: 0 step 165
+epoch: 57 loss: 0.0066319 LR: [0.0001]  score: 0 step 151
+epoch: 58 loss: 0.0139173 LR: [0.0001]  score: 0 step 151
+epoch: 59 loss: 0.0146959 LR: [0.0001]  score: 0 step 140
+average score last 10 games: 0.2
+epoch: 60 loss: 0.3492114 LR: [0.0001]  score: 0 step 121
+epoch: 61 loss: 0.0070880 LR: [0.0001]  score: 1 step 171
+epoch: 62 loss: 0.1662424 LR: [0.0001]  score: 0 step 270
+epoch: 63 loss: 0.1932220 LR: [0.0001]  score: 0 step 134
+epoch: 64 loss: 0.0120199 LR: [0.0001]  score: 4 step 260
+epoch: 65 loss: 0.1059538 LR: [0.0001]  score: 1 step 139
+epoch: 66 loss: 0.1869773 LR: [0.0001]  score: 2 step 255
+epoch: 67 loss: 0.0140824 LR: [0.0001]  score: 0 step 127
+epoch: 68 loss: 0.1759351 LR: [0.0001]  score: 1 step 191
+epoch: 69 loss: 0.0088237 LR: [0.0001]  score: 0 step 284
+average score last 10 games: 0.9
+epoch: 70 loss: 0.0137035 LR: [0.0001]  score: 0 step 161
+epoch: 71 loss: 0.0096317 LR: [0.0001]  score: 0 step 122
+epoch: 72 loss: 0.3001882 LR: [0.0001]  score: 0 step 174
+epoch: 73 loss: 0.0131016 LR: [0.0001]  score: 0 step 169
+epoch: 74 loss: 0.0106933 LR: [0.0001]  score: 2 step 318
+epoch: 75 loss: 0.0102713 LR: [0.0001]  score: 0 step 180
+epoch: 76 loss: 0.0236649 LR: [0.0001]  score: 4 step 262
+epoch: 77 loss: 0.0137048 LR: [0.0001]  score: 0 step 150
+epoch: 78 loss: 0.1346945 LR: [0.0001]  score: 0 step 124
+epoch: 79 loss: 0.1441423 LR: [0.0001]  score: 0 step 160
+average score last 10 games: 0.6
+epoch: 80 loss: 0.0169790 LR: [0.0001]  score: 0 step 273
+epoch: 81 loss: 0.0326131 LR: [0.0001]  score: 0 step 160
+epoch: 82 loss: 0.6981729 LR: [0.0001]  score: 0 step 225
+epoch: 83 loss: 0.0140138 LR: [0.0001]  score: 2 step 257
+epoch: 84 loss: 0.0107177 LR: [0.0001]  score: 0 step 120
+epoch: 85 loss: 0.0187689 LR: [0.0001]  score: 0 step 156
+epoch: 86 loss: 0.2942097 LR: [0.0001]  score: 1 step 182
+epoch: 87 loss: 0.0263869 LR: [0.0001]  score: 0 step 154
+epoch: 88 loss: 0.0271873 LR: [0.0001]  score: 2 step 286
+epoch: 89 loss: 0.0736731 LR: [0.0001]  score: 1 step 443
+average score last 10 games: 0.6
+epoch: 90 loss: 0.0367723 LR: [0.0001]  score: 1 step 167
+epoch: 91 loss: 0.0623354 LR: [0.0001]  score: 0 step 177
+epoch: 92 loss: 0.0195691 LR: [0.0001]  score: 0 step 146
+epoch: 93 loss: 0.0249648 LR: [0.0001]  score: 0 step 162
+epoch: 94 loss: 0.0124408 LR: [0.0001]  score: 1 step 192
+epoch: 95 loss: 0.0164891 LR: [0.0001]  score: 0 step 132
+epoch: 96 loss: 0.0184475 LR: [0.0001]  score: 0 step 190
+epoch: 97 loss: 0.1610198 LR: [0.0001]  score: 0 step 128
+epoch: 98 loss: 0.0569099 LR: [0.0001]  score: 0 step 182
+epoch: 99 loss: 0.0194476 LR: [0.0001]  score: 0 step 128
+average score last 10 games: 0.2
+epoch: 100 loss: 0.1966509 LR: [0.0001]  score: 0 step 154
+Traceback (most recent call last):
+  File "c:\Users\Gilad\Downloads\Game-3\Game-3\Trainer_wandb.py", line 215, in <module>
+    main ()
+  File "c:\Users\Gilad\Downloads\Game-3\Game-3\Trainer_wandb.py", line 206, in main
+    torch.save(checkpoint, checkpoint_path)
+  File "C:\Users\Gilad\.virtualenvs\SpaceShipRide-0PfYb7R8\Lib\site-packages\torch\serialization.py", line 943, in save
+    with _open_zipfile_writer(f) as opened_zipfile:
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Gilad\.virtualenvs\SpaceShipRide-0PfYb7R8\Lib\site-packages\torch\serialization.py", line 810, in _open_zipfile_writer
+    return container(name_or_buffer)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Gilad\.virtualenvs\SpaceShipRide-0PfYb7R8\Lib\site-packages\torch\serialization.py", line 781, in __init__
+    super().__init__(torch._C.PyTorchFileWriter(self.name, _compute_crc32))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Parent directory Data does not exist.

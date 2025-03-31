@@ -1,0 +1,6 @@
+epoch: 0 loss: 0.0000000 LR: [0.001]  score: 2 step 309
+epoch: 1 loss: 0.2070250 LR: [0.001]  score: 2 step 232
+epoch: 2 loss: 0.0140748 LR: [0.001]  score: 0 step 212
+epoch: 3 loss: 0.0042754 LR: [0.001]  score: 0 step 162
+epoch: 4 loss: 0.2104778 LR: [0.001]  score: 0 step 203
+epoch: 5 loss: 0.1368130 LR: [0.001]  score: 0 step 131

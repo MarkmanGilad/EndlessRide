@@ -1,0 +1,45 @@
+{"time":"2025-03-26T11:12:16.3400968+02:00","level":"INFO","msg":"stream: starting","core version":"0.19.7","symlink path":"C:\\Users\\Gilad\\Downloads\\Game-3\\Game-3\\wandb\\run-20250326_111216-Endless_Road 20\\logs\\debug-core.log"}
+{"time":"2025-03-26T11:12:16.4500025+02:00","level":"INFO","msg":"created new stream","id":"Endless_Road 20"}
+{"time":"2025-03-26T11:12:16.4500025+02:00","level":"INFO","msg":"stream: started","id":"Endless_Road 20"}
+{"time":"2025-03-26T11:12:16.4500025+02:00","level":"INFO","msg":"writer: Do: started","stream_id":"Endless_Road 20"}
+{"time":"2025-03-26T11:12:16.4507216+02:00","level":"INFO","msg":"handler: started","stream_id":"Endless_Road 20"}
+{"time":"2025-03-26T11:12:16.4507216+02:00","level":"INFO","msg":"sender: started","stream_id":"Endless_Road 20"}
+{"time":"2025-03-26T11:12:16.7181367+02:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-03-26T11:12:26.7184263+02:00","level":"ERROR","msg":"monitor: disk: error sampling metrics: Incorrect function."}
+{"time":"2025-03-26T11:12:36.7197358+02:00","level":"ERROR","msg":"monitor: disk: error sampling metrics: Incorrect function."}
+{"time":"2025-03-26T11:12:46.7185905+02:00","level":"ERROR","msg":"monitor: disk: error sampling metrics: Incorrect function."}
+{"time":"2025-03-26T11:12:56.7183629+02:00","level":"ERROR","msg":"monitor: disk: error sampling metrics: Incorrect function."}
+{"time":"2025-03-26T11:13:06.7186535+02:00","level":"ERROR","msg":"monitor: disk: error sampling metrics: Incorrect function."}
+{"time":"2025-03-26T11:13:16.7184299+02:00","level":"ERROR","msg":"monitor: disk: error sampling metrics: Incorrect function."}
+{"time":"2025-03-26T11:13:26.7183777+02:00","level":"ERROR","msg":"monitor: disk: error sampling metrics: Incorrect function."}
+{"time":"2025-03-26T11:13:36.7184455+02:00","level":"ERROR","msg":"monitor: disk: error sampling metrics: Incorrect function."}
+{"time":"2025-03-26T11:13:46.7211219+02:00","level":"ERROR","msg":"monitor: disk: error sampling metrics: Incorrect function."}
+{"time":"2025-03-26T11:13:56.7202135+02:00","level":"ERROR","msg":"monitor: disk: error sampling metrics: Incorrect function."}
+{"time":"2025-03-26T11:14:06.71895+02:00","level":"ERROR","msg":"monitor: disk: error sampling metrics: Incorrect function."}
+{"time":"2025-03-26T11:14:16.7182081+02:00","level":"ERROR","msg":"monitor: disk: error sampling metrics: Incorrect function."}
+{"time":"2025-03-26T11:14:26.7188645+02:00","level":"ERROR","msg":"monitor: disk: error sampling metrics: Incorrect function."}
+{"time":"2025-03-26T11:14:36.7188515+02:00","level":"ERROR","msg":"monitor: disk: error sampling metrics: Incorrect function."}
+{"time":"2025-03-26T11:14:46.7190833+02:00","level":"ERROR","msg":"monitor: disk: error sampling metrics: Incorrect function."}
+{"time":"2025-03-26T11:14:56.718526+02:00","level":"ERROR","msg":"monitor: disk: error sampling metrics: Incorrect function."}
+{"time":"2025-03-26T11:15:06.7185442+02:00","level":"ERROR","msg":"monitor: disk: error sampling metrics: Incorrect function."}
+{"time":"2025-03-26T11:15:16.7184012+02:00","level":"ERROR","msg":"monitor: disk: error sampling metrics: Incorrect function."}
+{"time":"2025-03-26T11:15:26.7189661+02:00","level":"ERROR","msg":"monitor: disk: error sampling metrics: Incorrect function."}
+{"time":"2025-03-26T11:15:36.7182581+02:00","level":"ERROR","msg":"monitor: disk: error sampling metrics: Incorrect function."}
+{"time":"2025-03-26T11:15:46.7205018+02:00","level":"ERROR","msg":"monitor: disk: error sampling metrics: Incorrect function."}
+{"time":"2025-03-26T11:15:56.718637+02:00","level":"ERROR","msg":"monitor: disk: error sampling metrics: Incorrect function."}
+{"time":"2025-03-26T11:16:06.7187905+02:00","level":"ERROR","msg":"monitor: disk: error sampling metrics: Incorrect function."}
+{"time":"2025-03-26T11:16:16.7183633+02:00","level":"ERROR","msg":"monitor: disk: error sampling metrics: Incorrect function."}
+{"time":"2025-03-26T11:16:26.7186432+02:00","level":"ERROR","msg":"monitor: disk: error sampling metrics: Incorrect function."}
+{"time":"2025-03-26T11:16:36.7185801+02:00","level":"ERROR","msg":"monitor: disk: error sampling metrics: Incorrect function."}
+{"time":"2025-03-26T11:16:46.7185374+02:00","level":"ERROR","msg":"monitor: disk: error sampling metrics: Incorrect function."}
+{"time":"2025-03-26T11:16:56.7182123+02:00","level":"ERROR","msg":"monitor: disk: error sampling metrics: Incorrect function."}
+{"time":"2025-03-26T11:17:06.7186049+02:00","level":"ERROR","msg":"monitor: disk: error sampling metrics: Incorrect function."}
+{"time":"2025-03-26T11:17:16.7184228+02:00","level":"ERROR","msg":"monitor: disk: error sampling metrics: Incorrect function."}
+{"time":"2025-03-26T11:17:26.7186922+02:00","level":"ERROR","msg":"monitor: disk: error sampling metrics: Incorrect function."}
+{"time":"2025-03-26T11:17:36.718674+02:00","level":"ERROR","msg":"monitor: disk: error sampling metrics: Incorrect function."}
+{"time":"2025-03-26T11:17:46.7185168+02:00","level":"ERROR","msg":"monitor: disk: error sampling metrics: Incorrect function."}
+{"time":"2025-03-26T11:17:56.7187579+02:00","level":"ERROR","msg":"monitor: disk: error sampling metrics: Incorrect function."}
+{"time":"2025-03-26T11:18:06.7197188+02:00","level":"ERROR","msg":"monitor: disk: error sampling metrics: Incorrect function."}
+{"time":"2025-03-26T11:18:16.7194044+02:00","level":"ERROR","msg":"monitor: disk: error sampling metrics: Incorrect function."}
+{"time":"2025-03-26T11:18:26.7202624+02:00","level":"ERROR","msg":"monitor: disk: error sampling metrics: Incorrect function."}
+{"time":"2025-03-26T11:18:36.7187673+02:00","level":"ERROR","msg":"monitor: disk: error sampling metrics: Incorrect function."}

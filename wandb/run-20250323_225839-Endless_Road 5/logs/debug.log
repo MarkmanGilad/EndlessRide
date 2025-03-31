@@ -1,0 +1,23 @@
+2025-03-23 22:58:39,174 INFO    MainThread:52120 [wandb_setup.py:_flush():67] Current SDK version is 0.19.7
+2025-03-23 22:58:39,174 INFO    MainThread:52120 [wandb_setup.py:_flush():67] Configure stats pid to 52120
+2025-03-23 22:58:39,174 INFO    MainThread:52120 [wandb_setup.py:_flush():67] Loading settings from C:\Users\Gilad\.config\wandb\settings
+2025-03-23 22:58:39,174 INFO    MainThread:52120 [wandb_setup.py:_flush():67] Loading settings from C:\Users\Gilad\Downloads\Game-3\Game-3\wandb\settings
+2025-03-23 22:58:39,174 INFO    MainThread:52120 [wandb_setup.py:_flush():67] Loading settings from environment variables
+2025-03-23 22:58:39,175 INFO    MainThread:52120 [wandb_init.py:setup_run_log_directory():647] Logging user logs to C:\Users\Gilad\Downloads\Game-3\Game-3\wandb\run-20250323_225839-Endless_Road 5\logs\debug.log
+2025-03-23 22:58:39,184 INFO    MainThread:52120 [wandb_init.py:setup_run_log_directory():648] Logging internal logs to C:\Users\Gilad\Downloads\Game-3\Game-3\wandb\run-20250323_225839-Endless_Road 5\logs\debug-internal.log
+2025-03-23 22:58:39,184 INFO    MainThread:52120 [wandb_init.py:init():761] calling init triggers
+2025-03-23 22:58:39,185 INFO    MainThread:52120 [wandb_init.py:init():766] wandb.init called with sweep_config: {}
+config: {'name': 'Endless_Road 5', 'checkpoint': 'Data/checkpoint5.pth', 'learning_rate': 0.0001, 'Schedule': 'Counter({5000000: 1, 10000000: 1, 15000000: 1, 20000000: 1, 25000000: 1, 30000000: 1}) gamma=0.5', 'epochs': 200000, 'start_epoch': 0, 'decay': 50, 'gamma': 0.99, 'batch_size': 128, 'C': 5, 'Model': 'DQN(\n  (linear1): Linear(in_features=19, out_features=64, bias=True)\n  (linear2): Linear(in_features=64, out_features=64, bias=True)\n  (output): Linear(in_features=64, out_features=3, bias=True)\n  (MSELoss): MSELoss()\n)', 'device': 'cuda', '_wandb': {}}
+2025-03-23 22:58:39,185 INFO    MainThread:52120 [wandb_init.py:init():784] starting backend
+2025-03-23 22:58:39,185 INFO    MainThread:52120 [wandb_init.py:init():788] sending inform_init request
+2025-03-23 22:58:39,195 INFO    MainThread:52120 [backend.py:_multiprocessing_setup():97] multiprocessing start_methods=spawn, using: spawn
+2025-03-23 22:58:39,198 INFO    MainThread:52120 [wandb_init.py:init():803] backend started and connected
+2025-03-23 22:58:39,201 INFO    MainThread:52120 [wandb_init.py:init():896] updated telemetry
+2025-03-23 22:58:39,202 INFO    MainThread:52120 [wandb_init.py:init():920] communicating run to backend with 90.0 second timeout
+2025-03-23 22:58:39,514 INFO    MainThread:52120 [wandb_init.py:init():995] starting run threads in backend
+2025-03-23 22:58:39,608 INFO    MainThread:52120 [wandb_run.py:_console_start():2377] atexit reg
+2025-03-23 22:58:39,609 INFO    MainThread:52120 [wandb_run.py:_redirect():2227] redirect: wrap_raw
+2025-03-23 22:58:39,609 INFO    MainThread:52120 [wandb_run.py:_redirect():2292] Wrapping output streams.
+2025-03-23 22:58:39,610 INFO    MainThread:52120 [wandb_run.py:_redirect():2317] Redirects installed.
+2025-03-23 22:58:39,613 INFO    MainThread:52120 [wandb_init.py:init():1037] run started, returning control to user process
+2025-03-23 22:58:39,613 INFO    MainThread:52120 [wandb_run.py:_config_callback():1261] config_cb None None {'Model': 'DQN(\n  (linear1): Linear(in_features=19, out_features=64, bias=True)\n  (linear2): Linear(in_features=64, out_features=64, bias=True)\n  (output): Linear(in_features=64, out_features=3, bias=True)\n  (MSELoss): MSELoss()\n)'}

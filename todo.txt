@@ -1,0 +1,19 @@
+State:
+תא 0
+0-4 lane of car
+ta 1-20
+foreach obstacle:0-4 (lane) and y( לנרמל! כדי שיהיה בין 0 עד 7-לחלק ב100) 
+
+ta 21-30
+foreach goodPoint:0-4 (lane) and y( לנרמל! כדי שיהיה בין 0 עד 7-לחלק ב100)
+
+reward:
+w
+
+
+
+
+in +10
+loss -10
+coin +5
+time -0.01

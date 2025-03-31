@@ -1,0 +1,18 @@
+epoch: 0 loss: 0.0000000 LR: [0.001]  score: 3 step 350
+epoch: 1 loss: 0.0385561 LR: [0.001]  score: 0 step 156
+epoch: 2 loss: 0.1899691 LR: [0.001]  score: 3 step 446
+Traceback (most recent call last):
+  File "c:\Users\Gilad\Downloads\Game-3\Game-3\Trainer_wandb.py", line 217, in <module>
+    main ()
+  File "c:\Users\Gilad\Downloads\Game-3\Game-3\Trainer_wandb.py", line 136, in main
+    done,reward = env.update(action)
+                  ^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Gilad\Downloads\Game-3\Game-3\Environment.py", line 121, in update
+    self.add_coins()
+  File "c:\Users\Gilad\Downloads\Game-3\Game-3\Environment.py", line 60, in add_coins
+    good_point = GoodPoint()
+                 ^^^^^^^^^^^
+  File "c:\Users\Gilad\Downloads\Game-3\Game-3\sprites.py", line 62, in __init__
+    self.index = GoodPoint.indecis.index(None)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: None is not in list

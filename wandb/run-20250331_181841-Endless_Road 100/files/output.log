@@ -1,0 +1,13 @@
+epoch: 0 loss: 0.0000000 LR: [0.0001]  score: 0 step 171
+epoch: 1 loss: 0.0000000 LR: [0.0001]  score: 1 step 227
+epoch: 2 loss: 0.0043327 LR: [0.0001]  score: 3 step 365
+epoch: 3 loss: 0.0660115 LR: [0.0001]  score: 0 step 144
+epoch: 4 loss: 0.4060264 LR: [0.0001]  score: 0 step 145
+epoch: 5 loss: 0.0213392 LR: [0.0001]  score: 2 step 264
+epoch: 6 loss: 0.0037797 LR: [0.0001]  score: 2 step 261
+epoch: 7 loss: 0.0067936 LR: [0.0001]  score: 0 step 159
+epoch: 8 loss: 0.0057338 LR: [0.0001]  score: 1 step 190
+epoch: 9 loss: 0.0041791 LR: [0.0001]  score: 0 step 312
+average score last 10 games: 0.9
+epoch: 10 loss: 0.0302403 LR: [0.0001]  score: 0 step 134
+epoch: 11 loss: 0.0150672 LR: [0.0001]  score: 0 step 172

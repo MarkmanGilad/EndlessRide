@@ -1,0 +1,60 @@
+C:\Users\Gilad\.virtualenvs\SpaceShipRide-0PfYb7R8\Lib\site-packages\torch\optim\lr_scheduler.py:227: UserWarning: Detected call of `lr_scheduler.step()` before `optimizer.step()`. In PyTorch 1.1.0 and later, you should call them in the opposite order: `optimizer.step()` before `lr_scheduler.step()`.  Failure to do this will result in PyTorch skipping the first value of the learning rate schedule. See more details at https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate
+  warnings.warn(
+epoch: 0 loss: 0.0000000 LR: [0.001]  score: 0 step 152
+epoch: 1 loss: 0.0000000 LR: [0.001]  score: 0 step 178
+epoch: 2 loss: 0.3665697 LR: [0.001]  score: 2 step 413
+epoch: 3 loss: 0.0491522 LR: [0.001]  score: 0 step 130
+epoch: 4 loss: 0.0355568 LR: [0.001]  score: 0 step 313
+epoch: 5 loss: 0.0863510 LR: [0.001]  score: 1 step 404
+epoch: 6 loss: 0.0558150 LR: [0.001]  score: 1 step 215
+epoch: 7 loss: 0.0560447 LR: [0.001]  score: 0 step 153
+epoch: 8 loss: 0.0591732 LR: [0.001]  score: 0 step 159
+epoch: 9 loss: 0.0774971 LR: [0.001]  score: 1 step 226
+average score last 10 games: 0.5
+epoch: 10 loss: 0.0371859 LR: [0.001]  score: 1 step 253
+epoch: 11 loss: 0.0910704 LR: [0.001]  score: 0 step 206
+epoch: 12 loss: 0.0453147 LR: [0.001]  score: 0 step 149
+epoch: 13 loss: 0.0672792 LR: [0.001]  score: 0 step 168
+epoch: 14 loss: 0.0907047 LR: [0.001]  score: 0 step 131
+epoch: 15 loss: 0.0398473 LR: [0.001]  score: 0 step 251
+epoch: 16 loss: 1.1005104 LR: [0.001]  score: 1 step 154
+epoch: 17 loss: 1.0047675 LR: [0.001]  score: 0 step 129
+epoch: 18 loss: 1.0021499 LR: [0.001]  score: 2 step 218
+epoch: 19 loss: 1.1414869 LR: [0.001]  score: 0 step 199
+average score last 10 games: 0.4
+epoch: 20 loss: 0.5915875 LR: [0.001]  score: 1 step 168
+epoch: 21 loss: 0.9621450 LR: [0.001]  score: 0 step 150
+epoch: 22 loss: 0.7342030 LR: [0.001]  score: 0 step 167
+epoch: 23 loss: 0.7158849 LR: [0.001]  score: 0 step 156
+epoch: 24 loss: 0.7370505 LR: [0.001]  score: 3 step 314
+epoch: 25 loss: 0.8511641 LR: [0.001]  score: 0 step 186
+epoch: 26 loss: 0.6455312 LR: [0.001]  score: 1 step 159
+epoch: 27 loss: 0.8584123 LR: [0.001]  score: 1 step 313
+epoch: 28 loss: 0.6596107 LR: [0.001]  score: 0 step 225
+epoch: 29 loss: 0.6660685 LR: [0.001]  score: 2 step 227
+average score last 10 games: 0.8
+epoch: 30 loss: 0.6943408 LR: [0.001]  score: 0 step 230
+epoch: 31 loss: 0.7260760 LR: [0.001]  score: 0 step 125
+epoch: 32 loss: 0.7316303 LR: [0.001]  score: 0 step 182
+epoch: 33 loss: 1.4286499 LR: [0.001]  score: 0 step 149
+epoch: 34 loss: 0.5267342 LR: [0.001]  score: 0 step 195
+epoch: 35 loss: 0.8237220 LR: [0.001]  score: 1 step 254
+epoch: 36 loss: 1.5608003 LR: [0.001]  score: 0 step 140
+epoch: 37 loss: 0.7185522 LR: [0.001]  score: 0 step 127
+epoch: 38 loss: 0.5931592 LR: [0.001]  score: 0 step 244
+epoch: 39 loss: 0.6431823 LR: [0.001]  score: 2 step 337
+average score last 10 games: 0.3
+epoch: 40 loss: 0.8655520 LR: [0.001]  score: 0 step 345
+epoch: 41 loss: 0.7271532 LR: [0.001]  score: 1 step 241
+epoch: 42 loss: 0.9009523 LR: [0.001]  score: 0 step 157
+epoch: 43 loss: 0.4522867 LR: [0.001]  score: 0 step 169
+epoch: 44 loss: 0.5204824 LR: [0.001]  score: 2 step 184
+epoch: 45 loss: 0.4781880 LR: [0.001]  score: 0 step 140
+epoch: 46 loss: 0.6688067 LR: [0.001]  score: 0 step 144
+epoch: 47 loss: 0.5420464 LR: [0.001]  score: 0 step 204
+epoch: 48 loss: 0.4295052 LR: [0.001]  score: 0 step 140
+epoch: 49 loss: 0.5075199 LR: [0.001]  score: 0 step 238
+average score last 10 games: 0.3
+epoch: 50 loss: 0.4438042 LR: [0.001]  score: 1 step 209
+epoch: 51 loss: 0.7969354 LR: [0.001]  score: 0 step 145
+epoch: 52 loss: 0.6682205 LR: [0.001]  score: 0 step 167
