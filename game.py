@@ -32,8 +32,8 @@ if MODEL_PATH:
     print("Model loaded successfully!")
 
 
-player = AI_Agent(dqn_model)
-
+# player = AI_Agent(dqn_model)
+player = Human_Agent()
 class Game:
     def __init__(self):
         pass
@@ -61,8 +61,8 @@ class Game:
         while run:
             dt = clock.tick(FPS)
             pygame.event.pump()
-
-            for event in pygame.event.get():
+            events = pygame.event.get()
+            for event in events:
                 if event.type == pygame.QUIT:
                     run = False
                     pygame.quit()
@@ -75,7 +75,7 @@ class Game:
                 win = True
 
             state = env.state()
-            action = player.getAction(state)
+            action = player.getAction(events)
 
             #env.move(action=action)
             done,reward = env.update(action=action) or win

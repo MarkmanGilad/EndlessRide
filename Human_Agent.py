@@ -6,6 +6,7 @@ class Human_Agent:
         pass
 
     def getAction (self, events):#, state
+        
         for event in events:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:

@@ -9,7 +9,9 @@ class Environment:
         #self.spawn_timer = 0
         self.score=0
         GoodPoint.indecis = [None] * 5
-
+        self.coin_reward = 0.5
+        self.lose_reward = -2
+        self.change_line_reward = 0
 
     def move (self, action):
         lane = self.car.lane
@@ -75,7 +77,7 @@ class Environment:
         # Custom collision detection for coins
         if len(pygame.sprite.spritecollide(self.car,self.good_points_group,True)) !=0:
              self.score += 1  # Increment the score
-             self.reward+=2
+             self.reward+=self.coin_reward
         # for sprite in self.good_points_group:
         #     rect = sprite.rect
 
@@ -119,7 +121,7 @@ class Environment:
         prev_lane=self.car.lane
         self.move(action=action)
         if self.car.lane != prev_lane:
-            self.reward=self.reward-0#car change lane reward
+            self.reward=self.reward-self.change_line_reward #car change lane reward
         self.add_obstacle()
         self.add_coins()
         
@@ -132,7 +134,7 @@ class Environment:
         self.good_points_group.update()
         self.AddGood()
         if not self.car_colide():
-           return (True,-5)#lose reward
+           return (True,self.lose_reward)  #lose reward
         for obstacle in self.obstacles_group:
             if obstacle.rect.top > 800 :
                 obstacle.kill()
