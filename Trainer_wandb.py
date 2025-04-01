@@ -41,10 +41,10 @@ def main (chck):
     player_hat.dqn_model = player.dqn_model.copy()
     batch_size = 128
     buffer = ReplayBuffer(path=None)
-    learning_rate = 0.001
+    learning_rate = 0.0001
     ephocs = 200000
     start_epoch = 0
-    C = 15
+    C = 3
     loss = torch.tensor(0)
     avg = 0
 
@@ -151,8 +151,12 @@ def main (chck):
             ############## Train ################
             states, actions, rewards, next_states, dones = buffer.sample(batch_size)
             Q_values = player.Q(states, actions)
-            next_actions, _ = player.get_Actions_Values(next_states)
-            _, Q_hat_Values = player_hat.Q(next_states,next_actions) # DDQN
+
+            # next_actions, _ = player.get_Actions_Values(next_states)
+            # Q_hat_Values = player_hat.Q(next_states,next_actions) # DDQN
+            
+            _, Q_hat_Values = player_hat.get_Actions_Values(next_states) # DQN
+
 
             loss = player.dqn_model.loss(Q_values, rewards, Q_hat_Values, dones)
             loss.backward()
@@ -165,7 +169,7 @@ def main (chck):
             
 
         #region log & print########################################
-        print (f'epoch: {epoch} loss: {loss:.7f} LR: {scheduler.get_last_lr()}  ' \
+        print (f'chkpt: {num} epoch: {epoch} loss: {loss:.7f} LR: {scheduler.get_last_lr()}  ' \
                f'score: {env.score} step {step} ')
         
         if epoch % 10 == 0:

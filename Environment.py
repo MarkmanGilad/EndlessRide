@@ -10,7 +10,7 @@ class Environment:
         self.score=0
         GoodPoint.indecis = [None] * 5
         self.coin_reward = 0.5
-        self.lose_reward = -2
+        self.lose_reward = -1
         self.change_line_reward = 0
 
     def move (self, action):

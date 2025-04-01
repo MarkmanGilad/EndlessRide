@@ -1,0 +1,55 @@
+_wandb:
+    value:
+        cli_version: 0.19.7
+        m: []
+        python_version: 3.11.8
+        t:
+            "1":
+                - 1
+                - 55
+            "2":
+                - 1
+                - 55
+            "3":
+                - 14
+                - 16
+                - 23
+                - 55
+            "4": 3.11.8
+            "5": 0.19.7
+            "8":
+                - 3
+                - 5
+            "12": 0.19.7
+            "13": windows-amd64
+C:
+    value: 15
+Model:
+    value: |-
+        DQN(
+          (linear1): Linear(in_features=19, out_features=128, bias=True)
+          (linear2): Linear(in_features=128, out_features=256, bias=True)
+          (linear3): Linear(in_features=256, out_features=128, bias=True)
+          (output): Linear(in_features=128, out_features=3, bias=True)
+          (MSELoss): MSELoss()
+        )
+Schedule:
+    value: 'Counter({20000: 1, 40000: 1, 60000: 1, 100000: 1}) gamma=0.5'
+batch_size:
+    value: 128
+checkpoint:
+    value: Data/checkpoint114.pth
+decay:
+    value: 50
+device:
+    value: cuda
+epochs:
+    value: 200000
+gamma:
+    value: 0.99
+learning_rate:
+    value: 0.001
+name:
+    value: Endless_Road 114
+start_epoch:
+    value: 0
