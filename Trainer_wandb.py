@@ -41,17 +41,17 @@ def main (chck):
     player_hat.dqn_model = player.dqn_model.copy()
     batch_size = 128
     buffer = ReplayBuffer(path=None)
-    learning_rate = 0.0001
+    learning_rate = 0.001
     ephocs = 200000
     start_epoch = 0
-    C = 3
+    C = 5
     loss = torch.tensor(0)
     avg = 0
 
     scores, losses, avg_score = [], [], []
     optim = torch.optim.Adam(player.dqn_model.parameters(), lr=learning_rate)
     # scheduler = torch.optim.lr_scheduler.StepLR(optim,100000, gamma=0.50)
-    scheduler = torch.optim.lr_scheduler.MultiStepLR(optim,[20000, 40000, 60000, 100000], gamma=0.5)
+    scheduler = torch.optim.lr_scheduler.MultiStepLR(optim,[2000, 4000, 6000, 10000], gamma=0.5)
     step = 0
 
     #region######## checkpoint Load ############
@@ -134,6 +134,9 @@ def main (chck):
             action = player.getAction(state=state, epoch=epoch)
             done,reward = env.update(action)
             next_state = env.state()
+            # imediate_reward = env.imediate_reward (state, next_state)
+            imediate_reward = 0
+            reward += imediate_reward
             buffer.push(state, torch.tensor(action, dtype=torch.int64), torch.tensor(reward, dtype=torch.float32), 
                         next_state, torch.tensor(done, dtype=torch.float32))
             if done:
@@ -160,6 +163,7 @@ def main (chck):
 
             loss = player.dqn_model.loss(Q_values, rewards, Q_hat_Values, dones)
             loss.backward()
+            torch.nn.utils.clip_grad_norm_(player.dqn_model.parameters(), max_norm=1.0)
             optim.step()
             optim.zero_grad()
         scheduler.step()

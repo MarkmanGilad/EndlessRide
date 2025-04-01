@@ -5,9 +5,9 @@ import copy
 
 # Parameters
 input_size = 19 # Q(state) see environment for state shape
-layer1 = 128
-layer2 = 256
-layer3 = 128
+layer1 = 64
+layer2 = 128
+layer3 = 64
 output_size = 3 # Q(state)-> 4 value of stay, left, right, shoot
 gamma = 0.99 
  

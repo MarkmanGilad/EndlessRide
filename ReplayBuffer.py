@@ -6,7 +6,7 @@ import numpy as np
 capacity = 500000
 
 class ReplayBuffer:
-    def __init__(self, capacity=capacity, n_step=300, gamma=0.99, k=30, path=None) -> None:
+    def __init__(self, capacity=capacity, n_step=300, gamma=0.99, k=50, path=None) -> None:
         if path:
             self.buffer = torch.load(path).buffer
         else:
@@ -22,45 +22,46 @@ class ReplayBuffer:
         self.temp_buffer.append((state, action, reward, next_state, done))
 
         # If a significant event occurs (nonzero reward or done) or temp_buffer is full, flush the last k transitions.
-        if reward.item() != 0 or done.item() == 1.0 or len(self.temp_buffer) == self.n_step:
+        if abs(reward.item()) >= 0.5 or done.item() == 1.0 or len(self.temp_buffer) == self.n_step:
             self.flush_last_k()
 
     def flush_last_k(self):
         """
-        Flushes the temporary buffer by taking only the last k transitions
-        (or fewer if not enough transitions exist), computing the aggregated
-        discounted return over that segment, and pushing a single tuple to the main buffer.
-        Then clears the temp buffer and resets the cached return.
+        Flushes the last k transitions in the temp buffer to the main buffer,
+        using n-step discounted returns. Each of the last k steps gets its own (s, a, R, s', done).
         """
         if not self.temp_buffer:
-            return  # Nothing to flush
+            return
 
-        # Determine how many steps to flush: min(k, current temp_buffer length)
-        num_steps = min(self.k, len(self.temp_buffer))
-        flush_buffer = list(self.temp_buffer)[-num_steps:]
-        
-        # Compute the aggregated discounted return over flush_buffer using a loop
+        transitions = list(self.temp_buffer)[-self.k:]
+        k = len(transitions)  # may be < self.k
+
+        # Extract rewards
+        rewards = [r for (_, _, r, _, _) in transitions]
+
+        # Allocate tensor for n-step returns
+        returns = [None] * k
         R = torch.tensor([[0.0]], dtype=torch.float32)
-        for i, (_, _, r, _, _) in enumerate(flush_buffer):
-            R += (self.gamma ** i) * r
 
-        # Use the first transition of the flush segment as the starting state and action,
-        # and the last transition for next_state and done.
-        state0, action0, _, _, _ = flush_buffer[0]
-        _, _, _, next_state_n, done_n = flush_buffer[-1]
+        # Go backward to compute returns
+        for i in reversed(range(k)):
+            R = rewards[i] + self.gamma * R
+            returns[i] = R.clone()
 
-        # Push the computed transition to the main buffer.
-        self.buffer.append((state0, action0, R, next_state_n, done_n))
+        # Push each transition with its corresponding return
+        for i in range(k):
+            state, action, _, _, _ = transitions[i]
+            _, _, _, next_state, done = transitions[-1]
+            self.buffer.append((state, action, returns[i], next_state, done))
 
-        # Clear the temporary buffer and reset the cached return.
+        # Clear the buffer after flushing
         self.temp_buffer.clear()
-        self.cached_return = torch.tensor([[0.0]], dtype=torch.float32)
+
 
     def flush(self):
         """
-        Called at the end of an episode to flush any remaining transitions.
-        Here we flush all remaining transitions (using the same flush_last_k logic)
-        until the temporary buffer is empty.
+        Flush all remaining transitions at the end of the episode.
+        Ensures that nothing is lost.
         """
         while self.temp_buffer:
             self.flush_last_k()

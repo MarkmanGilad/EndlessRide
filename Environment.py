@@ -1,6 +1,9 @@
 from sprites import *
 import torch
 import graphics as D
+import torch
+
+
 class Environment:
     def __init__(self) -> None:
         self.car = Car(2)
@@ -12,6 +15,7 @@ class Environment:
         self.coin_reward = 0.5
         self.lose_reward = -1
         self.change_line_reward = 0
+        
 
     def move (self, action):
         lane = self.car.lane
@@ -20,17 +24,11 @@ class Environment:
             
         if action == -1 and lane > 0:
             self.car.lane -=1
-
-    
-    # def _check_obstacle_placement(self, obstacle):
-    #     collided=pygame.sprite.spritecollide(obstacle,self.obstacles_group,True)
-    #     return collided is not None
+        
     def _check_obstacle_placement(self, obstacle):
         collided = pygame.sprite.spritecollide(obstacle, self.obstacles_group, False)
         collided2 = pygame.sprite.spritecollide(obstacle, self.good_points_group, False)
         return len(collided) == 0 and len(collided2) == 0  # Return True if no collisions
-
-       
 
     def Max_obstacle_check(self):
         """Checks if there are more than 10 obstacles in the game."""
@@ -54,7 +52,6 @@ class Environment:
             obstacle.rect.y = -obstacle.rect.height  # Spawn at the top of the screen
             if self._check_obstacle_placement(obstacle) and self.Max_obstacle_check() is False:
                 self.obstacles_group.add(obstacle)
-
 
     def add_coins (self):                                                           ###### Gilad
         # Spawn good points (optional)
@@ -81,7 +78,6 @@ class Environment:
         # for sprite in self.good_points_group:
         #     rect = sprite.rect
 
-
     def reset(self):#for AI, we dont need screen,  print is good enough.
         from game import game
         print(self.score)
@@ -91,7 +87,7 @@ class Environment:
         state_list = []
 
         # 1. Car's Lane
-        state_list.append((self.car.lane+1))  # Add the car's lane 0-4
+        state_list.append((self.car.lane+1))  # Add the car's lane 1-5
 
         # 2. Obstacle Positions
         for obstacle in self.obstacles_group:
@@ -108,11 +104,6 @@ class Environment:
             else:   
                 state_list.append(0)  
                 state_list.append(0)  
-        
-        # while (len(state_list)<19):
-        #     state_list.append(0)  
-        #     state_list.append(0)
-
 
         return torch.tensor(state_list, dtype=torch.float32)
 
@@ -125,9 +116,6 @@ class Environment:
         self.add_obstacle()
         self.add_coins()
         
-        
-        
-        
         # Update game objects
         self.car.update()
         self.obstacles_group.update()
@@ -135,6 +123,7 @@ class Environment:
         self.AddGood()
         if not self.car_colide():
            return (True,self.lose_reward)  #lose reward
+        
         for obstacle in self.obstacles_group:
             if obstacle.rect.top > 800 :
                 obstacle.kill()
@@ -144,13 +133,47 @@ class Environment:
                 GoodPoint.kill()
                 self.good_points_group.remove(GoodPoint)
         return (False,self.reward)
-        # self.spawn_timer += 1 `` # Optional, for tracking spawn frequency
-        # Check for off-screen obstacles and remove them
-        # for obstacle in self.obstacles_group:
-        #     if obstacle.rect.top > 800:
+        
                  
+    def first_sprite_in_lane (self, state):
+        data = state[1:].view(-1, 2)
+        filtered = data[data[:, 0] == state[0].item()]
+        if len(filtered) > 0:
+            max_y, idx = filtered[:, 1].max(dim=0)
+            idx = idx.item() 
+            max_y = max_y.item()
+            if idx < 4:
+                type = -1 # obsticales
+            else:
+                type = 1 # coins
+            return type, max_y
+        else:
+            return None, 0
         
+    def imediate_reward(self, state, next_state):
+        type1, max_y1 = self.first_sprite_in_lane(state)
+        type2, max_y2 = self.first_sprite_in_lane(next_state)
+        reward = 0
+        max_y1 = max(0, max_y1)
+        max_y2 = max(0, max_y2)
+        if not type1 and not type2:
+            return reward
         
-
-    
-
+        if type1 == -1 and type2 == 1:
+            reward = self.coin_reward * max_y2
+        elif type1 == 1 and type2 == -1:
+            reward = self.lose_reward * max_y2
+        elif type1 == 1 and type2 == 1:
+            reward = self.coin_reward * max_y2-max_y1
+        elif type1 == -1 and type2 == -1:
+            reward = self.lose_reward * max_y2 - max_y1
+        elif type1 == 1 and type2 == None:
+            reward = -self.coin_reward * max_y1
+        elif type1 == -1 and type2 == None:
+            reward = -self.lose_reward * max_y1
+        elif type1 == None and type2 == 1:
+            reward = self.coin_reward * max_y2
+        elif type1 == None and type2 == -1:
+            reward = self.lose_reward * max_y2
+        return reward
+        

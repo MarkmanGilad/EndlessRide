@@ -1,0 +1,20 @@
+{"time":"2025-04-01T17:25:08.2321584+03:00","level":"INFO","msg":"stream: starting","core version":"0.19.7","symlink path":"C:\\Users\\Gilad\\Downloads\\Game-3\\Game-3\\wandb\\run-20250401_172508-Endless_Road 130\\logs\\debug-core.log"}
+{"time":"2025-04-01T17:25:08.3423034+03:00","level":"INFO","msg":"created new stream","id":"Endless_Road 130"}
+{"time":"2025-04-01T17:25:08.3430528+03:00","level":"INFO","msg":"stream: started","id":"Endless_Road 130"}
+{"time":"2025-04-01T17:25:08.3430528+03:00","level":"INFO","msg":"sender: started","stream_id":"Endless_Road 130"}
+{"time":"2025-04-01T17:25:08.3430528+03:00","level":"INFO","msg":"writer: Do: started","stream_id":"Endless_Road 130"}
+{"time":"2025-04-01T17:25:08.3430528+03:00","level":"INFO","msg":"handler: started","stream_id":"Endless_Road 130"}
+{"time":"2025-04-01T17:25:08.7938767+03:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-04-01T17:25:18.7961076+03:00","level":"ERROR","msg":"monitor: disk: error sampling metrics: Incorrect function."}
+{"time":"2025-04-01T17:25:28.7961267+03:00","level":"ERROR","msg":"monitor: disk: error sampling metrics: Incorrect function."}
+{"time":"2025-04-01T17:25:38.7969727+03:00","level":"ERROR","msg":"monitor: disk: error sampling metrics: Incorrect function."}
+{"time":"2025-04-01T17:25:48.7966502+03:00","level":"ERROR","msg":"monitor: disk: error sampling metrics: Incorrect function."}
+{"time":"2025-04-01T17:25:58.7969394+03:00","level":"ERROR","msg":"monitor: disk: error sampling metrics: Incorrect function."}
+{"time":"2025-04-01T17:26:08.7978883+03:00","level":"ERROR","msg":"monitor: disk: error sampling metrics: Incorrect function."}
+{"time":"2025-04-01T17:26:18.7986643+03:00","level":"ERROR","msg":"monitor: disk: error sampling metrics: Incorrect function."}
+{"time":"2025-04-01T17:26:28.8001864+03:00","level":"ERROR","msg":"monitor: disk: error sampling metrics: Incorrect function."}
+{"time":"2025-04-01T17:26:38.7992161+03:00","level":"ERROR","msg":"monitor: disk: error sampling metrics: Incorrect function."}
+{"time":"2025-04-01T17:26:48.8004585+03:00","level":"ERROR","msg":"monitor: disk: error sampling metrics: Incorrect function."}
+{"time":"2025-04-01T17:26:58.8017474+03:00","level":"ERROR","msg":"monitor: disk: error sampling metrics: Incorrect function."}
+{"time":"2025-04-01T17:27:08.8028811+03:00","level":"ERROR","msg":"monitor: disk: error sampling metrics: Incorrect function."}
+{"time":"2025-04-01T17:27:18.8017417+03:00","level":"ERROR","msg":"monitor: disk: error sampling metrics: Incorrect function."}

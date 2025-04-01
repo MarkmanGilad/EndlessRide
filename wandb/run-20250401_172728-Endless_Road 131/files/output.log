@@ -1,0 +1,129 @@
+C:\Users\Gilad\.virtualenvs\SpaceShipRide-0PfYb7R8\Lib\site-packages\torch\optim\lr_scheduler.py:227: UserWarning: Detected call of `lr_scheduler.step()` before `optimizer.step()`. In PyTorch 1.1.0 and later, you should call them in the opposite order: `optimizer.step()` before `lr_scheduler.step()`.  Failure to do this will result in PyTorch skipping the first value of the learning rate schedule. See more details at https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate
+  warnings.warn(
+chkpt: 131 epoch: 0 loss: 0.0000000 LR: [0.0001]  score: 0 step 146
+chkpt: 131 epoch: 1 loss: 0.0000000 LR: [0.0001]  score: 2 step 218
+chkpt: 131 epoch: 2 loss: 0.0000000 LR: [0.0001]  score: 0 step 151
+chkpt: 131 epoch: 3 loss: 0.0000000 LR: [0.0001]  score: 0 step 172
+chkpt: 131 epoch: 4 loss: 0.0000000 LR: [0.0001]  score: 1 step 237
+chkpt: 131 epoch: 5 loss: 0.2738101 LR: [0.0001]  score: 2 step 198
+chkpt: 131 epoch: 6 loss: 0.2247054 LR: [0.0001]  score: 1 step 159
+chkpt: 131 epoch: 7 loss: 0.1816530 LR: [0.0001]  score: 1 step 194
+chkpt: 131 epoch: 8 loss: 0.1487056 LR: [0.0001]  score: 0 step 136
+chkpt: 131 epoch: 9 loss: 0.1469876 LR: [0.0001]  score: 0 step 154
+average score last 10 games: 0.7
+chkpt: 131 epoch: 10 loss: 0.1004177 LR: [0.0001]  score: 1 step 156
+chkpt: 131 epoch: 11 loss: 0.1375885 LR: [0.0001]  score: 0 step 129
+chkpt: 131 epoch: 12 loss: 0.1279318 LR: [0.0001]  score: 0 step 133
+chkpt: 131 epoch: 13 loss: 0.1209800 LR: [0.0001]  score: 0 step 199
+chkpt: 131 epoch: 14 loss: 0.0635257 LR: [0.0001]  score: 0 step 164
+chkpt: 131 epoch: 15 loss: 0.1002308 LR: [0.0001]  score: 1 step 214
+chkpt: 131 epoch: 16 loss: 0.1135821 LR: [0.0001]  score: 0 step 140
+chkpt: 131 epoch: 17 loss: 0.0833853 LR: [0.0001]  score: 1 step 221
+chkpt: 131 epoch: 18 loss: 0.0797846 LR: [0.0001]  score: 0 step 138
+chkpt: 131 epoch: 19 loss: 0.1232180 LR: [0.0001]  score: 2 step 230
+average score last 10 games: 0.5
+chkpt: 131 epoch: 20 loss: 0.1130135 LR: [0.0001]  score: 0 step 130
+chkpt: 131 epoch: 21 loss: 0.1081511 LR: [0.0001]  score: 1 step 197
+chkpt: 131 epoch: 22 loss: 0.0834069 LR: [0.0001]  score: 0 step 179
+chkpt: 131 epoch: 23 loss: 0.0918729 LR: [0.0001]  score: 2 step 244
+chkpt: 131 epoch: 24 loss: 0.0776496 LR: [0.0001]  score: 0 step 160
+chkpt: 131 epoch: 25 loss: 0.0616947 LR: [0.0001]  score: 0 step 192
+chkpt: 131 epoch: 26 loss: 0.0574056 LR: [0.0001]  score: 0 step 212
+chkpt: 131 epoch: 27 loss: 0.0630652 LR: [0.0001]  score: 0 step 140
+chkpt: 131 epoch: 28 loss: 0.0799159 LR: [0.0001]  score: 1 step 169
+chkpt: 131 epoch: 29 loss: 0.1255328 LR: [0.0001]  score: 0 step 206
+average score last 10 games: 0.4
+chkpt: 131 epoch: 30 loss: 0.0683347 LR: [0.0001]  score: 0 step 148
+chkpt: 131 epoch: 31 loss: 0.1037324 LR: [0.0001]  score: 1 step 182
+chkpt: 131 epoch: 32 loss: 0.0894574 LR: [0.0001]  score: 0 step 145
+chkpt: 131 epoch: 33 loss: 0.0639758 LR: [0.0001]  score: 0 step 135
+chkpt: 131 epoch: 34 loss: 0.1050958 LR: [0.0001]  score: 1 step 195
+chkpt: 131 epoch: 35 loss: 0.0924807 LR: [0.0001]  score: 0 step 153
+chkpt: 131 epoch: 36 loss: 0.0567305 LR: [0.0001]  score: 1 step 200
+chkpt: 131 epoch: 37 loss: 0.0921464 LR: [0.0001]  score: 0 step 147
+chkpt: 131 epoch: 38 loss: 0.0791353 LR: [0.0001]  score: 0 step 159
+chkpt: 131 epoch: 39 loss: 0.0774461 LR: [0.0001]  score: 0 step 158
+average score last 10 games: 0.3
+chkpt: 131 epoch: 40 loss: 0.1109761 LR: [0.0001]  score: 0 step 172
+chkpt: 131 epoch: 41 loss: 0.1235089 LR: [0.0001]  score: 0 step 214
+chkpt: 131 epoch: 42 loss: 0.1139017 LR: [0.0001]  score: 1 step 334
+chkpt: 131 epoch: 43 loss: 0.0838257 LR: [0.0001]  score: 0 step 150
+chkpt: 131 epoch: 44 loss: 0.1024796 LR: [0.0001]  score: 0 step 160
+chkpt: 131 epoch: 45 loss: 0.0692663 LR: [0.0001]  score: 1 step 266
+chkpt: 131 epoch: 46 loss: 0.1508259 LR: [0.0001]  score: 0 step 153
+chkpt: 131 epoch: 47 loss: 0.0485903 LR: [0.0001]  score: 0 step 148
+chkpt: 131 epoch: 48 loss: 0.0662374 LR: [0.0001]  score: 0 step 231
+chkpt: 131 epoch: 49 loss: 0.0701924 LR: [0.0001]  score: 1 step 199
+average score last 10 games: 0.3
+chkpt: 131 epoch: 50 loss: 0.0949692 LR: [0.0001]  score: 4 step 674
+chkpt: 131 epoch: 51 loss: 0.1495987 LR: [0.0001]  score: 1 step 299
+chkpt: 131 epoch: 52 loss: 0.1795255 LR: [0.0001]  score: 2 step 326
+chkpt: 131 epoch: 53 loss: 0.0855826 LR: [0.0001]  score: 4 step 552
+chkpt: 131 epoch: 54 loss: 0.1646107 LR: [0.0001]  score: 0 step 179
+chkpt: 131 epoch: 55 loss: 0.0900467 LR: [0.0001]  score: 1 step 195
+chkpt: 131 epoch: 56 loss: 0.1032898 LR: [0.0001]  score: 0 step 136
+chkpt: 131 epoch: 57 loss: 0.1170351 LR: [0.0001]  score: 0 step 182
+chkpt: 131 epoch: 58 loss: 0.1734418 LR: [0.0001]  score: 0 step 200
+chkpt: 131 epoch: 59 loss: 0.1494590 LR: [0.0001]  score: 0 step 138
+average score last 10 games: 1.2
+chkpt: 131 epoch: 60 loss: 0.0770643 LR: [0.0001]  score: 0 step 147
+chkpt: 131 epoch: 61 loss: 0.1460977 LR: [0.0001]  score: 0 step 186
+chkpt: 131 epoch: 62 loss: 0.1389212 LR: [0.0001]  score: 0 step 146
+chkpt: 131 epoch: 63 loss: 0.0584300 LR: [0.0001]  score: 0 step 133
+chkpt: 131 epoch: 64 loss: 0.1815566 LR: [0.0001]  score: 1 step 148
+chkpt: 131 epoch: 65 loss: 0.1201400 LR: [0.0001]  score: 0 step 213
+chkpt: 131 epoch: 66 loss: 0.0996988 LR: [0.0001]  score: 0 step 153
+chkpt: 131 epoch: 67 loss: 0.1175348 LR: [0.0001]  score: 0 step 129
+chkpt: 131 epoch: 68 loss: 0.1758306 LR: [0.0001]  score: 0 step 140
+chkpt: 131 epoch: 69 loss: 0.2201743 LR: [0.0001]  score: 1 step 341
+average score last 10 games: 0.2
+chkpt: 131 epoch: 70 loss: 0.1505066 LR: [0.0001]  score: 0 step 194
+chkpt: 131 epoch: 71 loss: 0.1003254 LR: [0.0001]  score: 1 step 174
+chkpt: 131 epoch: 72 loss: 0.1629881 LR: [0.0001]  score: 0 step 217
+chkpt: 131 epoch: 73 loss: 0.1518903 LR: [0.0001]  score: 0 step 205
+chkpt: 131 epoch: 74 loss: 0.1561581 LR: [0.0001]  score: 0 step 128
+chkpt: 131 epoch: 75 loss: 0.1847266 LR: [0.0001]  score: 1 step 173
+chkpt: 131 epoch: 76 loss: 0.0869003 LR: [0.0001]  score: 2 step 280
+chkpt: 131 epoch: 77 loss: 0.0842527 LR: [0.0001]  score: 2 step 277
+chkpt: 131 epoch: 78 loss: 0.1037802 LR: [0.0001]  score: 0 step 135
+chkpt: 131 epoch: 79 loss: 0.4464096 LR: [0.0001]  score: 0 step 273
+average score last 10 games: 0.6
+chkpt: 131 epoch: 80 loss: 0.2400437 LR: [0.0001]  score: 0 step 150
+chkpt: 131 epoch: 81 loss: 0.1219603 LR: [0.0001]  score: 0 step 133
+chkpt: 131 epoch: 82 loss: 0.0985153 LR: [0.0001]  score: 0 step 218
+chkpt: 131 epoch: 83 loss: 0.1097870 LR: [0.0001]  score: 0 step 140
+chkpt: 131 epoch: 84 loss: 0.1676894 LR: [0.0001]  score: 1 step 173
+chkpt: 131 epoch: 85 loss: 0.2449914 LR: [0.0001]  score: 2 step 310
+chkpt: 131 epoch: 86 loss: 0.1910842 LR: [0.0001]  score: 0 step 154
+chkpt: 131 epoch: 87 loss: 0.0750999 LR: [0.0001]  score: 0 step 146
+chkpt: 131 epoch: 88 loss: 0.4031120 LR: [0.0001]  score: 0 step 174
+chkpt: 131 epoch: 89 loss: 0.1828621 LR: [0.0001]  score: 1 step 186
+average score last 10 games: 0.4
+chkpt: 131 epoch: 90 loss: 0.1493238 LR: [0.0001]  score: 2 step 449
+chkpt: 131 epoch: 91 loss: 0.1894869 LR: [0.0001]  score: 0 step 257
+chkpt: 131 epoch: 92 loss: 0.1257575 LR: [0.0001]  score: 0 step 129
+chkpt: 131 epoch: 93 loss: 0.1608141 LR: [0.0001]  score: 0 step 133
+chkpt: 131 epoch: 94 loss: 0.1517015 LR: [0.0001]  score: 0 step 159
+chkpt: 131 epoch: 95 loss: 0.1921899 LR: [0.0001]  score: 0 step 163
+chkpt: 131 epoch: 96 loss: 0.2959517 LR: [0.0001]  score: 0 step 220
+chkpt: 131 epoch: 97 loss: 0.1260830 LR: [0.0001]  score: 0 step 285
+chkpt: 131 epoch: 98 loss: 0.2845465 LR: [0.0001]  score: 2 step 306
+chkpt: 131 epoch: 99 loss: 0.2134801 LR: [0.0001]  score: 1 step 237
+average score last 10 games: 0.5
+chkpt: 131 epoch: 100 loss: 0.2099826 LR: [0.0001]  score: 1 step 238
+chkpt: 131 epoch: 101 loss: 0.2288855 LR: [0.0001]  score: 1 step 252
+chkpt: 131 epoch: 102 loss: 0.1434498 LR: [0.0001]  score: 0 step 134
+chkpt: 131 epoch: 103 loss: 0.2961051 LR: [0.0001]  score: 1 step 179
+chkpt: 131 epoch: 104 loss: 0.2531377 LR: [0.0001]  score: 0 step 138
+chkpt: 131 epoch: 105 loss: 0.1518734 LR: [0.0001]  score: 1 step 194
+chkpt: 131 epoch: 106 loss: 0.1664088 LR: [0.0001]  score: 0 step 151
+chkpt: 131 epoch: 107 loss: 0.3363843 LR: [0.0001]  score: 1 step 151
+chkpt: 131 epoch: 108 loss: 0.1261310 LR: [0.0001]  score: 0 step 166
+chkpt: 131 epoch: 109 loss: 0.1668587 LR: [0.0001]  score: 0 step 128
+average score last 10 games: 0.5
+chkpt: 131 epoch: 110 loss: 0.1915884 LR: [0.0001]  score: 0 step 157
+chkpt: 131 epoch: 111 loss: 0.1091176 LR: [0.0001]  score: 3 step 277
+chkpt: 131 epoch: 112 loss: 0.4616751 LR: [0.0001]  score: 1 step 189
+chkpt: 131 epoch: 113 loss: 0.4081693 LR: [0.0001]  score: 0 step 168
+chkpt: 131 epoch: 114 loss: 0.2232138 LR: [0.0001]  score: 0 step 163
+chkpt: 131 epoch: 115 loss: 0.1578754 LR: [0.0001]  score: 2 step 323
