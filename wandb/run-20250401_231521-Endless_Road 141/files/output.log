@@ -1,0 +1,25 @@
+C:\Users\Gilad\.virtualenvs\SpaceShipRide-0PfYb7R8\Lib\site-packages\torch\optim\lr_scheduler.py:227: UserWarning: Detected call of `lr_scheduler.step()` before `optimizer.step()`. In PyTorch 1.1.0 and later, you should call them in the opposite order: `optimizer.step()` before `lr_scheduler.step()`.  Failure to do this will result in PyTorch skipping the first value of the learning rate schedule. See more details at https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate
+  warnings.warn(
+chkpt: 141 epoch: 0 loss: 0.0000000 LR: [0.001]  score: 0 step 202
+chkpt: 141 epoch: 1 loss: 0.0000000 LR: [0.001]  score: 1 step 197
+chkpt: 141 epoch: 2 loss: 0.0000000 LR: [0.001]  score: 0 step 119
+chkpt: 141 epoch: 3 loss: 0.0000000 LR: [0.001]  score: 1 step 176
+chkpt: 141 epoch: 4 loss: 0.0000000 LR: [0.001]  score: 0 step 213
+chkpt: 141 epoch: 5 loss: 0.0000000 LR: [0.001]  score: 1 step 203
+chkpt: 141 epoch: 6 loss: 0.0000000 LR: [0.001]  score: 1 step 205
+chkpt: 141 epoch: 7 loss: 0.0000000 LR: [0.001]  score: 0 step 142
+chkpt: 141 epoch: 8 loss: 0.0024486 LR: [0.001]  score: 0 step 133
+chkpt: 141 epoch: 9 loss: 0.0022537 LR: [0.001]  score: 0 step 184
+average score last 10 games: 0.4
+chkpt: 141 epoch: 10 loss: 0.0010737 LR: [0.001]  score: 1 step 200
+chkpt: 141 epoch: 11 loss: 0.0015184 LR: [0.001]  score: 0 step 144
+chkpt: 141 epoch: 12 loss: 0.0071561 LR: [0.001]  score: 1 step 172
+chkpt: 141 epoch: 13 loss: 0.0010507 LR: [0.001]  score: 0 step 149
+chkpt: 141 epoch: 14 loss: 0.0053202 LR: [0.001]  score: 1 step 254
+chkpt: 141 epoch: 15 loss: 0.0008026 LR: [0.001]  score: 0 step 135
+chkpt: 141 epoch: 16 loss: 0.0009892 LR: [0.001]  score: 0 step 135
+chkpt: 141 epoch: 17 loss: 0.0007708 LR: [0.001]  score: 0 step 280
+chkpt: 141 epoch: 18 loss: 0.0003113 LR: [0.001]  score: 0 step 159
+chkpt: 141 epoch: 19 loss: 0.0002877 LR: [0.001]  score: 0 step 143
+average score last 10 games: 0.3
+chkpt: 141 epoch: 20 loss: 0.0005485 LR: [0.001]  score: 4 step 342

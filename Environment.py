@@ -15,6 +15,7 @@ class Environment:
         self.coin_reward = 0.5
         self.lose_reward = -1
         self.change_line_reward = 0
+        self.i_reward = 0.005
         
 
     def move (self, action):
@@ -150,30 +151,30 @@ class Environment:
         else:
             return None, 0
         
-    def imediate_reward(self, state, next_state):
+    def immediate_reward(self, state, next_state):
         type1, max_y1 = self.first_sprite_in_lane(state)
         type2, max_y2 = self.first_sprite_in_lane(next_state)
         reward = 0
         max_y1 = max(0, max_y1)
         max_y2 = max(0, max_y2)
-        if not type1 and not type2:
+        if type1 is None and type2 is None:
             return reward
         
         if type1 == -1 and type2 == 1:
-            reward = self.coin_reward * max_y2
+            reward = self.i_reward * max_y2
         elif type1 == 1 and type2 == -1:
-            reward = self.lose_reward * max_y2
+            reward = -self.i_reward * max_y2
         elif type1 == 1 and type2 == 1:
-            reward = self.coin_reward * max_y2-max_y1
+            reward = self.i_reward * (max_y2-max_y1)
         elif type1 == -1 and type2 == -1:
-            reward = self.lose_reward * max_y2 - max_y1
+            reward = -self.i_reward * (max_y2 - max_y1)
         elif type1 == 1 and type2 == None:
-            reward = -self.coin_reward * max_y1
+            reward = -self.i_reward * max_y1
         elif type1 == -1 and type2 == None:
-            reward = -self.lose_reward * max_y1
+            reward = self.i_reward * max_y1
         elif type1 == None and type2 == 1:
-            reward = self.coin_reward * max_y2
+            reward = self.i_reward * max_y2
         elif type1 == None and type2 == -1:
-            reward = self.lose_reward * max_y2
+            reward = -self.i_reward * max_y2
         return reward
         

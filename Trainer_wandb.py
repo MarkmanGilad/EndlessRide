@@ -134,8 +134,8 @@ def main (chck):
             action = player.getAction(state=state, epoch=epoch)
             done,reward = env.update(action)
             next_state = env.state()
-            # imediate_reward = env.imediate_reward (state, next_state)
-            imediate_reward = 0
+            imediate_reward = env.immediate_reward (state, next_state)
+            # immediate_reward = 0
             reward += imediate_reward
             buffer.push(state, torch.tensor(action, dtype=torch.int64), torch.tensor(reward, dtype=torch.float32), 
                         next_state, torch.tensor(done, dtype=torch.float32))
