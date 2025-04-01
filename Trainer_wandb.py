@@ -151,7 +151,8 @@ def main (chck):
             ############## Train ################
             states, actions, rewards, next_states, dones = buffer.sample(batch_size)
             Q_values = player.Q(states, actions)
-            _, Q_hat_Values = player_hat.get_Actions_Values(next_states) # DDQN
+            next_actions, _ = player.get_Actions_Values(next_states)
+            _, Q_hat_Values = player_hat.Q(next_states,next_actions) # DDQN
 
             loss = player.dqn_model.loss(Q_values, rewards, Q_hat_Values, dones)
             loss.backward()
