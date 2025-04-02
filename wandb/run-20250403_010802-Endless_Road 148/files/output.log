@@ -1,0 +1,10 @@
+C:\Users\Gilad\.virtualenvs\SpaceShipRide-0PfYb7R8\Lib\site-packages\torch\optim\lr_scheduler.py:227: UserWarning: Detected call of `lr_scheduler.step()` before `optimizer.step()`. In PyTorch 1.1.0 and later, you should call them in the opposite order: `optimizer.step()` before `lr_scheduler.step()`.  Failure to do this will result in PyTorch skipping the first value of the learning rate schedule. See more details at https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate
+  warnings.warn(
+chkpt: 148 epoch: 0 loss: 0.0000000 LR: [0.001]  score: 3 step 255
+chkpt: 148 epoch: 1 loss: 0.0000000 LR: [0.001]  score: 0 step 207
+chkpt: 148 epoch: 2 loss: 0.0698674 LR: [0.001]  score: 1 step 167
+chkpt: 148 epoch: 3 loss: 0.0306747 LR: [0.001]  score: 1 step 204
+chkpt: 148 epoch: 4 loss: 0.0126505 LR: [0.001]  score: 3 step 382
+chkpt: 148 epoch: 5 loss: 0.0234735 LR: [0.001]  score: 2 step 246
+chkpt: 148 epoch: 6 loss: 0.0110105 LR: [0.001]  score: 0 step 127
+chkpt: 148 epoch: 7 loss: 0.0182323 LR: [0.001]  score: 0 step 138

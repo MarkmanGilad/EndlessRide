@@ -4,7 +4,7 @@ from graphics import Background
 import random
 from Environment import Environment
 
-from ReplayBuffer import ReplayBuffer
+from ReplayBuffer_2 import ReplayBuffer
 from AI_Agent import AI_Agent
 from DQN import DQN
 import torch

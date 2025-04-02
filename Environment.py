@@ -152,29 +152,51 @@ class Environment:
             return None, 0
         
     def immediate_reward(self, state, next_state):
+        # Extract the car's lane from the first element of the state tensor.
+        lane1 = state[0].item()
+        lane2 = next_state[0].item()
+        
+        # Get sprite type and metric from the lane.
         type1, max_y1 = self.first_sprite_in_lane(state)
         type2, max_y2 = self.first_sprite_in_lane(next_state)
-        reward = 0
+        
+        # Ensure positions are non-negative.
         max_y1 = max(0, max_y1)
         max_y2 = max(0, max_y2)
+        
+        reward = 0
+        # If there's no sprite in either state, no immediate reward.
         if type1 is None and type2 is None:
             return reward
-        
+
+        # Transition from obstacle to coin.
         if type1 == -1 and type2 == 1:
             reward = self.i_reward * max_y2
+        # Transition from coin to obstacle.
         elif type1 == 1 and type2 == -1:
             reward = -self.i_reward * max_y2
+        # Staying in a lane with a coin: reward based on progress.
         elif type1 == 1 and type2 == 1:
-            reward = self.i_reward * (max_y2-max_y1)
+            reward = self.i_reward * (max_y2 - max_y1)
+        # Staying in a lane with an obstacle: penalty based on progress.
         elif type1 == -1 and type2 == -1:
             reward = -self.i_reward * (max_y2 - max_y1)
-        elif type1 == 1 and type2 == None:
-            reward = -self.i_reward * max_y1
-        elif type1 == -1 and type2 == None:
+        # Moving from a lane with a coin to a clear lane.
+        # If the car stayed in the same lane, assume the coin was collected (good).
+        # Otherwise, if the car switched lanes, it left the coin behind (bad).
+        elif type1 == 1 and type2 is None:
+            if lane1 == lane2:
+                reward = self.i_reward * max_y1  # Collected coin.
+            else:
+                reward = -self.i_reward * max_y1  # Left coin behind.
+        # Moving from a lane with an obstacle to a clear lane (obstacle gone is good).
+        elif type1 == -1 and type2 is None:
             reward = self.i_reward * max_y1
-        elif type1 == None and type2 == 1:
+        # Transition from a clear lane to a lane with a coin.
+        elif type1 is None and type2 == 1:
             reward = self.i_reward * max_y2
-        elif type1 == None and type2 == -1:
+        # Transition from a clear lane to a lane with an obstacle.
+        elif type1 is None and type2 == -1:
             reward = -self.i_reward * max_y2
+
         return reward
-        

@@ -3,7 +3,7 @@ import random
 import torch
 
 class ReplayBuffer:
-    def __init__(self, capacity=500_000, n_step=300, gamma=0.99, path=None):
+    def __init__(self, capacity=500_000, n_step=50, gamma=0.99, path=None):
         if path:
             self.buffer = torch.load(path).buffer
         else:
@@ -11,7 +11,7 @@ class ReplayBuffer:
         self.n_step = n_step
         self.gamma = gamma
         self.temp_buffer = deque()
-        self.running_return = torch.tensor([[0.0]], dtype=torch.float32)
+        self.running_return = torch.zeros(1, 1, dtype=torch.float32)
         
     def push(self, state, action, reward, next_state, done):
         # Append new transition
@@ -24,43 +24,23 @@ class ReplayBuffer:
         if len(self.temp_buffer) == self.n_step:
             self._push_first_with_running_return()
 
-        if done.item() == 1.0:
+        if bool(done):
             self.flush_remaining()
 
     def _push_first_with_running_return(self):
-        state, action, _, _, _ = self.temp_buffer[0]
+        state, action, reward, _, _ = self.temp_buffer[0]
         _, _, _, next_state, done = self.temp_buffer[-1]
         self.buffer.append((state, action, self.running_return.clone(), next_state, done))
 
         # Subtract the removed reward's contribution from the running return
-        removed_reward = self.temp_buffer[0][2]
-        self.running_return -= removed_reward 
-
+        n = len(self.temp_buffer)
+        self.running_return -= reward * (self.gamma ** (n - 1))
         self.temp_buffer.popleft()
 
-    def _flush_remaining(self):
-        """
-        Flush all remaining transitions using reverse scan for n-step returns.
-        This is efficient: O(n) using backward discounted return accumulation.
-        """
-        n = len(self.temp_buffer)
-        R = torch.tensor([[0.0]], dtype=torch.float32)
-        returns = [None] * n
-
-        # Step 1: Compute returns in reverse
-        for i in reversed(range(n)):
-            _, _, reward, _, _ = self.temp_buffer[i]
-            R = reward + self.gamma * R
-            returns[i] = R.clone()
-
-        # Step 2: Push transitions with their corresponding return
-        for i in range(n):
-            state, action, _, _, _ = self.temp_buffer[i]
-            _, _, _, next_state, done = self.temp_buffer[-1]
-            self.buffer.append((state, action, returns[i], next_state, done))
-
-        self.temp_buffer.clear()
-        self.running_return = torch.tensor([[0.0]], dtype=torch.float32)
+    def flush_remaining(self):
+        while self.temp_buffer:
+            self._push_first_with_running_return()
+        self.running_return.zero_()
 
     def sample(self, batch_size):
         if batch_size > len(self):
@@ -76,12 +56,12 @@ class ReplayBuffer:
         return states, actions, rewards, next_states, dones
 
     def flush(self):
-        self._flush_remaining()
+        self.flush_remaining()
 
     def clear(self):
         self.buffer.clear()
         self.temp_buffer.clear()
-        self.running_return = torch.tensor([[0.0]], dtype=torch.float32)
+        self.running_return.zero_()
 
     def __len__(self):
         return len(self.buffer)

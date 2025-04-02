@@ -1,0 +1,7 @@
+{"time":"2025-04-03T01:08:02.2915519+03:00","level":"INFO","msg":"stream: starting","core version":"0.19.7","symlink path":"C:\\Users\\Gilad\\Downloads\\Game-3\\Game-3\\wandb\\run-20250403_010802-Endless_Road 148\\logs\\debug-core.log"}
+{"time":"2025-04-03T01:08:02.4020215+03:00","level":"INFO","msg":"created new stream","id":"Endless_Road 148"}
+{"time":"2025-04-03T01:08:02.4020215+03:00","level":"INFO","msg":"stream: started","id":"Endless_Road 148"}
+{"time":"2025-04-03T01:08:02.4020215+03:00","level":"INFO","msg":"handler: started","stream_id":"Endless_Road 148"}
+{"time":"2025-04-03T01:08:02.4020215+03:00","level":"INFO","msg":"sender: started","stream_id":"Endless_Road 148"}
+{"time":"2025-04-03T01:08:02.4020215+03:00","level":"INFO","msg":"writer: Do: started","stream_id":"Endless_Road 148"}
+{"time":"2025-04-03T01:08:02.8864965+03:00","level":"INFO","msg":"Starting system monitor"}
