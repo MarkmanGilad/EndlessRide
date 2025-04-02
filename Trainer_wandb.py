@@ -44,7 +44,7 @@ def main (chck):
     learning_rate = 0.001
     ephocs = 200000
     start_epoch = 0
-    C = 5
+    C = 10
     loss = torch.tensor(0)
     avg = 0
 
@@ -155,10 +155,10 @@ def main (chck):
             states, actions, rewards, next_states, dones = buffer.sample(batch_size)
             Q_values = player.Q(states, actions)
 
-            # next_actions, _ = player.get_Actions_Values(next_states)
-            # Q_hat_Values = player_hat.Q(next_states,next_actions) # DDQN
+            next_actions, _ = player.get_Actions_Values(next_states)
+            Q_hat_Values = player_hat.Q(next_states,next_actions) # DDQN
             
-            _, Q_hat_Values = player_hat.get_Actions_Values(next_states) # DQN
+            # _, Q_hat_Values = player_hat.get_Actions_Values(next_states) # DQN
 
 
             loss = player.dqn_model.loss(Q_values, rewards, Q_hat_Values, dones)

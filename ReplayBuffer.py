@@ -6,7 +6,7 @@ import numpy as np
 capacity = 500000
 
 class ReplayBuffer:
-    def __init__(self, capacity=capacity, n_step=300, gamma=0.99, k=50, path=None) -> None:
+    def __init__(self, capacity=capacity, n_step=300, gamma=0.99, k=300, path=None) -> None:
         if path:
             self.buffer = torch.load(path).buffer
         else:
