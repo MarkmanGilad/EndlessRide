@@ -15,7 +15,7 @@ class Environment:
         self.coin_reward = 0.5
         self.lose_reward = -1
         self.change_line_reward = 0
-        self.i_reward = 0.02
+        self.i_reward = 0.03
         
 
     def move (self, action):
