@@ -88,23 +88,23 @@ class Environment:
         state_list = []
 
         # 1. Car's Lane
-        state_list.append((self.car.lane+1))  # Add the car's lane 1-5
+        state_list += self.lane_to_one_hot(self.car.lane)  # Add the car's lane 1-5
 
         # 2. Obstacle Positions
         for obstacle in self.obstacles_group:
-            state_list.append((obstacle.lane+1))  # X-coordinate of obstacle
-            state_list.append(obstacle.rect.y/700)  # Y-coordinate of obstacle
-        while (len(state_list)<9):
-            state_list.append(0)  
-            state_list.append(0)  
+            state_list += self.lane_to_one_hot(obstacle.lane)  # X-coordinate of obstacle
+            state_list += [obstacle.rect.y/700]  # Y-coordinate of obstacle
+        for i in range(4 - len(self.obstacles_group)):
+            state_list +=[0]*5
+            state_list += [0]
         # 3. Good Point Positions
         for good_point in GoodPoint.indecis:
             if good_point:
-                state_list.append(good_point.lane+1)  # X-coordinate of good point
-                state_list.append(good_point.rect.y/700)  # Y-coordinate of good point
+                state_list += self.lane_to_one_hot(good_point.lane)  # X-coordinate of good point
+                state_list += [good_point.rect.y/700]  # Y-coordinate of good point
             else:   
-                state_list.append(0)  
-                state_list.append(0)  
+                state_list += [0]*5
+                state_list += [0]
 
         return torch.tensor(state_list, dtype=torch.float32)
 
@@ -151,10 +151,18 @@ class Environment:
         else:
             return 0, 0     # clear
         
+    def lane_to_one_hot (self, lane):
+        lane_lst = [0] * 5
+        lane_lst[lane] = 1
+        return lane_lst
+
+    def one_hot_to_lane (self, lane_lst):
+        return lane_lst.index(1)
+
     def immediate_reward(self, state, next_state):
         # Extract lane information 
-        lane1 = state[0].item()
-        lane2 = next_state[0].item()
+        lane1 = self.one_hot_to_lane(state[:5].tolist())
+        lane2 = self.one_hot_to_lane(next_state[:5].tolist())
     
         # Get sprite type and metric from the lane.
         type1, max_y1 = self.first_sprite_in_lane(state)

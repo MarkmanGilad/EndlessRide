@@ -1,4 +1,5 @@
 #no big files
 Data/
 __pycache__/
-wandbe/
+wandb/
+model/

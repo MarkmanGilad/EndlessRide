@@ -32952,3 +32952,44 @@ chkpt: 149 epoch: 29953 loss: 0.0750395 LR: [6.25e-05]  score: 1 step 293
 chkpt: 149 epoch: 29954 loss: 0.0677061 LR: [6.25e-05]  score: 0 step 207
 chkpt: 149 epoch: 29955 loss: 0.0394343 LR: [6.25e-05]  score: 0 step 315
 chkpt: 149 epoch: 29956 loss: 0.0417977 LR: [6.25e-05]  score: 0 step 173
+chkpt: 149 epoch: 29957 loss: 0.0434203 LR: [6.25e-05]  score: 0 step 137
+chkpt: 149 epoch: 29958 loss: 0.0489234 LR: [6.25e-05]  score: 0 step 196
+chkpt: 149 epoch: 29959 loss: 0.0780705 LR: [6.25e-05]  score: 0 step 372
+average score last 10 games: 0.3
+chkpt: 149 epoch: 29960 loss: 0.0444568 LR: [6.25e-05]  score: 0 step 238
+chkpt: 149 epoch: 29961 loss: 0.0443318 LR: [6.25e-05]  score: 3 step 606
+chkpt: 149 epoch: 29962 loss: 0.0643634 LR: [6.25e-05]  score: 0 step 175
+chkpt: 149 epoch: 29963 loss: 0.0494541 LR: [6.25e-05]  score: 0 step 241
+chkpt: 149 epoch: 29964 loss: 0.0552961 LR: [6.25e-05]  score: 0 step 251
+chkpt: 149 epoch: 29965 loss: 0.0323920 LR: [6.25e-05]  score: 0 step 127
+chkpt: 149 epoch: 29966 loss: 0.0454722 LR: [6.25e-05]  score: 1 step 446
+chkpt: 149 epoch: 29967 loss: 0.0448801 LR: [6.25e-05]  score: 1 step 223
+chkpt: 149 epoch: 29968 loss: 0.0607008 LR: [6.25e-05]  score: 1 step 425
+chkpt: 149 epoch: 29969 loss: 0.0566749 LR: [6.25e-05]  score: 1 step 164
+average score last 10 games: 0.7
+chkpt: 149 epoch: 29970 loss: 0.0672634 LR: [6.25e-05]  score: 0 step 215
+chkpt: 149 epoch: 29971 loss: 0.0359538 LR: [6.25e-05]  score: 0 step 138
+chkpt: 149 epoch: 29972 loss: 0.0504313 LR: [6.25e-05]  score: 0 step 281
+chkpt: 149 epoch: 29973 loss: 0.0496423 LR: [6.25e-05]  score: 2 step 493
+chkpt: 149 epoch: 29974 loss: 0.0325175 LR: [6.25e-05]  score: 0 step 204
+chkpt: 149 epoch: 29975 loss: 0.0542985 LR: [6.25e-05]  score: 1 step 215
+chkpt: 149 epoch: 29976 loss: 0.0606854 LR: [6.25e-05]  score: 2 step 333
+chkpt: 149 epoch: 29977 loss: 0.0603509 LR: [6.25e-05]  score: 0 step 172
+chkpt: 149 epoch: 29978 loss: 0.0502669 LR: [6.25e-05]  score: 0 step 193
+chkpt: 149 epoch: 29979 loss: 0.0654059 LR: [6.25e-05]  score: 0 step 213
+average score last 10 games: 0.5
+chkpt: 149 epoch: 29980 loss: 0.0377591 LR: [6.25e-05]  score: 2 step 420
+chkpt: 149 epoch: 29981 loss: 0.0508463 LR: [6.25e-05]  score: 0 step 129
+chkpt: 149 epoch: 29982 loss: 0.0748542 LR: [6.25e-05]  score: 0 step 191
+chkpt: 149 epoch: 29983 loss: 0.0817145 LR: [6.25e-05]  score: 0 step 502
+chkpt: 149 epoch: 29984 loss: 0.0672945 LR: [6.25e-05]  score: 0 step 243
+chkpt: 149 epoch: 29985 loss: 0.0450061 LR: [6.25e-05]  score: 0 step 142
+chkpt: 149 epoch: 29986 loss: 0.0455452 LR: [6.25e-05]  score: 0 step 361
+chkpt: 149 epoch: 29987 loss: 0.0738098 LR: [6.25e-05]  score: 0 step 155
+chkpt: 149 epoch: 29988 loss: 0.0524151 LR: [6.25e-05]  score: 0 step 166
+chkpt: 149 epoch: 29989 loss: 0.0431241 LR: [6.25e-05]  score: 0 step 228
+average score last 10 games: 0.2
+chkpt: 149 epoch: 29990 loss: 0.0482767 LR: [6.25e-05]  score: 1 step 299
+chkpt: 149 epoch: 29991 loss: 0.0513016 LR: [6.25e-05]  score: 0 step 139
+chkpt: 149 epoch: 29992 loss: 0.0381422 LR: [6.25e-05]  score: 0 step 297
+chkpt: 149 epoch: 29993 loss: 0.0574641 LR: [6.25e-05]  score: 1 step 170

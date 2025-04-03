@@ -31198,3 +31198,28 @@ chkpt: 150 epoch: 28359 loss: 0.0671248 LR: [6.25e-05]  score: 0 step 178
 average score last 10 games: 0.6
 chkpt: 150 epoch: 28360 loss: 0.1872035 LR: [6.25e-05]  score: 0 step 227
 chkpt: 150 epoch: 28361 loss: 0.1546918 LR: [6.25e-05]  score: 0 step 665
+chkpt: 150 epoch: 28362 loss: 0.0806274 LR: [6.25e-05]  score: 0 step 261
+chkpt: 150 epoch: 28363 loss: 0.0860736 LR: [6.25e-05]  score: 1 step 378
+chkpt: 150 epoch: 28364 loss: 0.0849092 LR: [6.25e-05]  score: 0 step 188
+chkpt: 150 epoch: 28365 loss: 0.0594765 LR: [6.25e-05]  score: 1 step 548
+chkpt: 150 epoch: 28366 loss: 0.0713127 LR: [6.25e-05]  score: 0 step 143
+chkpt: 150 epoch: 28367 loss: 0.0743759 LR: [6.25e-05]  score: 0 step 164
+chkpt: 150 epoch: 28368 loss: 0.0793136 LR: [6.25e-05]  score: 0 step 445
+chkpt: 150 epoch: 28369 loss: 0.0815258 LR: [6.25e-05]  score: 0 step 218
+average score last 10 games: 0.2
+chkpt: 150 epoch: 28370 loss: 0.1185185 LR: [6.25e-05]  score: 0 step 173
+chkpt: 150 epoch: 28371 loss: 0.1940276 LR: [6.25e-05]  score: 1 step 394
+chkpt: 150 epoch: 28372 loss: 0.0807303 LR: [6.25e-05]  score: 1 step 359
+chkpt: 150 epoch: 28373 loss: 0.0495546 LR: [6.25e-05]  score: 4 step 1662
+chkpt: 150 epoch: 28374 loss: 0.0726189 LR: [6.25e-05]  score: 3 step 706
+chkpt: 150 epoch: 28375 loss: 0.1836457 LR: [6.25e-05]  score: 3 step 869
+chkpt: 150 epoch: 28376 loss: 0.0705938 LR: [6.25e-05]  score: 0 step 137
+chkpt: 150 epoch: 28377 loss: 0.1254506 LR: [6.25e-05]  score: 2 step 405
+chkpt: 150 epoch: 28378 loss: 0.0845494 LR: [6.25e-05]  score: 0 step 382
+chkpt: 150 epoch: 28379 loss: 0.0950119 LR: [6.25e-05]  score: 1 step 781
+average score last 10 games: 1.5
+chkpt: 150 epoch: 28380 loss: 0.1285929 LR: [6.25e-05]  score: 0 step 195
+chkpt: 150 epoch: 28381 loss: 0.1037331 LR: [6.25e-05]  score: 1 step 394
+chkpt: 150 epoch: 28382 loss: 0.0578644 LR: [6.25e-05]  score: 1 step 326
+chkpt: 150 epoch: 28383 loss: 0.0579098 LR: [6.25e-05]  score: 0 step 303
+chkpt: 150 epoch: 28384 loss: 0.1038266 LR: [6.25e-05]  score: 0 step 414

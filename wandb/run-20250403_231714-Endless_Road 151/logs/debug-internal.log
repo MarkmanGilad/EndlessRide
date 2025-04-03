@@ -296,3 +296,4 @@
 {"time":"2025-04-04T00:05:25.9086389+03:00","level":"ERROR","msg":"monitor: disk: error sampling metrics: Incorrect function."}
 {"time":"2025-04-04T00:05:35.9088351+03:00","level":"ERROR","msg":"monitor: disk: error sampling metrics: Incorrect function."}
 {"time":"2025-04-04T00:05:45.9091226+03:00","level":"ERROR","msg":"monitor: disk: error sampling metrics: Incorrect function."}
+{"time":"2025-04-04T00:05:55.9096167+03:00","level":"ERROR","msg":"monitor: disk: error sampling metrics: Incorrect function."}

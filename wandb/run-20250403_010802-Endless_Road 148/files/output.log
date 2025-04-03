@@ -35776,3 +35776,30 @@ chkpt: 148 epoch: 32520 loss: 0.0723915 LR: [6.25e-05]  score: 0 step 162
 chkpt: 148 epoch: 32521 loss: 0.0550032 LR: [6.25e-05]  score: 0 step 435
 chkpt: 148 epoch: 32522 loss: 0.0621918 LR: [6.25e-05]  score: 1 step 714
 chkpt: 148 epoch: 32523 loss: 0.0588605 LR: [6.25e-05]  score: 0 step 246
+chkpt: 148 epoch: 32524 loss: 0.0435716 LR: [6.25e-05]  score: 0 step 388
+chkpt: 148 epoch: 32525 loss: 0.0737597 LR: [6.25e-05]  score: 0 step 287
+chkpt: 148 epoch: 32526 loss: 0.0544029 LR: [6.25e-05]  score: 1 step 240
+chkpt: 148 epoch: 32527 loss: 0.0818498 LR: [6.25e-05]  score: 0 step 174
+chkpt: 148 epoch: 32528 loss: 0.0740866 LR: [6.25e-05]  score: 3 step 997
+chkpt: 148 epoch: 32529 loss: 0.0689073 LR: [6.25e-05]  score: 0 step 557
+average score last 10 games: 0.5
+chkpt: 148 epoch: 32530 loss: 0.0531272 LR: [6.25e-05]  score: 0 step 143
+chkpt: 148 epoch: 32531 loss: 0.0466336 LR: [6.25e-05]  score: 0 step 187
+chkpt: 148 epoch: 32532 loss: 0.0656768 LR: [6.25e-05]  score: 0 step 209
+chkpt: 148 epoch: 32533 loss: 0.0729268 LR: [6.25e-05]  score: 1 step 441
+chkpt: 148 epoch: 32534 loss: 0.0555194 LR: [6.25e-05]  score: 1 step 364
+chkpt: 148 epoch: 32535 loss: 0.0482049 LR: [6.25e-05]  score: 0 step 473
+chkpt: 148 epoch: 32536 loss: 0.0645555 LR: [6.25e-05]  score: 0 step 138
+chkpt: 148 epoch: 32537 loss: 0.0590760 LR: [6.25e-05]  score: 1 step 464
+chkpt: 148 epoch: 32538 loss: 0.0900209 LR: [6.25e-05]  score: 4 step 924
+chkpt: 148 epoch: 32539 loss: 0.0477112 LR: [6.25e-05]  score: 1 step 478
+average score last 10 games: 0.8
+chkpt: 148 epoch: 32540 loss: 0.0668629 LR: [6.25e-05]  score: 0 step 181
+chkpt: 148 epoch: 32541 loss: 0.0737895 LR: [6.25e-05]  score: 0 step 260
+chkpt: 148 epoch: 32542 loss: 0.0596510 LR: [6.25e-05]  score: 2 step 504
+chkpt: 148 epoch: 32543 loss: 0.0511151 LR: [6.25e-05]  score: 0 step 205
+chkpt: 148 epoch: 32544 loss: 0.0492199 LR: [6.25e-05]  score: 2 step 403
+chkpt: 148 epoch: 32545 loss: 0.0769875 LR: [6.25e-05]  score: 1 step 483
+chkpt: 148 epoch: 32546 loss: 0.0441451 LR: [6.25e-05]  score: 0 step 490
+chkpt: 148 epoch: 32547 loss: 0.0650255 LR: [6.25e-05]  score: 0 step 231
+chkpt: 148 epoch: 32548 loss: 0.0780369 LR: [6.25e-05]  score: 0 step 379
