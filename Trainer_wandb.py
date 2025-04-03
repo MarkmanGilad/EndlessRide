@@ -100,12 +100,13 @@ def main (chck):
     wandb.config.update({"Model":str(player.dqn_model)}, allow_val_change=True)
     #endregion
     
+    background = Background(WINDOWWIDTH, WINDOWHEIGHT)
+    env = Environment()
 
     for epoch in range(start_epoch, ephocs):
         step = 0
         #clock = pygame.time.Clock()
-        background = Background(WINDOWWIDTH, WINDOWHEIGHT)
-        env = Environment()
+        env.new_game()
         background.render(env)
 
         end_of_game = False

@@ -214,3 +214,11 @@ class Environment:
             reward = -self.i_reward * max_y2
 
         return reward
+    
+
+    def new_game(self):
+        self.car.lane = 2
+        self.obstacles_group = pygame.sprite.Group()
+        self.good_points_group= pygame.sprite.Group()
+        self.score=0
+        GoodPoint.indecis = [None] * 5

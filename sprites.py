@@ -2,10 +2,6 @@ import pygame
 import random
 
 
-car_image = pygame.image.load('pics\car.png')
-obstacle_image = pygame.image.load('pics\obstacle.png')
-
-
 # Constants
 LANEWIDTH = 80
 WINDOW_HEIGHT = 800
@@ -13,9 +9,12 @@ WINDOW_WIDTH = 400
 
 # Car Sprite
 class Car(pygame.sprite.Sprite):
+    
+    pic = pygame.image.load('pics/car.png')
+    
     def __init__(self, lane):
         super().__init__()
-        self.image = pygame.image.load('pics/car.png').convert_alpha()
+        self.image = Car.pic.convert_alpha()
         self.image = pygame.transform.scale(self.image, (75, 100))  # Scale to the appropriate size
         self.rect = self.image.get_rect()
         self.lane = lane
@@ -31,9 +30,12 @@ class Car(pygame.sprite.Sprite):
 
 # Obstacle Sprite
 class Obstacle(pygame.sprite.Sprite):
+
+    pic = pygame.image.load('pics/obstacle.png')
+
     def __init__(self):
         super().__init__()
-        self.image = pygame.image.load('pics/obstacle.png').convert_alpha()
+        self.image = Obstacle.pic.convert_alpha()
         self.image = pygame.transform.scale(self.image, (50, 50))  # Load obstacle image
         self.rect = self.image.get_rect()
         self.lane=random.randint(0, 4)
@@ -50,10 +52,11 @@ class Obstacle(pygame.sprite.Sprite):
 class GoodPoint(pygame.sprite.Sprite):
 
     indecis = [None]*5
+    pic = pygame.image.load('pics/coin.png')
 
     def __init__(self):
         super().__init__()
-        self.image = pygame.image.load('pics/coin.png').convert_alpha()  # Load good point image
+        self.image = GoodPoint.pic.convert_alpha()  # Load good point image
         self.rect = self.image.get_rect()
         self.lane=random.randint(0, 4)
         self.rect.x = self.lane * LANEWIDTH + (LANEWIDTH - self.rect.width) // 2  # Random lane

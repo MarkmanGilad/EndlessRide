@@ -7,6 +7,7 @@ WHITE = (255, 255, 255)
 BLACK = (0,0,0)
 BUTTON_COLOR = (50, 50, 255)  # Blue button color
 BUTTON_HOVER_COLOR = (100, 100, 255)  # Button hover color
+
 class Background:
     def __init__(self, width, height):
         self.width = width
