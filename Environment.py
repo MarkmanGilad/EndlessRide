@@ -136,20 +136,55 @@ class Environment:
         return (False,self.reward)
         
                  
-    def first_sprite_in_lane (self, state):
-        data = state[1:].view(-1, 2)
-        filtered = data[data[:, 0] == state[0].item()]
-        if len(filtered) > 0:
-            max_y, idx = filtered[:, 1].max(dim=0)
-            idx = idx.item() 
-            max_y = max_y.item()
-            if idx < 4:
-                type = -1 # obsticales
-            else:
-                type = 1 # coins
-            return type, max_y
+    def first_sprite_in_lane(self, state):
+        car_lane_onehot = state[:5]  # shape: (5,)
+        
+        # --- Slice obstacles and coins ---
+        obstacles = state[5:5 + 4 * 6].view(4, 6)  # shape: (4, 6)
+        coins     = state[5 + 4 * 6:].view(5, 6)    # shape: (5, 6)
+        
+        # --- Extract lane one-hot vectors and y-values ---
+        obstacle_lanes = obstacles[:, :5]         # shape: (4, 5)
+        obstacle_ys    = obstacles[:, 5]            # shape: (4,)
+        
+        coin_lanes = coins[:, :5]                 # shape: (5, 5)
+        coin_ys    = coins[:, 5]                  # shape: (5,)
+        
+        # Clamp y-values to a minimum of 0 so that negative y (coming in) becomes 0.
+        obstacle_ys = obstacle_ys.clamp(min=0)
+        coin_ys = coin_ys.clamp(min=0)
+        
+        # --- Mask: which objects are in the same lane as the car ---
+        same_lane_obstacles = (obstacle_lanes == car_lane_onehot).all(dim=1)  # shape: (4,)
+        same_lane_coins     = (coin_lanes == car_lane_onehot).all(dim=1)      # shape: (5,)
+        
+        # --- Filter y-values for objects in the same lane ---
+        obstacle_y_filtered = obstacle_ys[same_lane_obstacles]
+        coin_y_filtered     = coin_ys[same_lane_coins]
+        
+        # --- Find the sprite with maximum y (closest to the car) ---
+        found = False
+        closest_y = 0.0
+        closest_type = None
+
+        if obstacle_y_filtered.numel() > 0:
+            candidate = obstacle_y_filtered.max().item()
+            closest_y = candidate
+            closest_type = -1  # obstacle
+            found = True
+
+        if coin_y_filtered.numel() > 0:
+            candidate = coin_y_filtered.max().item()
+            if (not found) or (candidate >= closest_y):
+                closest_y = candidate
+                closest_type = 1  # coin
+                found = True
+
+        if not found:
+            return None, 0.0
         else:
-            return 0, 0     # clear
+            return closest_type, closest_y
+
         
     def lane_to_one_hot (self, lane):
         lane_lst = [0] * 5
