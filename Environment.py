@@ -215,11 +215,11 @@ class Environment:
 
         # Case 1: Staying in a coin lane.
         if type1 == 1 and type2 == 1:
-            reward = self.i_reward * (max_y2-max_y1)
+            reward = self.i_reward * max_y2#(max_y2-max_y1)
 
         # Case 2: Staying in an obstacle lane.
         elif type1 == -1 and type2 == -1:
-            reward = -self.i_reward * (max_y2-max_y1)
+            reward = -self.i_reward * max_y2#(max_y2-max_y1)
 
         # Case 3: Transition from obstacle to coin.
         elif type1 == -1 and type2 == 1:
