@@ -6,7 +6,7 @@ from Environment import Environment
 
 from ReplayBuffer_2 import ReplayBuffer
 from AI_Agent import AI_Agent
-from DQN import DQN
+from DuelingDQN import DQN
 import torch
 import wandb
 import os
@@ -99,9 +99,7 @@ def main (chck):
     )
     wandb.config.update({"Model":str(player.dqn_model)}, allow_val_change=True)
     #endregion
-    
-    background = Background(WINDOWWIDTH, WINDOWHEIGHT)
-    env = Environment()
+        
 
     for epoch in range(start_epoch, ephocs):
         step = 0

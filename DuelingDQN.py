@@ -27,6 +27,8 @@ class DQN(nn.Module):
         self.huber_loss = nn.SmoothL1Loss()
     
     def forward(self, x):
+        if x.dim() == 1: # If x is 1D, add a batch dimension
+            x = x.unsqueeze(0)
         x = x.to(self.device)
         x = F.relu(self.linear1(x))
         x = F.relu(self.linear2(x))

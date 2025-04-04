@@ -1,6 +1,5 @@
 import numpy as np
 import torch
-from DQN import DQN  # Import the DQN class
 import random
 
 class AI_Agent:
