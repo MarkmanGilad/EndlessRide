@@ -228,14 +228,14 @@ class Environment:
         # Case 4: Transition from coin to obstacle.
         elif type1 == 1 and type2 == -1:
             if lane1 == lane2:  # Car stayed in lane: coin was collected.
-                reward += 0   #reward given elsewhere 
+                reward += self.i_reward * max_y1   #get extra reward for collecting   
             else:
                 reward = -self.i_reward * (max_y2 + max_y1)
 
         # Case 5: Transition from coin to clear.
         elif type1 == 1 and type2 is None:
             if lane1 == lane2: # Collected coin
-                reward += 0  # reward given elsewhere.
+                reward += self.i_reward * max_y1   #get extra reward for collecting.
             else:
                 reward = -self.i_reward * max_y1  # Left coin behind.
 
