@@ -197,7 +197,7 @@ class Environment:
 
         # 5. Determine first visible object (closest to car)
         if obs_bottom == -1 and coin_bottom == -1:
-            return None  # no object found
+            return None, 0  # no object found
 
         if obs_bottom > coin_bottom:
             return obs_bottom, -1  # obstacle is closer

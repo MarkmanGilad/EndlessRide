@@ -11,7 +11,7 @@ input_channels = 3
 num_actions = 3
 Kernel = 3
 stride = 1
-padding = 0
+padding = 1
 out_ch1 = 32
 out_ch2 = 64
 out_ch3 = 64
@@ -23,18 +23,18 @@ gamma = 0.99
  
 
 class Duelimg_CNN_DQN (nn.Module):
-    def __init__(self, input_channels, num_actions, device=torch.device('cpu')):
-        super(self).__init__()
+    def __init__(self, device=torch.device('cpu')):
+        super().__init__()
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         self.MSELoss = nn.MSELoss()
 
         # Feature extraction layers
-        self.conv1 = nn.Conv2d(input_channels, out_ch1, kernel_size=Kernel, stride=stride)
-        self.conv2 = nn.Conv2d(out_ch1, out_ch2, kernel_size=Kernel, stride=stride)
-        self.conv3 = nn.Conv2d(out_ch2, out_ch3, kernel_size=Kernel, stride=stride)
+        self.conv1 = nn.Conv2d(input_channels, out_ch1, kernel_size=Kernel, stride=stride, padding=padding)
+        self.conv2 = nn.Conv2d(out_ch1, out_ch2, kernel_size=Kernel, stride=stride, padding=padding)
+        self.conv3 = nn.Conv2d(out_ch2, out_ch3, kernel_size=Kernel, stride=stride, padding=padding)
         
         # Calculate the size of the feature map after convolutions
-        def conv2d_size_out(input_size, kernel_size=Kernel, stride=stride):
+        def conv2d_size_out(input_size, kernel_size=Kernel, stride=stride, padding = padding):
             return (input_size + 2*padding - kernel_size) // stride + 1
         convw = conv2d_size_out(conv2d_size_out(conv2d_size_out(rows)))
         convh = conv2d_size_out(conv2d_size_out(conv2d_size_out(columns)))
