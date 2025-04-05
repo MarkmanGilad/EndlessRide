@@ -2,7 +2,7 @@ from collections import deque
 import random
 import torch
 
-class ReplayBuffer:
+class ReplayBuffer_n_step:
     def __init__(self, capacity=500_000, n_step=15, gamma=0.99, path=None):
         if path:
             self.buffer = torch.load(path).buffer

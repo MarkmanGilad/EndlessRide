@@ -4,9 +4,9 @@ from graphics import Background
 import random
 from Environment import Environment
 
-from ReplayBuffer_2 import ReplayBuffer
+from ReplayBuffer_n_step import ReplayBuffer_n_step as ReplayBuffer
 from AI_Agent import AI_Agent
-from DuelingDQN import DQN
+from CNN_DQN import Duelimg_CNN_DQN as DQN
 import torch
 import wandb
 import os

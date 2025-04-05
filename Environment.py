@@ -108,6 +108,45 @@ class Environment:
 
         return torch.tensor(state_list, dtype=torch.float32)
 
+    def state2D(self):
+        # (channels, rows, cols) = (car, obstacle, coin), 140 rows of 5 px, 5 lanes
+        grid = torch.zeros((3, 140, 5), dtype=torch.float32)
+
+        # --- 1. Car (always in bounds, occupies 100px = 20 rows) ---
+        car_lane = self.car.lane
+        car_y = 600  # top of the car
+        car_top = int(car_y / 5)           # = 120
+        car_bottom = int((car_y + 100) / 5)  # = 140
+
+        # No need for lane check; guaranteed to be valid
+        grid[0, car_top:car_bottom, car_lane] = 1.0  # No +1 because upper bound is exclusive
+
+        # --- 2. Obstacles ---
+        for obstacle in self.obstacles_group:
+            lane = obstacle.lane
+            y = obstacle.rect.y
+
+            top_row = max(int(y / 5), 0)
+            bottom_row = min(int((y + 50) / 5), 140)
+
+            if top_row < bottom_row:
+                grid[1, top_row:bottom_row, lane] = 1.0
+
+        # --- 3. Good Points (Coins) ---
+        for good_point in GoodPoint.indecis:
+            if good_point:
+                lane = good_point.lane
+                y = good_point.rect.y
+
+                top_row = max(int(y / 5), 0)
+                bottom_row = min(int((y + 50) / 5), 140)
+
+                if top_row < bottom_row:
+                    grid[2, top_row:bottom_row, lane] = 1.0
+
+        return grid
+
+
     def update (self,action):
         self.reward=0
         prev_lane=self.car.lane
