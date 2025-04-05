@@ -3,7 +3,7 @@ import random
 import torch
 
 class ReplayBuffer:
-    def __init__(self, capacity=500_000, n_step=35, gamma=0.99, path=None):
+    def __init__(self, capacity=500_000, n_step=15, gamma=0.99, path=None):
         if path:
             self.buffer = torch.load(path).buffer
         else:
