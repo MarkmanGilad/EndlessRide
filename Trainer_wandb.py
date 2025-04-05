@@ -51,7 +51,7 @@ def main (chck):
     scores, losses, avg_score = [], [], []
     optim = torch.optim.Adam(player.dqn_model.parameters(), lr=learning_rate)
     # scheduler = torch.optim.lr_scheduler.StepLR(optim,100000, gamma=0.50)
-    scheduler = torch.optim.lr_scheduler.MultiStepLR(optim,[5000, 10000, 20000], gamma=0.5)
+    scheduler = torch.optim.lr_scheduler.MultiStepLR(optim,[5000*200, 10000*200, 20000*200], gamma=0.5)
     step = 0
 
     #region######## checkpoint Load ############
@@ -165,7 +165,7 @@ def main (chck):
             torch.nn.utils.clip_grad_norm_(player.dqn_model.parameters(), max_norm=1.0)
             optim.step()
             optim.zero_grad()
-        scheduler.step()
+            scheduler.step()
 
         if epoch % C == 0:
             player_hat.fix_update(dqn=player.dqn_model)

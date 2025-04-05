@@ -33,13 +33,12 @@ class Duelimg_CNN_DQN (nn.Module):
         self.conv2 = nn.Conv2d(out_ch1, out_ch2, kernel_size=Kernel, stride=stride, padding=padding)
         self.conv3 = nn.Conv2d(out_ch2, out_ch3, kernel_size=Kernel, stride=stride, padding=padding)
         
-        # Calculate the size of the feature map after convolutions
-        def conv2d_size_out(input_size, kernel_size=Kernel, stride=stride, padding = padding):
-            return (input_size + 2*padding - kernel_size) // stride + 1
-        convw = conv2d_size_out(conv2d_size_out(conv2d_size_out(rows)))
-        convh = conv2d_size_out(conv2d_size_out(conv2d_size_out(columns)))
-        self.linear_input_size = convw * convh * out_ch3
-        
+        # Dynamically determine flattened CNN output size
+        with torch.no_grad():
+            dummy = torch.zeros(1, input_channels, rows, columns)
+            dummy = self.conv3(self.conv2(self.conv1(dummy)))
+            self.linear_input_size = dummy.view(1, -1).size(1)
+            
         # Dueling architecture streams
         self.fc1_adv = nn.Linear(self.linear_input_size, out_layer1)
         self.fc1_val = nn.Linear(self.linear_input_size, out_layer2)
@@ -50,6 +49,7 @@ class Duelimg_CNN_DQN (nn.Module):
 
     def forward(self, x):
         # Feature extraction
+        x = x.to(self.device)
         x = F.relu(self.conv1(x))
         x = F.relu(self.conv2(x))
         x = F.relu(self.conv3(x))

@@ -144,7 +144,7 @@ class Environment:
                 if top_row < bottom_row:
                     grid[2, top_row:bottom_row, lane] = 1.0
 
-        return grid
+        return grid.unsqueeze(0)
 
 
     def update (self,action):
@@ -176,6 +176,10 @@ class Environment:
         
                  
     def first_sprite_in_lane(self, state: torch.Tensor):
+        # Unwrap batch dimension: [1, 3, 140, 5] → [3, 140, 5]
+        if state.dim() == 4:
+            state = state.squeeze(0)
+        
         # Channels
         CAR, OBSTACLE, COIN = 0, 1, 2
 
@@ -214,6 +218,12 @@ class Environment:
         return lane_lst.index(1)
 
     def immediate_reward(self, state, next_state):
+        # Unwrap batch dimension: [1, 3, 140, 5] → [3, 140, 5]
+        if state.dim() == 4:
+            state = state.squeeze(0)
+        if next_state.dim() == 4:
+            next_state = next_state.squeeze(0)
+            
         # Extract lane information 
         car1_row = state[0, 130, :]  # shape: (5,)
         lane1 = torch.nonzero(car1_row).item()  # lane index (0–4)
