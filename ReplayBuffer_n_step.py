@@ -48,11 +48,11 @@ class ReplayBuffer_n_step:
         state_tensors, action_tensors, reward_tensors, next_state_tensors, done_tensors = zip(
             *random.sample(self.buffer, batch_size)
         )
-        states = torch.vstack(state_tensors)
-        actions = torch.vstack(action_tensors)
-        rewards = torch.vstack(reward_tensors)
-        next_states = torch.vstack(next_state_tensors)
-        dones = torch.vstack(done_tensors)
+        states = torch.stack(state_tensors)
+        actions = torch.stack(action_tensors)
+        rewards = torch.stack(reward_tensors)
+        next_states = torch.stack(next_state_tensors)
+        dones = torch.stack(done_tensors)
         return states, actions, rewards, next_states, dones
 
     def flush(self):
