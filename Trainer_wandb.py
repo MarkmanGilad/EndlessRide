@@ -108,7 +108,7 @@ def main (chck):
         background.render(env)
 
         end_of_game = False
-        state = env.state()
+        state = env.state2D()
         
         while not end_of_game:
             step += 1
@@ -132,7 +132,7 @@ def main (chck):
             ############## Sample Environement #########################
             action = player.getAction(state=state, epoch=epoch)
             done,reward = env.update(action)
-            next_state = env.state()
+            next_state = env.state2D()
             imediate_reward = env.immediate_reward (state, next_state)
             # immediate_reward = 0
             reward += imediate_reward

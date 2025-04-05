@@ -23,7 +23,7 @@ gamma = 0.99
  
 
 class Duelimg_CNN_DQN (nn.Module):
-    def __init__(self, input_channels, num_actions):
+    def __init__(self, input_channels, num_actions, device=torch.device('cpu')):
         super(self).__init__()
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         self.MSELoss = nn.MSELoss()

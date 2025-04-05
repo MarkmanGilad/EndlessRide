@@ -175,54 +175,34 @@ class Environment:
         return (False,self.reward)
         
                  
-    def first_sprite_in_lane(self, state):
-        car_lane_onehot = state[:5]  # shape: (5,)
-        
-        # --- Slice obstacles and coins ---
-        obstacles = state[5:5 + 4 * 6].view(4, 6)  # shape: (4, 6)
-        coins     = state[5 + 4 * 6:].view(5, 6)    # shape: (5, 6)
-        
-        # --- Extract lane one-hot vectors and y-values ---
-        obstacle_lanes = obstacles[:, :5]         # shape: (4, 5)
-        obstacle_ys    = obstacles[:, 5]            # shape: (4,)
-        
-        coin_lanes = coins[:, :5]                 # shape: (5, 5)
-        coin_ys    = coins[:, 5]                  # shape: (5,)
-        
-        # Clamp y-values to a minimum of 0 so that negative y (coming in) becomes 0.
-        obstacle_ys = obstacle_ys.clamp(min=0)
-        coin_ys = coin_ys.clamp(min=0)
-        
-        # --- Mask: which objects are in the same lane as the car ---
-        same_lane_obstacles = (obstacle_lanes == car_lane_onehot).all(dim=1)  # shape: (4,)
-        same_lane_coins     = (coin_lanes == car_lane_onehot).all(dim=1)      # shape: (5,)
-        
-        # --- Filter y-values for objects in the same lane ---
-        obstacle_y_filtered = obstacle_ys[same_lane_obstacles]
-        coin_y_filtered     = coin_ys[same_lane_coins]
-        
-        # --- Find the sprite with maximum y (closest to the car) ---
-        found = False
-        closest_y = 0.0
-        closest_type = None
+    def first_sprite_in_lane(self, state: torch.Tensor):
+        # Channels
+        CAR, OBSTACLE, COIN = 0, 1, 2
 
-        if obstacle_y_filtered.numel() > 0:
-            candidate = obstacle_y_filtered.max().item()
-            closest_y = candidate
-            closest_type = -1  # obstacle
-            found = True
+        # 1. Find car's lane from row 130
+        car_row = state[CAR, 130, :]  # shape: (5,)
+        car_lane = torch.nonzero(car_row).item()  # lane index (0–4)
 
-        if coin_y_filtered.numel() > 0:
-            candidate = coin_y_filtered.max().item()
-            if (not found) or (candidate >= closest_y):
-                closest_y = candidate
-                closest_type = 1  # coin
-                found = True
+        # 2. Extract the obstacle and coin column (up to row 130)
+        obs_col = state[OBSTACLE, :130, car_lane]  # shape: (130,)
+        coin_col = state[COIN, :130, car_lane]     # shape: (130,)
 
-        if not found:
-            return None, 0.0
+        # 3. Find row indices where object exists
+        obs_rows = torch.nonzero(obs_col, as_tuple=False).squeeze()
+        coin_rows = torch.nonzero(coin_col, as_tuple=False).squeeze()
+
+        # 4. Get bottom row (max row index) for each object type
+        obs_bottom = obs_rows.max().item() if obs_rows.numel() > 0 else -1
+        coin_bottom = coin_rows.max().item() if coin_rows.numel() > 0 else -1
+
+        # 5. Determine first visible object (closest to car)
+        if obs_bottom == -1 and coin_bottom == -1:
+            return None  # no object found
+
+        if obs_bottom > coin_bottom:
+            return obs_bottom, -1  # obstacle is closer
         else:
-            return closest_type, closest_y
+            return coin_bottom, 1  # coin is closer
 
         
     def lane_to_one_hot (self, lane):
@@ -235,17 +215,17 @@ class Environment:
 
     def immediate_reward(self, state, next_state):
         # Extract lane information 
-        lane1 = self.one_hot_to_lane(state[:5].tolist())
-        lane2 = self.one_hot_to_lane(next_state[:5].tolist())
+        car1_row = state[0, 130, :]  # shape: (5,)
+        lane1 = torch.nonzero(car1_row).item()  # lane index (0–4)
+        
+        car2_row = next_state[0, 130, :]  # shape: (5,)
+        lane2 = torch.nonzero(car2_row).item()  # lane index (0–4)
+        
     
         # Get sprite type and metric from the lane.
         type1, max_y1 = self.first_sprite_in_lane(state)
         type2, max_y2 = self.first_sprite_in_lane(next_state)
-        
-        # Ensure positions are non-negative.
-        max_y1 = max(0, max_y1)
-        max_y2 = max(0, max_y2)
-        
+                
         reward = 0
         
         # If there's no sprite in either state, no immediate reward.
