@@ -16,8 +16,8 @@ out_ch1 = 32
 out_ch2 = 64
 out_ch3 = 64
 
-out_layer1 = 512
-out_layer2 = 512
+out_layer1 = 128
+out_layer2 = 128
 
 gamma = 0.99 
  
@@ -31,12 +31,13 @@ class Duelimg_CNN_DQN (nn.Module):
         # Feature extraction layers
         self.conv1 = nn.Conv2d(input_channels, out_ch1, kernel_size=Kernel, stride=stride, padding=padding)
         self.conv2 = nn.Conv2d(out_ch1, out_ch2, kernel_size=Kernel, stride=stride, padding=padding)
-        self.conv3 = nn.Conv2d(out_ch2, out_ch3, kernel_size=Kernel, stride=stride, padding=padding)
+        # self.conv3 = nn.Conv2d(out_ch2, out_ch3, kernel_size=Kernel, stride=stride, padding=padding)
         
         # Dynamically determine flattened CNN output size
         with torch.no_grad():
             dummy = torch.zeros(1, input_channels, rows, columns)
-            dummy = self.conv3(self.conv2(self.conv1(dummy)))
+            # dummy = self.conv3(self.conv2(self.conv1(dummy)))
+            dummy = self.conv2(F.relu(self.conv1(dummy)))
             self.linear_input_size = dummy.view(1, -1).size(1)
             
         # Dueling architecture streams
@@ -52,7 +53,7 @@ class Duelimg_CNN_DQN (nn.Module):
         x = x.to(self.device)
         x = F.relu(self.conv1(x))
         x = F.relu(self.conv2(x))
-        x = F.relu(self.conv3(x))
+        # x = F.relu(self.conv3(x))
         x = x.view(x.size(0), -1)  # Flatten the tensor. x.size(0)= batch_size
         
         # Advantage stream

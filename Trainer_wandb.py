@@ -39,7 +39,7 @@ def main (chck):
     player = AI_Agent(dqn_model,device=device)
     player_hat = AI_Agent(dqn_model,device=device)
     player_hat.dqn_model = player.dqn_model.copy()
-    batch_size = 128
+    batch_size = 64
     buffer = ReplayBuffer(path=None)
     learning_rate = 0.001
     ephocs = 200000
