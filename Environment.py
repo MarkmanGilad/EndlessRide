@@ -5,7 +5,7 @@ import torch
 
 
 class Environment:
-    def __init__(self, chck = 1) -> None:
+    def __init__(self, chkpt = 1) -> None:
         self.car = Car(2)
         self.obstacles_group = pygame.sprite.Group()
         self.good_points_group= pygame.sprite.Group()
@@ -16,7 +16,7 @@ class Environment:
         self.lose_reward = -1
         self.change_line_reward = 0
         self.i_reward = 0.03
-        self.chck = chck
+        self.chkpt = chkpt
         
 
     def move (self, action):

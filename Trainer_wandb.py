@@ -10,7 +10,7 @@ from CNN_DQN import Duelimg_CNN_DQN as DQN
 import torch
 import wandb
 import os
-def main (chck):
+def main (chkpt):
 
     pygame.init()
     
@@ -22,7 +22,7 @@ def main (chck):
     MODEL_PATH = "model/DQN.pth"  # Ensure cross-platform path
     clock = pygame.time.Clock()
     background = Background(WINDOWWIDTH, WINDOWHEIGHT) 
-    env = Environment(chck)
+    env = Environment(chkpt)
     background.render(env)
     best_score = 0
     if torch.cuda.is_available():
@@ -217,7 +217,7 @@ if __name__ == "__main__":
     if not os.path.exists("Data/checkpoit_num"):
         torch.save(101, "Data/checkpoit_num")    
     
-    chck = torch.load("Data/checkpoit_num")
-    chck += 1
-    torch.save(chck, "Data/checkpoit_num")    
-    main (chck)
+    chkpt = torch.load("Data/checkpoit_num")
+    chkpt += 1
+    torch.save(chkpt, "Data/checkpoit_num")    
+    main (chkpt)

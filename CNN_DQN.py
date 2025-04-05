@@ -30,7 +30,7 @@ class Duelimg_CNN_DQN (nn.Module):
         self.pool1 = nn.MaxPool2d(kernel_size=(5, 1), stride=(3, 1))  # Reduce 140 → 46 rows
         
         # Conv Layer 2: deeper row patterns
-        self.conv2 = nn.Conv2d(out_ch1, out_ch2, kernel_size=(3,1), stride=(1,1), padding=(1,0))
+        self.conv2 = nn.Conv2d(out_ch1, out_ch2, kernel_size=(5,1), stride=(1,1), padding=(2,0))
         self.pool2 = nn.MaxPool2d(kernel_size=(5, 1), stride=(2, 1))  # Reduce 46 → 21 rows
         
         # Conv Layer 3: cross-lane + row features
