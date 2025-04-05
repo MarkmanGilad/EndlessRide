@@ -22,7 +22,7 @@ def main (chck):
     MODEL_PATH = "model/DQN.pth"  # Ensure cross-platform path
     clock = pygame.time.Clock()
     background = Background(WINDOWWIDTH, WINDOWHEIGHT) 
-    env = Environment()
+    env = Environment(chck)
     background.render(env)
     best_score = 0
     if torch.cuda.is_available():

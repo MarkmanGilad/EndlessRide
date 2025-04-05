@@ -57,26 +57,13 @@ class Background:
         self.surface.fill(GRAY)
         self.draw_dashed_lines()
 
-    # def render(self, env):
-    #     #self.good=Environment.score
-    #     self.draw_surface()
-    #     self.display.blit(self.header_surf, (0, 0))
-    #     self.display.blit(self.surface, (0, 100))
-    #     self.write (surface=self.header_surf, text="Score: " + str(env.score))
     
-    #     for obstacle in env.obstacles_group:
-    #         if obstacle.rect.colliderect(self.header_rect):
-    #             obstacle.visible = False
-    #         else:
-    #             obstacle.visible = True
-    #     env.car.draw(self.display)
-    #     env.obstacles_group.draw(self.display)
-    #     env.good_points_group.draw(self.display)  
     def render(self, env):
         self.draw_surface()  # Redraw scrolling background
        
         # Draw the score
-        self.write(surface=self.header_surf, text="Score: " + str(env.score))
+        text = f"Score: {str(env.score)} chkpt: {str(env.chkpt)} "
+        self.write(surface=self.header_surf, text=text)
 
         # Draw obstacles and good points with an offset
         for obstacle in env.obstacles_group:
