@@ -144,7 +144,7 @@ class Environment:
                 if top_row < bottom_row:
                     grid[2, top_row:bottom_row, lane] = 1.0
 
-        return grid.unsqueeze(0)
+        return grid
 
 
     def update (self,action):
@@ -223,7 +223,7 @@ class Environment:
             state = state.squeeze(0)
         if next_state.dim() == 4:
             next_state = next_state.squeeze(0)
-            
+
         # Extract lane information 
         car1_row = state[0, 130, :]  # shape: (5,)
         lane1 = torch.nonzero(car1_row).item()  # lane index (0–4)

@@ -11,9 +11,10 @@ class ReplayBuffer_n_step:
         self.n_step = n_step
         self.gamma = gamma
         self.temp_buffer = deque()
-        self.running_return = torch.zeros(1, 1, dtype=torch.float32)
+        self.running_return = torch.tensor(0.0, dtype=torch.float32)
         
     def push(self, state, action, reward, next_state, done):
+        
         # Append new transition
         self.temp_buffer.append((state, action, reward, next_state, done))
 
