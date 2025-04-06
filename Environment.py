@@ -155,7 +155,7 @@ class Environment:
 
         state = torch.full((LANES, OBJECTS, CHANNELS), fill_value=0, dtype=torch.float32)
         state[:, :, 1] = -1.0  # Set default distance to -1 (padding)
-        state[self.car.lane:, 2] = 1.0 # mark entire lane as the current car lane
+        state[self.car.lane,:, 2] = 1.0 # mark entire lane as the current car lane
 
         for lane in range(LANES):
             combined = obs_lanes[lane] + coin_lanes[lane]
