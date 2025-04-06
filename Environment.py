@@ -140,7 +140,7 @@ class Environment:
 
     def state_relative (self):
         HEIGHT = 700
-        LANES, OBJECTS, OBJ_TYPE = 5, 10, 2
+        LANES, OBJECTS, CHANNELS = 5, 10, 3 # channel 0 - object_type; 1 - dist; 2 - is it car lane (1/0)
         obs_lanes = [[],[],[],[],[]]
         coin_lanes = [[],[],[],[],[]]
         for obstacle in self.obstacles_group:
@@ -153,9 +153,10 @@ class Environment:
             dist = HEIGHT - coin.rect.bottom
             coin_lanes[lane].append([1, dist])
 
-        state = torch.full((5, 10, 2), fill_value=0, dtype=torch.float32)
+        state = torch.full((LANES, OBJECTS, CHANNELS), fill_value=0, dtype=torch.float32)
         state[:, :, 1] = -1.0  # Set default distance to -1 (padding)
-        
+        state[self.car.lane:, 2] = 1.0 # mark entire lane as the current car lane
+
         for lane in range(LANES):
             combined = obs_lanes[lane] + coin_lanes[lane]
             sorted_by_dist = sorted(combined, key=lambda x: x[1])  # Sort by distance
@@ -164,7 +165,7 @@ class Environment:
                 state[lane, i, 0] = obj_type
                 state[lane, i, 1] = dist / HEIGHT # normalized
 
-        return state  # shape: [5, 10, 2]
+        return state.permute(2, 1, 0)  # shape: [3, 10, 5]
 
 
 
@@ -234,6 +235,68 @@ class Environment:
         return lane_lst.index(1)
 
     def immediate_reward(self, state, next_state):
+        if state.dim() == 4:
+            state = state.squeeze(0)
+        if next_state.dim() == 4:
+            next_state = next_state.squeeze(0)
+
+        # Current state
+        lane1 = torch.argmax(state[2, 0, :]).item()
+        type1 = state[0, 0, lane1].item()
+        dist1 = max(state[1, 0, lane1].item(), 0)   # not negative
+
+        # Next state
+        lane2 = torch.argmax(next_state[2, 0, :]).item()
+        type2 = next_state[0, 0, lane2].item()
+        dist2 = max(next_state[1, 0, lane2].item(), 0)  # not negative
+
+        reward = 0
+        
+        # If there's no sprite in either state, no immediate reward.
+        if type1 == 0 and type2 == 0:
+            return reward
+
+        # Case 1: Staying in a coin lane.
+        if type1 == 1 and type2 == 1:
+            reward = self.i_reward * (1-dist2)
+
+        # Case 2: Staying in an obstacle lane.
+        elif type1 == -1 and type2 == -1:
+            reward = -self.i_reward * (1-dist2)
+
+        # Case 3: Transition from obstacle to coin.
+        elif type1 == -1 and type2 == 1:
+            reward = self.i_reward * ((1-dist2) + (1-dist1))
+        
+        # Case 4: Transition from coin to obstacle.
+        elif type1 == 1 and type2 == -1:
+            if lane1 == lane2:  # Car stayed in lane: coin was collected.
+                reward += 0   #reward elsewhere   
+            else:
+                reward = -self.i_reward * ((1-dist2) + (1-dist1))
+
+        # Case 5: Transition from coin to clear.
+        elif type1 == 1 and type2 == 0:
+            if lane1 == lane2: # Collected coin
+                reward += 0   #reward elsewhere 
+            else:
+                reward = -self.i_reward * (1-dist1)  # Left coin behind.
+
+        # Case 6: Transition from obstacle to clear.
+        elif type1 == -1 and type2 == 0:
+            reward = self.i_reward * (1-dist1)
+
+        # Case 7: Transition from clear to coin.
+        elif type1 == 0 and type2 == 1:
+            reward = self.i_reward * (1-dist2)
+
+        # Case 8: Transition from clear to obstacle.
+        elif type1 == 0 and type2 == -1:
+            reward = -self.i_reward * (1-dist2)
+
+        return reward
+
+    def immediate_reward_copy(self, state, next_state):
         # Unwrap batch dimension: [1, 3, 140, 5] → [3, 140, 5]
         if state.dim() == 4:
             state = state.squeeze(0)
@@ -297,6 +360,7 @@ class Environment:
             reward = -self.i_reward * max_y2
 
         return reward
+
 
     def new_game(self):
         self.car.lane = 2

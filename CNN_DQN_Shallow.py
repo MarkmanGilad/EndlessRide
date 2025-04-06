@@ -4,7 +4,7 @@ import torch.nn.functional as F
 import copy
 
 # Parameters
-INPUT_CHANNELS = 2      # [type, distance]
+INPUT_CHANNELS = 3      # [type, distance]
 INPUT_ROWS = 10
 INPUT_COLS = 5
 NUM_ACTIONS = 3
@@ -52,7 +52,7 @@ class Duelimg_CNN_DQN (nn.Module):
         return q_values
     
     def loss (self, Q_values, rewards, Q_next_Values, dones ):
-        Q_new = rewards.to(self.device) + gamma * Q_next_Values.to(self.device) * (1- dones.to(self.device))
+        Q_new = rewards.to(self.device) + GAMMA * Q_next_Values.to(self.device) * (1- dones.to(self.device))
         return self.MSELoss(Q_values, Q_new)
     
     def load_params(self, path):
