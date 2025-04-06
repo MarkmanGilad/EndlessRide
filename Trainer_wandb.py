@@ -23,7 +23,6 @@ def main (chkpt):
     clock = pygame.time.Clock()
     background = Background(WINDOWWIDTH, WINDOWHEIGHT) 
     env = Environment(chkpt)
-    background.render(env)
     best_score = 0
     if torch.cuda.is_available():
         device = torch.device('cuda')
@@ -32,7 +31,7 @@ def main (chkpt):
         device = torch.device('cpu')
         print("CPU")
     
-    ####### params and models ############
+    #region###### params and models ############
     dqn_model = DQN(device=device)
     # dqn_model.load_params(MODEL_PATH)
     print("Model loaded successfully!")
@@ -53,9 +52,9 @@ def main (chkpt):
     # scheduler = torch.optim.lr_scheduler.StepLR(optim,100000, gamma=0.50)
     scheduler = torch.optim.lr_scheduler.MultiStepLR(optim,[5000*200, 10000*200, 20000*200], gamma=0.5)
     step = 0
-
+    #endregion
     #region######## checkpoint Load ############
-    num = chck
+    num = chkpt
     checkpoint_path = f"Data/checkpoint{num}.pth"
     buffer_path = f"Data/buffer{num}.pth"
     resume_wandb = False
@@ -145,7 +144,7 @@ def main (chkpt):
                 background.render(env)
 
             state = next_state
-            pygame.display.flip()
+            
             
             if len(buffer) < MIN_BUFFER:
                 continue

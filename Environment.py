@@ -2,6 +2,7 @@ from sprites import *
 import torch
 import graphics as D
 import torch
+from game import game
 
 
 class Environment:
@@ -70,18 +71,12 @@ class Environment:
         return len(colides) ==0
 
     def AddGood(self):
-        # pointCollided=pygame.sprite.spritecollide(self.car,self.good_points_group,True)
-        # if len(pointCollided) != 0:
-        #     self.score+=1
-        # Custom collision detection for coins
+        
         if len(pygame.sprite.spritecollide(self.car,self.good_points_group,True)) !=0:
              self.score += 1  # Increment the score
              self.reward+=self.coin_reward
-        # for sprite in self.good_points_group:
-        #     rect = sprite.rect
-
+        
     def reset(self):#for AI, we dont need screen,  print is good enough.
-        from game import game
         print(self.score)
         game.loop()
 
@@ -115,17 +110,15 @@ class Environment:
 
         # --- 1. Car (always in bounds, occupies 100px = 20 rows) ---
         car_lane = self.car.lane
-        car_y = 600  # top of the car
-        car_top = int(car_y / 5)           # = 120
-        car_bottom = int((car_y + 100) / 5)  # = 140
-
-        # No need for lane check; guaranteed to be valid
+        car_y = self.car.rect.y   # top of the car 590
+        car_top = int(car_y / 5)           # = 118
+        car_bottom = int((car_y + 100) // 5)  # = 138
         grid[0, car_top:car_bottom, car_lane] = 1.0  # No +1 because upper bound is exclusive
 
         # --- 2. Obstacles ---
         for obstacle in self.obstacles_group:
             lane = obstacle.lane
-            y = obstacle.rect.y
+            y = obstacle.rect.y 
 
             top_row = max(int(y / 5), 0)
             bottom_row = min(int((y + 50) / 5), 140)
@@ -134,14 +127,11 @@ class Environment:
                 grid[1, top_row:bottom_row, lane] = 1.0
 
         # --- 3. Good Points (Coins) ---
-        for good_point in GoodPoint.indecis:
-            if good_point:
+        for good_point in self.good_points_group:
                 lane = good_point.lane
-                y = good_point.rect.y
-
+                y = good_point.rect.y 
                 top_row = max(int(y / 5), 0)
                 bottom_row = min(int((y + 50) / 5), 140)
-
                 if top_row < bottom_row:
                     grid[2, top_row:bottom_row, lane] = 1.0
 
@@ -150,6 +140,7 @@ class Environment:
 
     def update (self,action):
         self.reward=0
+        self.score +=0.1
         prev_lane=self.car.lane
         self.move(action=action)
         if self.car.lane != prev_lane:
@@ -164,19 +155,12 @@ class Environment:
         self.AddGood()
         if not self.car_colide():
            return (True,self.lose_reward)  #lose reward
-        
-        for obstacle in self.obstacles_group:
-            if obstacle.rect.top > 800 :
-                obstacle.kill()
-                self.obstacles_group.remove(obstacle)
-        for GoodPoint in self.good_points_group:
-            if GoodPoint.rect.top > 800 :
-                GoodPoint.kill()
-                self.good_points_group.remove(GoodPoint)
+                
         return (False,self.reward)
         
                  
     def first_sprite_in_lane(self, state: torch.Tensor):
+        car_top_row = 118
         # Unwrap batch dimension: [1, 3, 140, 5] → [3, 140, 5]
         if state.dim() == 4:
             state = state.squeeze(0)
@@ -185,12 +169,12 @@ class Environment:
         CAR, OBSTACLE, COIN = 0, 1, 2
 
         # 1. Find car's lane from row 130
-        car_row = state[CAR, 130, :]  # shape: (5,)
+        car_row = state[CAR, car_top_row, :]  # shape: (5,)
         car_lane = torch.nonzero(car_row).item()  # lane index (0–4)
 
         # 2. Extract the obstacle and coin column (up to row 130)
-        obs_col = state[OBSTACLE, :130, car_lane]  # shape: (130,)
-        coin_col = state[COIN, :130, car_lane]     # shape: (130,)
+        obs_col = state[OBSTACLE, :car_top_row, car_lane]  # shape: (130,)
+        coin_col = state[COIN, :car_top_row, car_lane]     # shape: (130,)
 
         # 3. Find row indices where object exists
         obs_rows = torch.nonzero(obs_col, as_tuple=False).squeeze()
@@ -282,7 +266,6 @@ class Environment:
             reward = -self.i_reward * max_y2
 
         return reward
-    
 
     def new_game(self):
         self.car.lane = 2
