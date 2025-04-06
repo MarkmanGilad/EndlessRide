@@ -12,10 +12,10 @@ class Environment:
         #self.spawn_timer = 0
         self.score=0
         GoodPoint.indecis = [None] * 5
-        self.coin_reward = 5
-        self.lose_reward = -10
+        self.coin_reward = 0.5
+        self.lose_reward = -0.1
         self.change_line_reward = 0
-        self.i_reward = 0.02
+        self.i_reward = 0.002
         self.chkpt = chkpt
         self.car_top_row = 118
 
