@@ -4,9 +4,9 @@ import torch.nn.functional as F
 import copy
 
 # Parameters
-input_size = 59 # Q(state) see environment for state shape
-layer1 = 128
-layer2 = 256
+input_size = 150 # Q(state) see environment for state shape
+layer1 = 256
+layer2 = 512
 layer3 = 128
 output_size = 3 # Q(state)-> 4 value of stay, left, right, shoot
 gamma = 0.99 
@@ -23,6 +23,7 @@ class DQN (nn.Module):
         self.MSELoss = nn.MSELoss()
 
     def forward (self, x):
+        x = x.view(x.size(0), -1)  # Flatten to [B, 150]
         x=x.to(self.device)
         x = self.linear1(x)
         x = F.relu(x)
