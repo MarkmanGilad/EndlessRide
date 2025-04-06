@@ -140,7 +140,7 @@ class Environment:
 
     def update (self,action):
         self.reward=0
-        self.score +=0.1
+        # self.score +=0.1
         prev_lane=self.car.lane
         self.move(action=action)
         if self.car.lane != prev_lane:
@@ -186,7 +186,7 @@ class Environment:
 
         # 5. Determine first visible object (closest to car)
         if obs_bottom == -1 and coin_bottom == -1:
-            return None, 0  # no object found
+            return 0, None  # no object found
 
         if obs_bottom > coin_bottom:
             return obs_bottom, -1  # obstacle is closer
