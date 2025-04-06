@@ -18,6 +18,7 @@ class Environment:
         self.i_reward = 0.002
         self.chkpt = chkpt
         self.car_top_row = 118
+        self.car_top = 590
 
     def move (self, action):
         lane = self.car.lane
@@ -136,6 +137,36 @@ class Environment:
                     grid[2, top_row:bottom_row, lane] = 1.0
 
         return grid
+
+    def state_relative (self):
+        HEIGHT = 700
+        LANES, OBJECTS, OBJ_TYPE = 5, 10, 2
+        obs_lanes = [[],[],[],[],[]]
+        coin_lanes = [[],[],[],[],[]]
+        for obstacle in self.obstacles_group:
+            lane = obstacle.lane
+            dist = HEIGHT - obstacle.rect.bottom
+            obs_lanes[lane].append([-1, dist])
+
+        for coin in self.good_points_group:
+            lane = coin.lane
+            dist = HEIGHT - coin.rect.bottom
+            coin_lanes[lane].append([1, dist])
+
+        state = torch.full((5, 10, 2), fill_value=0, dtype=torch.float32)
+        state[:, :, 1] = -1.0  # Set default distance to -1 (padding)
+        
+        for lane in range(LANES):
+            combined = obs_lanes[lane] + coin_lanes[lane]
+            sorted_by_dist = sorted(combined, key=lambda x: x[1])  # Sort by distance
+
+            for i, (obj_type, dist) in enumerate(sorted_by_dist[:OBJECTS]):
+                state[lane, i, 0] = obj_type
+                state[lane, i, 1] = dist / HEIGHT # normalized
+
+        return state  # shape: [5, 10, 2]
+
+
 
 
     def update (self,action):
