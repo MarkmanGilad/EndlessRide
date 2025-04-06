@@ -174,7 +174,7 @@ def main (chkpt):
 
         #region log & print########################################
         print (f'chkpt: {num} epoch: {epoch} loss: {loss:.7f} LR: {scheduler.get_last_lr()}  ' \
-               f'score: {env.score} step {step} ')
+               f'score: {round(env.score,1)} step {step} ')
         
         if epoch % 10 == 0:
             scores.append(env.score)

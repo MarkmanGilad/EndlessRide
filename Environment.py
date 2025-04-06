@@ -12,10 +12,10 @@ class Environment:
         #self.spawn_timer = 0
         self.score=0
         GoodPoint.indecis = [None] * 5
-        self.coin_reward = 0.5
-        self.lose_reward = -1
+        self.coin_reward = 5
+        self.lose_reward = -10
         self.change_line_reward = 0
-        self.i_reward = 0.002
+        self.i_reward = 0.02
         self.chkpt = chkpt
         self.car_top_row = 118
 
@@ -242,14 +242,14 @@ class Environment:
         # Case 4: Transition from coin to obstacle.
         elif type1 == 1 and type2 == -1:
             if lane1 == lane2:  # Car stayed in lane: coin was collected.
-                reward += self.i_reward * max_y1   #get extra reward for collecting   
+                reward += 0   #reward elsewhere   
             else:
                 reward = -self.i_reward * (max_y2 + max_y1)
 
         # Case 5: Transition from coin to clear.
         elif type1 == 1 and type2 is None:
             if lane1 == lane2: # Collected coin
-                reward += self.i_reward * max_y1   #get extra reward for collecting.
+                reward += 0   #reward elsewhere 
             else:
                 reward = -self.i_reward * max_y1  # Left coin behind.
 
