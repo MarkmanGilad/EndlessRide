@@ -2,7 +2,6 @@ from sprites import *
 import torch
 import graphics as D
 import torch
-from game import game
 
 
 class Environment:
@@ -16,9 +15,9 @@ class Environment:
         self.coin_reward = 0.5
         self.lose_reward = -1
         self.change_line_reward = 0
-        self.i_reward = 0.03
+        self.i_reward = 0.002
         self.chkpt = chkpt
-        
+        self.car_top_row = 118
 
     def move (self, action):
         lane = self.car.lane
@@ -55,6 +54,8 @@ class Environment:
             obstacle.rect.y = -obstacle.rect.height  # Spawn at the top of the screen
             if self._check_obstacle_placement(obstacle) and self.Max_obstacle_check() is False:
                 self.obstacles_group.add(obstacle)
+            else:
+                obstacle.kill()
 
     def add_coins (self):                                                           ###### Gilad
         # Spawn good points (optional)
@@ -71,7 +72,6 @@ class Environment:
         return len(colides) ==0
 
     def AddGood(self):
-        
         if len(pygame.sprite.spritecollide(self.car,self.good_points_group,True)) !=0:
              self.score += 1  # Increment the score
              self.reward+=self.coin_reward
@@ -160,7 +160,7 @@ class Environment:
         
                  
     def first_sprite_in_lane(self, state: torch.Tensor):
-        car_top_row = 118
+        car_top_row = self.car_top_row
         # Unwrap batch dimension: [1, 3, 140, 5] → [3, 140, 5]
         if state.dim() == 4:
             state = state.squeeze(0)
@@ -210,16 +210,16 @@ class Environment:
             next_state = next_state.squeeze(0)
 
         # Extract lane information 
-        car1_row = state[0, 130, :]  # shape: (5,)
+        car1_row = state[0, self.car_top_row, :]  # shape: (5,)
         lane1 = torch.nonzero(car1_row).item()  # lane index (0–4)
         
-        car2_row = next_state[0, 130, :]  # shape: (5,)
+        car2_row = next_state[0, self.car_top_row, :]  # shape: (5,)
         lane2 = torch.nonzero(car2_row).item()  # lane index (0–4)
         
     
         # Get sprite type and metric from the lane.
-        type1, max_y1 = self.first_sprite_in_lane(state)
-        type2, max_y2 = self.first_sprite_in_lane(next_state)
+        max_y1, type1  = self.first_sprite_in_lane(state)
+        max_y2, type2  = self.first_sprite_in_lane(next_state)
                 
         reward = 0
         

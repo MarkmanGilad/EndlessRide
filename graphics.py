@@ -1,5 +1,5 @@
 import pygame
-from Environment import *
+# from Environment import *
 #from game import game
 # Colors
 GRAY = (128, 128, 128)
@@ -66,7 +66,7 @@ class Background:
         self.display.blit(self.header_surf, (0, 0))  # Draw the header
         self.display.blit(self.surface, (0, 100))  # Draw the main play surface
         pygame.display.flip()
-        
+
     def end_screen(self):
         # Draw the background for the end screen (gray or any other color)
         

@@ -102,7 +102,7 @@ def main (chkpt):
 
     for epoch in range(start_epoch, ephocs):
         step = 0
-        #clock = pygame.time.Clock()
+        clock = pygame.time.Clock()
         env.new_game()
         background.render(env)
 
@@ -110,6 +110,7 @@ def main (chkpt):
         state = env.state2D()
         
         while not end_of_game:
+            # clock.tick(60)
             step += 1
             pygame.event.pump()
             events = pygame.event.get()
@@ -139,6 +140,7 @@ def main (chkpt):
                         next_state, torch.tensor(done, dtype=torch.float32))
             if done:
                 best_score = max(best_score, env.score)
+                # background.render(env)
                 break
             else:
                 background.render(env)
