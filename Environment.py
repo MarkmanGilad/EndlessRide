@@ -15,7 +15,7 @@ class Environment:
         self.coin_reward = 3
         self.lose_reward = -5
         self.change_line_reward = 0
-        self.i_reward = 0.002
+        self.i_reward = 0.02
         self.chkpt = chkpt
         self.car_top_row = 118
         self.car_top = 590
