@@ -167,8 +167,25 @@ class Environment:
 
         return state.permute(2, 1, 0)  # shape: [3, 10, 5]
 
+    def state_simple(self):
+        # 1. Car's Lane
+        car_lane = self.lane_to_one_hot(self.car.lane)  # Add the car's lane 1-5
+        obj_front = [0,0,0,0,0]
+        for obstacle in self.obstacles_group:
+            lane = obstacle.lane
+            dist = -obstacle.rect.bottom
+            if abs(obj_front[self.car.lane]) < abs(dist):
+                obj_front[self.car.lane] = dist
 
+        for coin in self.good_points_group:
+            lane = coin.lane
+            dist = coin.rect.bottom
+            if abs(obj_front[self.car.lane]) < abs(dist):
+                obj_front[self.car.lane] = dist
 
+        state_lst = car_lane + obj_front
+        state = torch.tensor([state_lst],dtype=torch.float32)
+        return state
 
     def update (self,action):
         self.reward=0

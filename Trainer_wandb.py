@@ -7,6 +7,8 @@ from Environment import Environment
 from ReplayBuffer_n_step import ReplayBuffer_n_step as ReplayBuffer
 from AI_Agent import AI_Agent
 from CNN_DQN_Shallow import Duelimg_CNN_DQN as DQN
+# from DuelingDQN import DQN as DQN
+# from DQN import DQN
 import torch
 import wandb
 import os

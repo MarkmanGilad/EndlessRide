@@ -4,10 +4,10 @@ import torch.nn.functional as F
 import copy
 
 # Parameters
-input_size = 150 # Q(state) see environment for state shape
-layer1 = 256
-layer2 = 512
-layer3 = 128
+input_size = 10 # Q(state) see environment for state shape
+layer1 = 64
+layer2 = 128
+layer3 = 64
 output_size = 3 # Q(state)-> 4 value of stay, left, right, shoot
 gamma = 0.99 
  
@@ -15,7 +15,7 @@ gamma = 0.99
 class DQN (nn.Module):
     def __init__(self, device = torch.device('cpu')) -> None:
         super().__init__()
-        self.device = device
+        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         self.linear1 = nn.Linear(input_size, layer1,device=device)
         self.linear2 = nn.Linear(layer1, layer2,device=device)
         self.linear3 = nn.Linear(layer2, layer3,device=device)
@@ -23,7 +23,7 @@ class DQN (nn.Module):
         self.MSELoss = nn.MSELoss()
 
     def forward (self, x):
-        x = x.view(x.size(0), -1)  # Flatten to [B, 150]
+        x = x.reshape(x.size(0), -1)  # Flatten to [B, 150]
         x=x.to(self.device)
         x = self.linear1(x)
         x = F.relu(x)
@@ -31,10 +31,6 @@ class DQN (nn.Module):
         x = F.relu(x)
         x = self.linear3(x)
         x = F.relu(x)
-        # x = self.linear4(x)
-        # x = F.leaky_relu(x)
-        # x = self.linear5(x)
-        # x = F.leaky_relu(x)
         x = self.output(x)
         return x
     

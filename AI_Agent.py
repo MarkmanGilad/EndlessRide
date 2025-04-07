@@ -9,7 +9,7 @@ class AI_Agent:
         self.train = train
         #epsilon_start, epsilon_final, epsiln_decay = 1, 0.01, 5000
 
-    def epsilon_greedy(self,epoch, start = 1, final=0.01, decay=1000):
+    def epsilon_greedy(self,epoch, start = 1, final=0.05, decay=2000):
         # res = final + (start - final) * math.exp(-1 * epoch/decay)
         if epoch < decay:
             return start - (start - final) * epoch/decay

@@ -4,17 +4,17 @@ import torch.nn.functional as F
 import copy
 
 # Parameters
-input_size = 59  # Q(state) see environment for state shape
+input_size = 150  # Q(state) see environment for state shape
 layer1 = 128
-layer2 = 256
-layer3 = 128
+layer2 = 64
+layer3 = 32
 output_size = 3  # Q(state) -> 3 actions: e.g., stay, left, right (or shoot, etc.)
 gamma = 0.99 
  
 class DQN(nn.Module):
     def __init__(self, device=torch.device('cpu')) -> None:
         super().__init__()
-        self.device = device
+        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         self.linear1 = nn.Linear(input_size, layer1, device=device)
         self.linear2 = nn.Linear(layer1, layer2, device=device)
         self.linear3 = nn.Linear(layer2, layer3, device=device)
@@ -27,7 +27,7 @@ class DQN(nn.Module):
         self.huber_loss = nn.SmoothL1Loss()
     
     def forward(self, x):
-        x = x.view(x.size(0), -1)  # Flatten to [B, 150]
+        x = x.reshape(x.size(0), -1)  # Flatten to [B, 150]
         x = x.to(self.device)
         x = F.relu(self.linear1(x))
         x = F.relu(self.linear2(x))

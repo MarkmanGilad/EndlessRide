@@ -18,14 +18,16 @@ class Duelimg_CNN_DQN (nn.Module):
         self.MSELoss = nn.MSELoss()
 
         # Convolutions: keep spatial resolution
-        self.conv1 = nn.Conv2d(INPUT_CHANNELS, 32, kernel_size=(3, 3), padding=1)  # Output: [B, 32, 10, 5]
-        self.conv2 = nn.Conv2d(32, 64, kernel_size=(3, 3), padding=1)              # Output: [B, 64, 10, 5]
+        self.conv1 = nn.Conv2d(INPUT_CHANNELS, 16, kernel_size=(3, 3), padding=1)  # Output: [B, 16, 10, 5]
+        self.conv2 = nn.Conv2d(16, 32, kernel_size=(3, 3), padding=1)              # Output: [B, 32, 10, 5]
+        self.pool = nn.MaxPool2d(kernel_size=(2, 2))
 
         # Dynamically determine flattened CNN output size
         with torch.no_grad():
             dummy = torch.zeros(1, INPUT_CHANNELS, INPUT_ROWS, INPUT_COLS)
             x = F.relu(self.conv1(dummy))
             x = F.relu(self.conv2(x))
+            x = self.pool(x)
             self.linear_input_size = x.view(1, -1).size(1)
             
         # Dueling heads
@@ -40,6 +42,8 @@ class Duelimg_CNN_DQN (nn.Module):
         x = x.to(self.device)  # Expecting shape: [B, 2, 10, 5]
         x = F.relu(self.conv1(x))
         x = F.relu(self.conv2(x))
+        x = self.pool(x)
+
         x = x.view(x.size(0), -1)
 
         adv = F.relu(self.fc1_adv(x))
