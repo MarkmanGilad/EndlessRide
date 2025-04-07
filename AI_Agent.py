@@ -8,12 +8,16 @@ class AI_Agent:
         self.device = device
         self.train = train
         #epsilon_start, epsilon_final, epsiln_decay = 1, 0.01, 5000
+        self.start = 1
+        self.final = 0.1
+        self.decay = 5000
 
-    def epsilon_greedy(self,epoch, start = 1, final=0.05, decay=2000):
+    def epsilon_greedy(self,epoch):
         # res = final + (start - final) * math.exp(-1 * epoch/decay)
-        if epoch < decay:
-            return start - (start - final) * epoch/decay
-        return final
+        return max(self.final, self.start - (self.start - self.final) * epoch/self.decay )
+        # if epoch < decay:
+        #     return start - (start - final) * epoch/decay
+        # return final
     
     def getAction(self, state, epoch = 0, events= None, train = True):
         """Get the action based 

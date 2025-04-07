@@ -13,9 +13,9 @@ class Environment:
         self.score=0
         GoodPoint.indecis = [None] * 5
         self.coin_reward = 3
-        self.lose_reward = -5
+        self.lose_reward = -1
         self.change_line_reward = 0
-        self.i_reward = 0.02
+        self.i_reward = 0.1
         self.chkpt = chkpt
         self.car_top_row = 118
         self.car_top = 590
@@ -173,18 +173,18 @@ class Environment:
         obj_front = [0,0,0,0,0]
         for obstacle in self.obstacles_group:
             lane = obstacle.lane
-            dist = -obstacle.rect.bottom
-            if abs(obj_front[self.car.lane]) < abs(dist):
-                obj_front[self.car.lane] = dist
+            y = -max(obstacle.rect.bottom,0)/700
+            if abs(obj_front[lane]) < abs(y):
+                obj_front[lane] = y
 
         for coin in self.good_points_group:
             lane = coin.lane
-            dist = coin.rect.bottom
-            if abs(obj_front[self.car.lane]) < abs(dist):
-                obj_front[self.car.lane] = dist
+            y = max(coin.rect.bottom,0)/700
+            if abs(obj_front[lane]) < abs(y):
+                obj_front[lane] = y
 
         state_lst = car_lane + obj_front
-        state = torch.tensor([state_lst],dtype=torch.float32)
+        state = torch.tensor(state_lst,dtype=torch.float32)
         return state
 
     def update (self,action):
@@ -250,6 +250,16 @@ class Environment:
 
     def one_hot_to_lane (self, lane_lst):
         return lane_lst.index(1)
+
+    def simple_reward (self, state, next_state):
+        reward_state = (state[:5] * state[5:]).sum()
+        reward_next_state = (next_state[:5] * next_state[5:]).sum()
+        if torch.equal(state[:5], next_state[:5]): # same lane
+            reward = reward_next_state
+        else:
+            reward = reward_next_state - reward_state
+
+        return reward * self.i_reward
 
     def immediate_reward(self, state, next_state):
         if state.dim() == 4:
