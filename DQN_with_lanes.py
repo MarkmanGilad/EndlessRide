@@ -4,11 +4,11 @@ import torch.nn.functional as F
 import copy
 
 # Parameters
-input_size = 20 # lane_stay, lane_right, lane_left, obj
+input_size = 10 # lane_stay, lane_right, lane_left, obj
 layer1 = 128
 layer2 = 256
 layer3 = 128
-output_size = 3 # Q(state)-> 3 value of stay, left, right
+output_size = 1 # Q(state)-> 3 value of stay, left, right
 gamma = 0.99 
  
 
@@ -24,20 +24,24 @@ class DQN (nn.Module):
 
     def forward (self, x):
         x=x.to(self.device)
-        stay = torch.cat([x[:,0:5], x[:,15:19]], dim=1)
-        left = torch.cat([x[:,5:10], x[:,15:19]], dim=1)
-        right = torch.cat([x[:,10:15], x[:,15:19]], dim=1)
+        left = torch.cat([x[:,0:5], x[:,15:20]], dim=1)
+        stay = torch.cat([x[:,5:10], x[:,15:20]], dim=1)
+        right = torch.cat([x[:,10:15], x[:,15:20]], dim=1)
 
-
-        x = self.linear1(x)
-        x = F.leaky_relu(x)
-        x = self.linear2(x)
-        x = F.leaky_relu(x)
-        x = self.linear3(x)
-        x = F.relu(x)
-        x = self.output(x)
-        return x
+        left_value = self.process_branch(left)
+        stay_value = self.process_branch(stay)
+        right_value = self.process_branch(right)
+        
+        q_values = torch.cat([left_value, stay_value, right_value], dim=1)
+        
+        return q_values
     
+    def process_branch(self, x):
+        x = F.leaky_relu(self.linear1(x))
+        x = F.leaky_relu(self.linear2(x))
+        x = F.leaky_relu(self.linear3(x))
+        return self.output(x)
+
     def loss (self, Q_values, rewards, Q_next_Values, dones ):
         Q_new = rewards.to(self.device) + gamma * Q_next_Values.to(self.device) * (1- dones.to(self.device))
         return self.MSELoss(Q_values, Q_new)

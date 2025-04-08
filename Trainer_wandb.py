@@ -6,7 +6,7 @@ from AI_Agent import AI_Agent
 # from DQN import DQN
 # from DuelingDQN import DQN as DQN
 # from DQN import DQN
-from DQN import DQN
+from DQN_with_lanes import DQN
 import torch
 import wandb
 import os
@@ -108,7 +108,7 @@ def main (chkpt):
         background.render(env)
 
         end_of_game = False
-        state = env.state_simple()
+        state = env.state_lanes()
         
         while not end_of_game:
             # clock.tick(60)
@@ -133,8 +133,8 @@ def main (chkpt):
             ############## Sample Environement #########################
             action = player.getAction(state=state, epoch=epoch)
             done,reward = env.update(action)
-            next_state = env.state_simple()
-            imediate_reward = env.simple_reward (state, next_state)
+            next_state = env.state_lanes()
+            imediate_reward = env.simple_reward_lanes (state, next_state)
             # immediate_reward = 0
             reward += imediate_reward
             buffer.push(state, torch.tensor(action, dtype=torch.int64), reward, 

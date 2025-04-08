@@ -31,8 +31,6 @@ class AI_Agent:
         
         with torch.no_grad():
             # Ensure state has batch dimension
-            if state.dim() == 3:
-                state = state.unsqueeze(0)  # [1, 3, 140, 5]
             state = state.to(self.device)
             Q_values = self.dqn_model(state)
         max_index = torch.argmax(Q_values).item()
@@ -45,12 +43,8 @@ class AI_Agent:
         states = states.to(self.device)
         actions = actions.to(self.device)
         Q_values = self.dqn_model(states)
-        if actions.dim() == 2:
-            actions = actions.squeeze(1)
         rows = torch.arange(Q_values.shape[0], device=self.device)
         q_selected = Q_values[rows, actions]
-        # Reshape to [64, 1]
-        q_selected = q_selected.unsqueeze(1)
         return q_selected
     
     def get_Actions_Values (self, states):

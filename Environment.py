@@ -185,6 +185,31 @@ class Environment:
 
         state_lst = car_lane + obj_front
         state = torch.tensor(state_lst,dtype=torch.float32)
+        state = self.state_lanes().unsqueeze(0) 
+        return state
+
+    def state_lanes(self):
+        
+        lane_left = self.lane_to_one_hot(max(self.car.lane-1, 0))  
+        lane_stay = self.lane_to_one_hot(self.car.lane)  # Add the car's lane 1-5
+        lane_right = self.lane_to_one_hot(min(self.car.lane+1, 4))  
+        
+        obj_front = [0,0,0,0,0]
+        for obstacle in self.obstacles_group:
+            lane = obstacle.lane
+            y = -max(obstacle.rect.bottom,0)/700
+            if abs(obj_front[lane]) < abs(y):
+                obj_front[lane] = y
+
+        for coin in self.good_points_group:
+            lane = coin.lane
+            y = max(coin.rect.bottom,0)/700
+            if abs(obj_front[lane]) < abs(y):
+                obj_front[lane] = y
+
+        state_lst = lane_left + lane_stay + lane_right + obj_front
+        state = torch.tensor(state_lst, dtype=torch.float32)
+        state = state.unsqueeze(0) 
         return state
 
     def update (self,action):
@@ -206,7 +231,6 @@ class Environment:
            return (True,self.lose_reward)  #lose reward
                 
         return (False,self.reward)
-        
                  
     def first_sprite_in_lane(self, state: torch.Tensor):
         car_top_row = self.car_top_row
@@ -241,7 +265,6 @@ class Environment:
             return obs_bottom, -1  # obstacle is closer
         else:
             return coin_bottom, 1  # coin is closer
-
         
     def lane_to_one_hot (self, lane):
         lane_lst = [0] * 5
@@ -252,9 +275,26 @@ class Environment:
         return lane_lst.index(1)
 
     def simple_reward (self, state, next_state):
-        reward_state = (state[:5] * state[5:]).sum()
-        reward_next_state = (next_state[:5] * next_state[5:]).sum()
-        if torch.equal(state[:5], next_state[:5]): # same lane
+        reward_state = (state[:,:5] * state[:,5:]).sum()
+        reward_next_state = (next_state[:,:5] * next_state[:,5:]).sum()
+        
+        if torch.equal(state[:,:5], next_state[:,:5]): # same lane
+            reward = reward_next_state
+        else:
+            reward = reward_next_state - reward_state
+
+        return reward * self.i_reward
+    
+    def simple_reward_lanes (self, state, next_state):
+        state_lane = state[:, 5:10]
+        state_objs = state[:, 15:20]
+        reward_state = (state_lane * state_objs).sum(dim=1)  # shape: [1]
+        
+        next_lane = next_state[:, 5:10]
+        next_objs = next_state[:, 15:20]
+        reward_next_state = (next_lane * next_objs).sum(dim=1)  # shape: [1]
+        
+        if torch.equal(state_lane, next_lane): # same lane
             reward = reward_next_state
         else:
             reward = reward_next_state - reward_state
