@@ -32,7 +32,8 @@ def main (chkpt):
         print("CPU")
     
     #region###### params and models ############
-    dqn_model = DQN()
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    dqn_model = DQN(device=device)
     # dqn_model.load_params(MODEL_PATH)
     print("Model loaded successfully!")
     player = AI_Agent(dqn_model,device=device)
