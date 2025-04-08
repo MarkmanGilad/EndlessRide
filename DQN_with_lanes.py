@@ -4,11 +4,11 @@ import torch.nn.functional as F
 import copy
 
 # Parameters
-input_size = 10 # Q(state) see environment for state shape
+input_size = 20 # lane_stay, lane_right, lane_left, obj
 layer1 = 128
 layer2 = 256
 layer3 = 128
-output_size = 3 # Q(state)-> 4 value of stay, left, right, shoot
+output_size = 3 # Q(state)-> 3 value of stay, left, right
 gamma = 0.99 
  
 
@@ -24,12 +24,17 @@ class DQN (nn.Module):
 
     def forward (self, x):
         x=x.to(self.device)
+        stay = torch.cat([x[:,0:5], x[:,15:19]], dim=1)
+        left = torch.cat([x[:,5:10], x[:,15:19]], dim=1)
+        right = torch.cat([x[:,10:15], x[:,15:19]], dim=1)
+
+
         x = self.linear1(x)
         x = F.leaky_relu(x)
         x = self.linear2(x)
         x = F.leaky_relu(x)
         x = self.linear3(x)
-        x = F.leaky_relu(x)
+        x = F.relu(x)
         x = self.output(x)
         return x
     
