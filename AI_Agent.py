@@ -10,7 +10,7 @@ class AI_Agent:
         #epsilon_start, epsilon_final, epsiln_decay = 1, 0.01, 5000
         self.start = 1
         self.final = 0.1
-        self.decay = 5000
+        self.decay = 1000
 
     def epsilon_greedy(self,epoch):
         # res = final + (start - final) * math.exp(-1 * epoch/decay)
@@ -48,8 +48,10 @@ class AI_Agent:
         if actions.dim() == 2:
             actions = actions.squeeze(1)
         rows = torch.arange(Q_values.shape[0], device=self.device)
-       
-        return Q_values[rows, actions]
+        q_selected = Q_values[rows, actions]
+        # Reshape to [64, 1]
+        q_selected = q_selected.unsqueeze(1)
+        return q_selected
     
     def get_Actions_Values (self, states):
         with torch.no_grad():
