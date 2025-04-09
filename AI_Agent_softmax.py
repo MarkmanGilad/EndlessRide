@@ -9,33 +9,34 @@ class AI_Agent:
         self.train = train
         #epsilon_start, epsilon_final, epsiln_decay = 1, 0.01, 5000
         self.start = 1
-        self.final = 0.005
-        self.decay = 300
+        self.final = 0.01
+        self.decay = 5000
+        self.temp = 2.0            # start high
+        self.min_temp = 0.01       # avoid full greed
+        self.temp_decay = 0.995    # decay rate
 
-    def epsilon_greedy(self,epoch):
-        # res = final + (start - final) * math.exp(-1 * epoch/decay)
-        return max(self.final, self.start - (self.start - self.final) * epoch/self.decay )
-        # if epoch < decay:
-        #     return start - (start - final) * epoch/decay
-        # return final
-    
     def getAction(self, state, epoch = 0, events= None, train = True):
         """Get the action based 
         on the DQN output."""
         actions = [-1,0,1]
-        if self.train and train:
-            epsilon = self.epsilon_greedy(epoch)
-            rnd = random.random()
-            if rnd < epsilon:
-                return random.choice(actions)
-        
+
         with torch.no_grad():
             # Ensure state has batch dimension
             state = state.to(self.device)
             Q_values = self.dqn_model(state)
-        max_index = torch.argmax(Q_values).item()
-        return actions[max_index]
+        
+        if train:
+            index = self.softmax_action_selection(Q_values, self.temp)
+            self.temp = max(self.min_temp, self.temp * self.temp_decay)
+        else:
+            index = torch.argmax(Q_values).item()
+        return actions[index]
     
+    def softmax_action_selection(self, q_values, temp=0.1):
+        q_values = q_values.squeeze(0)
+        probs = torch.softmax(q_values / temp, dim=-1)
+        return torch.multinomial(probs, num_samples=1).item()
+
     def fix_update (self, dqn, tau=0.001):
         self.dqn_model.load_state_dict(dqn.state_dict())
 

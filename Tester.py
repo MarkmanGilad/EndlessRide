@@ -1,8 +1,9 @@
 from AI_Agent import AI_Agent
-from DQN import DQN
+from DQN_with_lanes import DQN
 from Environment import Environment
 import pygame
 from graphics import Background
+import torch
 
 class Tester:
     def __init__(self, agent, env):
@@ -31,9 +32,17 @@ class Tester:
         return avg_steps, avg_score
 
 if __name__ == "__main__":
+    num = 308
+    
     pygame.init()
     background = Background(400, 800) 
+    
+    checkpoint_path = f"Data/checkpoint{num}.pth"
+    chkpt = torch.load(checkpoint_path)
+    params = chkpt["model_state_dict"]
     dqn = DQN()
+    dqn.load_state_dict(params)
+    
     agent = AI_Agent(dqn, train=False) 
     env = Environment()
     teser = Tester(agent,env)

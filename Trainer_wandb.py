@@ -2,7 +2,9 @@ import pygame
 from graphics import Background
 from Environment import Environment
 from ReplayBuffer import ReplayBuffer
-from AI_Agent import AI_Agent
+# from ReplayBuffer_n_step import ReplayBuffer_n_step as ReplayBuffer
+# from AI_Agent import AI_Agent
+from AI_Agent_softmax import AI_Agent
 # from DQN import DQN
 # from DuelingDQN import DQN as DQN
 # from DQN import DQN
@@ -134,7 +136,7 @@ def main (chkpt):
             action = player.getAction(state=state, epoch=epoch)
             done,reward = env.update(action)
             next_state = env.state_lanes()
-            imediate_reward = env.simple_reward_lanes (state, next_state)
+            imediate_reward = env.advanced_reward_lanes (state, next_state)
             # immediate_reward = 0
             reward += imediate_reward
             buffer.push(state, torch.tensor(action, dtype=torch.int64), reward, 

@@ -13,7 +13,7 @@ class Environment:
         self.score=0
         GoodPoint.indecis = [None] * 5
         self.coin_reward = 3
-        self.lose_reward = -5
+        self.lose_reward = -1
         self.change_line_reward = 0
         self.i_reward = 0.5
         self.chkpt = chkpt
@@ -275,10 +275,10 @@ class Environment:
         return lane_lst.index(1)
 
     def simple_reward (self, state, next_state):
-        reward_state = (state[:,:5] * state[:,5:]).sum()
-        reward_next_state = (next_state[:,:5] * next_state[:,5:]).sum()
+        reward_state = (state[0,:5] * state[0,5:]).sum()
+        reward_next_state = (next_state[0,:5] * next_state[0,5:]).sum()
         
-        if torch.equal(state[:,:5], next_state[:,:5]): # same lane
+        if torch.equal(state[0,:5], next_state[0,:5]): # same lane
             reward = reward_next_state
         else:
             reward = reward_next_state - reward_state
@@ -286,13 +286,13 @@ class Environment:
         return reward * self.i_reward
     
     def simple_reward_lanes (self, state, next_state):
-        state_lane = state[:, 5:10]
-        state_objs = state[:, 15:20]
-        reward_state = (state_lane * state_objs).sum(dim=1)  # shape: [1]
+        state_lane = state[0, 5:10]   # only one state
+        state_objs = state[0, 15:20]
+        reward_state = (state_lane * state_objs).sum()  
         
-        next_lane = next_state[:, 5:10]
-        next_objs = next_state[:, 15:20]
-        reward_next_state = (next_lane * next_objs).sum(dim=1)  # shape: [1]
+        next_lane = next_state[0, 5:10]
+        next_objs = next_state[0, 15:20]
+        reward_next_state = (next_lane * next_objs).sum()  
         
         if torch.equal(state_lane, next_lane): # same lane
             reward = reward_next_state
@@ -300,6 +300,37 @@ class Environment:
             reward = reward_next_state - reward_state
 
         return reward * self.i_reward
+    
+    def advanced_reward_lanes (self, state, next_state):
+        state_lane = state[0, 5:10]
+        state_lane = self.lane_fade(state_lane)
+        state_objs = state[0, 15:20]
+        reward_state = (state_lane * state_objs).sum()  
+        
+        next_lane = next_state[0, 5:10]
+        next_lane = self.lane_fade(next_lane)
+        next_objs = next_state[0, 15:20]
+        reward_next_state = (next_lane * next_objs).sum()  
+        
+        if torch.equal(state_lane, next_lane): # same lane
+            reward = reward_next_state
+        else:
+            reward = reward_next_state - reward_state
+
+        return reward * self.i_reward
+
+    def lane_fade (self, lane):
+        decay = {1: 0.2, 2: 0.1, 3: 0.05, 4: 0.025} # {1: 0.2, 2: 0.05, 3: 0.01, 4: 0.005}
+        result = lane.clone()
+        pos = torch.argmax(lane).item()  # Get the index of the '1'
+
+        for d, v in decay.items():
+            if pos - d >= 0:
+                result[pos - d] += v
+            if pos + d < lane.size(0):
+                result[pos + d] += v
+
+        return result
 
     def immediate_reward(self, state, next_state):
         if state.dim() == 4:
