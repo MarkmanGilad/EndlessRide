@@ -5,9 +5,9 @@ import copy
 
 # Parameters
 input_size = 10 # Q(state) see environment for state shape
-layer1 = 128
-layer2 = 256
-layer3 = 128
+layer1 = 16
+layer2 = 32
+layer3 = 16
 output_size = 3 # Q(state)-> 4 value of stay, left, right, shoot
 gamma = 0.99 
  
@@ -25,11 +25,11 @@ class DQN (nn.Module):
     def forward (self, x):
         x=x.to(self.device)
         x = self.linear1(x)
-        x = F.leaky_relu(x)
+        x = F.relu(x)
         x = self.linear2(x)
-        x = F.leaky_relu(x)
+        x = F.relu(x)
         x = self.linear3(x)
-        x = F.leaky_relu(x)
+        x = F.relu(x)
         x = self.output(x)
         return x
     

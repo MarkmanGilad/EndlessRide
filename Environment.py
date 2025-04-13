@@ -15,7 +15,7 @@ class Environment:
         self.coin_reward = 3
         self.lose_reward = -1
         self.change_line_reward = 0
-        self.i_reward = 0.5
+        self.i_reward = 0.1
         self.chkpt = chkpt
         self.car_top_row = 118
         self.car_top = 590
@@ -184,8 +184,8 @@ class Environment:
                 obj_front[lane] = y
 
         state_lst = car_lane + obj_front
-        state = torch.tensor(state_lst,dtype=torch.float32)
-        state = self.state_lanes().unsqueeze(0) 
+        state = torch.tensor(state_lst,dtype=torch.float32).unsqueeze(0)
+        # state = self.state_lanes().unsqueeze(0) 
         return state
 
     def state_lanes(self):
@@ -274,14 +274,16 @@ class Environment:
     def one_hot_to_lane (self, lane_lst):
         return lane_lst.index(1)
 
-    def simple_reward (self, state, next_state):
+    def simple_reward (self, state, next_state, action):
         reward_state = (state[0,:5] * state[0,5:]).sum()
-        reward_next_state = (next_state[0,:5] * next_state[0,5:]).sum()
+        reward_after_state = (next_state[0,:5] * state[0,5:]).sum()  #lane after action * state
         
+        dif_reward = reward_after_state - reward_state
+
         if torch.equal(state[0,:5], next_state[0,:5]): # same lane
-            reward = reward_next_state
+            reward = reward_state - 0.1  # don't stay on the same lane for no reason
         else:
-            reward = reward_next_state - reward_state
+            reward = reward_after_state - reward_state
 
         return reward * self.i_reward
     
