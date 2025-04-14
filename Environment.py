@@ -190,9 +190,9 @@ class Environment:
 
     def state_lanes(self):
         
-        lane_left = self.lane_to_one_hot(max(self.car.lane-1, 0))  
-        lane_stay = self.lane_to_one_hot(self.car.lane)  # Add the car's lane 1-5
-        lane_right = self.lane_to_one_hot(min(self.car.lane+1, 4))  
+        lane_left = self.lane_encoding(max(self.car.lane-1, 0))  
+        lane_stay = self.lane_encoding(self.car.lane)  # Add the car's lane 1-5
+        lane_right = self.lane_encoding(min(self.car.lane+1, 4))  
         
         obj_front = [0,0,0,0,0]
         for obstacle in self.obstacles_group:
@@ -269,6 +269,21 @@ class Environment:
     def lane_to_one_hot (self, lane):
         lane_lst = [0] * 5
         lane_lst[lane] = 1
+        return lane_lst
+
+    def lane_encoding (self, lane):
+        lane_lst = [0] * 5
+
+        lane_lst[lane] = 5
+        for i in range(1, 5):
+            if lane - i > 0:
+                lane_lst[lane-i] = 5-i    
+            if lane - i > 0:
+                lane_lst[lane-i] = 5-i
+        
+        return lane_lst
+            
+        
         return lane_lst
 
     def one_hot_to_lane (self, lane_lst):

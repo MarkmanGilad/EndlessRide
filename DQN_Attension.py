@@ -5,7 +5,7 @@ import copy
 import math
 
 # Parameters
-input_size = 10 # Q(state) see environment for state shape
+input_size = 20 # Q(state) see environment for state shape
 layer1 = 64
 layer2 = 32
 layer3 = 32
@@ -29,8 +29,6 @@ class DQN (nn.Module):
 
     def forward (self, x):
         x=x.to(self.device)
-        if x.dim() == 1:
-            x = x.unsqueeze(0)
         lane = x[:,5:]
         obj = x[:,:5]
 
@@ -52,6 +50,12 @@ class DQN (nn.Module):
         x = self.output(x)
         return x
     
+    def process_branch(self, x):
+        x = F.leaky_relu(self.linear1(x))
+        x = F.leaky_relu(self.linear2(x))
+        x = F.leaky_relu(self.linear3(x))
+        return self.output(x)
+
     def loss (self, Q_values, rewards, Q_next_Values, dones ):
         Q_new = rewards.to(self.device) + gamma * Q_next_Values.to(self.device) * (1- dones.to(self.device))
         return self.MSELoss(Q_values, Q_new)
