@@ -16,8 +16,7 @@ class ReplayBuffer:
         self.buffer.append((state, action, reward, next_state, done))
     
     def sample (self, batch_size):
-        if (batch_size > self.__len__()):
-            batch_size = self.__len__()
+        
         state_tensors, action_tensor, reward_tensors, next_state_tensors, dones_tensor = zip(*random.sample(self.buffer, batch_size))
         states = torch.vstack(state_tensors)
         actions= torch.vstack(action_tensor)

@@ -53,6 +53,11 @@ class DQN (nn.Module):
         
         return q_values
    
+    def shared_branch(self, x):
+        x = F.leaky_relu(self.fc1(x))
+        x = F.leaky_relu(self.fc2(x))
+        x = self.out(x) 
+        return x
     
     def loss (self, Q_values, rewards, Q_next_Values, dones ):
         Q_new = rewards.to(self.device) + gamma * Q_next_Values.to(self.device) * (1- dones.to(self.device))

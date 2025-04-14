@@ -8,7 +8,7 @@ from AI_Agent import AI_Agent
 # from DQN import DQN
 # from DuelingDQN import DQN as DQN
 # from DQN import DQN
-from DQN_attension import DQN
+from DQN_Attension import DQN
 import torch
 import wandb
 import os
@@ -136,9 +136,9 @@ def main (chkpt):
             action = player.getAction(state=state, epoch=epoch)
             done,reward = env.update(action)
             next_state = env.state_lanes()
-            imediate_reward = env.immediate_reward (state, next_state)
+            imediate_reward = env.immediate_reward (state, action)
             reward += imediate_reward
-            buffer.push(state, torch.tensor(action, dtype=torch.int64), reward, 
+            buffer.push(state, torch.tensor(action, dtype=torch.int64), torch.tensor(reward, dtype=torch.float32) 
                         next_state, torch.tensor(done, dtype=torch.float32))
             if done:
                 best_score = max(best_score, env.score)
@@ -220,7 +220,7 @@ if __name__ == "__main__":
     if not os.path.exists("Data/checkpoit_num"):
         torch.save(101, "Data/checkpoit_num")    
     
-    chkpt = torch.load("Data/checkpoit_num")
+    chkpt = torch.load("Data/checkpoit_num", weights_only=False)
     chkpt += 1
     torch.save(chkpt, "Data/checkpoit_num")    
     main (chkpt)
