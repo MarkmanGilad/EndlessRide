@@ -80,32 +80,8 @@ class Environment:
     def reset(self):#for AI, we dont need screen,  print is good enough.
         print(self.score)
         # game.loop()
-
+    
     def state(self):
-        state_list = []
-
-        # 1. Car's Lane
-        state_list += self.lane_to_one_hot(self.car.lane)  # Add the car's lane 1-5
-
-        # 2. Obstacle Positions
-        for obstacle in self.obstacles_group:
-            state_list += self.lane_to_one_hot(obstacle.lane)  # X-coordinate of obstacle
-            state_list += [obstacle.rect.y/700]  # Y-coordinate of obstacle
-        for i in range(4 - len(self.obstacles_group)):
-            state_list +=[0]*5
-            state_list += [0]
-        # 3. Good Point Positions
-        for good_point in GoodPoint.indecis:
-            if good_point:
-                state_list += self.lane_to_one_hot(good_point.lane)  # X-coordinate of good point
-                state_list += [good_point.rect.y/700]  # Y-coordinate of good point
-            else:   
-                state_list += [0]*5
-                state_list += [0]
-
-        return torch.tensor(state_list, dtype=torch.float32)
-        
-    def state_lanes(self):
         
         lane_left = self.lane_encoding(max(self.car.lane-1, 0))  
         lane_stay = self.lane_encoding(self.car.lane)  # Add the car's lane 1-5
@@ -157,12 +133,12 @@ class Environment:
     def lane_encoding (self, lane):
         lane_lst = [0] * 5
 
-        lane_lst[lane] = 5
+        lane_lst[lane] = 4
         for i in range(1, 5):
             if lane - i >= 0:
-                lane_lst[lane-i] = 5-i    
+                lane_lst[lane-i] = 4-i    
             if lane + i <= 4:
-                lane_lst[lane+i] = 5-i
+                lane_lst[lane+i] = 4-i
         
         return lane_lst
             

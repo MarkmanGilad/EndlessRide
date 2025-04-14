@@ -7,10 +7,6 @@ class AI_Agent:
         self.dqn_model = dqn_model.to(device)
         self.device = device
         self.train = train
-        #epsilon_start, epsilon_final, epsiln_decay = 1, 0.01, 5000
-        self.start = 1
-        self.final = 0.01
-        self.decay = 5000
         self.temp = 2.0            # start high
         self.min_temp = 0.01       # avoid full greed
         self.temp_decay = 0.995    # decay rate

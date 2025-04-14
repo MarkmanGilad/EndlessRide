@@ -3,10 +3,9 @@ from graphics import Background
 from Environment import Environment
 from ReplayBuffer import ReplayBuffer
 # from ReplayBuffer_n_step import ReplayBuffer_n_step as ReplayBuffer
-from AI_Agent import AI_Agent
-# from AI_Agent_softmax import AI_Agent
-# from DQN import DQN
-# from DuelingDQN import DQN as DQN
+# from AI_Agent import AI_Agent
+from AI_Agent_softmax import AI_Agent
+# from DuelingDQN import DQN
 # from DQN import DQN
 from DQN_Attension import DQN
 import torch
@@ -110,7 +109,7 @@ def main (chkpt):
         background.render(env)
 
         end_of_game = False
-        state = env.state_lanes()
+        state = env.state()
         
         while not end_of_game:
             # clock.tick(60)
@@ -135,10 +134,10 @@ def main (chkpt):
             ############## Sample Environement #########################
             action = player.getAction(state=state, epoch=epoch)
             done,reward = env.update(action)
-            next_state = env.state_lanes()
+            next_state = env.state()
             imediate_reward = env.immediate_reward (state, action)
             reward += imediate_reward
-            buffer.push(state, torch.tensor(action, dtype=torch.int64), torch.tensor(reward, dtype=torch.float32) 
+            buffer.push(state, torch.tensor(action, dtype=torch.int64), torch.tensor(reward, dtype=torch.float32), 
                         next_state, torch.tensor(done, dtype=torch.float32))
             if done:
                 best_score = max(best_score, env.score)

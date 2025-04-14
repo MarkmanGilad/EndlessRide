@@ -16,9 +16,8 @@ class DQN (nn.Module):
     def __init__(self, device = torch.device('cpu')) -> None:
         super().__init__()
         self.device = device
-        # Learnable attention weights: one scalar per lane
-        self.attn_weight = nn.Parameter(torch.randn(5))  # shape: [5]
-        self.attn_bias = nn.Parameter(torch.zeros(5))    # shape: [5]
+        # Learnable attention importance for encoding levels (0–4)
+        self.level_embedding = nn.Embedding(5, 1)  # maps 0-4 → scalar weight
 
         # FNN to map weighted values to Q-values
         self.fc1 = nn.Linear(5, 64)
@@ -30,20 +29,20 @@ class DQN (nn.Module):
     def forward (self, x):
         x=x.to(self.device)
         
-        left_encode = x[:,0:5]
-        stay_encode = x[:,5:10]
-        right_encode = x[:,10:15]
+        left_encode  = x[:,  0: 5].long()  # [batch, 5]
+        stay_encode  = x[:,  5:10].long()
+        right_encode = x[:, 10:15].long()
         object_values = x[:,15:20]
 
-        # Attention: linear projection of lane weights
-        left_lane = left_encode * self.attn_weight + self.attn_bias  # shape: [batch, 5]
-        stay_lane = stay_encode * self.attn_weight + self.attn_bias  # shape: [batch, 5]
-        right_lane = right_encode * self.attn_weight + self.attn_bias  # shape: [batch, 5]
+        # Use embedding to convert lane encodings into scalar weights
+        left_weights  = self.level_embedding(left_encode).squeeze(-1)   # [batch, 5]
+        stay_weights  = self.level_embedding(stay_encode).squeeze(-1)
+        right_weights = self.level_embedding(right_encode).squeeze(-1)
         
         # Elementwise attention * object values
-        left_atten = left_lane * object_values  # shape: [batch, 5]
-        stay_atten = stay_lane * object_values  # shape: [batch, 5]
-        right_atten = right_lane * object_values  # shape: [batch, 5]
+        left_atten = left_weights * object_values  # shape: [batch, 5]
+        stay_atten = stay_weights * object_values  # shape: [batch, 5]
+        right_atten = right_weights * object_values  # shape: [batch, 5]
 
         # Combine and process in one forward pass
         all_attn = torch.stack([left_atten, stay_atten, right_atten], dim=1)  # [batch, 3, 5]
