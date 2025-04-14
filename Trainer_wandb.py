@@ -139,7 +139,7 @@ def main (chkpt):
             imediate_reward = env.simple_reward (state, next_state, action)
             # immediate_reward = 0
             reward += imediate_reward
-            buffer.push(state, torch.tensor(action, dtype=torch.int64), reward, 
+            buffer.push(state, torch.tensor(action, dtype=torch.int64), torch.tensor(reward, dtype=torch.float32), 
                         next_state, torch.tensor(done, dtype=torch.float32))
             if done:
                 best_score = max(best_score, env.score)
@@ -219,9 +219,9 @@ def main (chkpt):
         
 if __name__ == "__main__":
     if not os.path.exists("Data/checkpoit_num"):
-        torch.save(101, "Data/checkpoit_num")    
+        torch.save(400, "Data/checkpoit_num")    
     
-    chkpt = torch.load("Data/checkpoit_num")
+    chkpt = torch.load("Data/checkpoit_num", weights_only=False)
     chkpt += 1
     torch.save(chkpt, "Data/checkpoit_num")    
     main (chkpt)

@@ -12,7 +12,7 @@ class Environment:
         #self.spawn_timer = 0
         self.score=0
         GoodPoint.indecis = [None] * 5
-        self.coin_reward = 3
+        self.coin_reward = 1
         self.lose_reward = -1
         self.change_line_reward = 0
         self.i_reward = 0.1
@@ -276,16 +276,52 @@ class Environment:
 
     def simple_reward (self, state, next_state, action):
         reward_state = (state[0,:5] * state[0,5:]).sum()
-        reward_after_state = (next_state[0,:5] * state[0,5:]).sum()  #lane after action * state
+        lane = self.car.lane
+        after_lane = min(max(lane + action,0),4)
+        after_lane_tensor = torch.tensor(self.lane_to_one_hot(after_lane), dtype=torch.int64)
+        reward_after_state = (after_lane_tensor * state[0,5:]).sum()  #lane after action * state
+        reward = 0
         
-        dif_reward = reward_after_state - reward_state
-
-        if torch.equal(state[0,:5], next_state[0,:5]): # same lane
-            reward = reward_state - 0.1  # don't stay on the same lane for no reason
+        if reward_after_state < 0:
+            reward = -self.i_reward
         else:
-            reward = reward_after_state - reward_state
+            reward = self.i_reward
 
-        return reward * self.i_reward
+        if action == 0:
+            if reward_state < 0:    # Obstacle
+                reward = -self.i_reward
+            elif reward_state > 0:  # coin
+                reward = self.i_reward
+            else:                   # empty don't stay on the lane
+                reward = -self.i_reward / 10
+
+        else:
+            if reward_state > 0 and reward_after_state > 0: # coin -> coin
+                if reward_after_state > reward_state:
+                    reward = self.i_reward / 5
+                else:
+                    reward = -self.i_reward / 5
+            elif reward_state > 0 and reward_after_state < 0: # coin -> obsticale
+                reward = -self.i_reward * 2
+            elif reward_state > 0 and reward_after_state == 0: # coin -> empty
+                reward = -self.i_reward
+            elif reward_state < 0 and reward_after_state < 0: # obsticale -> obsticale
+                if reward_after_state > reward_state:
+                    reward = self.i_reward / 5
+                else:
+                    reward = -self.i_reward / 5
+            elif reward_state < 0 and reward_after_state > 0: # obsticale -> coin
+                reward = self.i_reward * 2
+            elif reward_state < 0 and reward_after_state == 0: # obsticale -> empty
+                reward = self.i_reward
+            elif reward_state == 0 and reward_after_state < 0: # empty -> obsticale
+                reward = -self.i_reward
+            elif reward_state == 0 and reward_after_state > 0: # empty -> coin
+                reward = self.i_reward
+            elif reward_state == 0 and reward_after_state == 0: # empty -> empty
+                reward = self.i_reward / 10
+
+        return reward
     
     def simple_reward_lanes (self, state, next_state):
         state_lane = state[0, 5:10]   # only one state
