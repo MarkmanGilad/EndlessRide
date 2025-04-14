@@ -45,22 +45,15 @@ class DQN (nn.Module):
         stay_atten = stay_lane * object_values  # shape: [batch, 5]
         right_atten = right_lane * object_values  # shape: [batch, 5]
 
-        # Forward pass through FNN
-        
-        left_value = self.process_branch(left_atten)
-        stay_value = self.process_branch(stay_atten)
-        right_value = self.process_branch(right_atten)
-        
-        q_values = torch.cat([left_value, stay_value, right_value], dim=1)
+        # Combine and process in one forward pass
+        all_attn = torch.stack([left_atten, stay_atten, right_atten], dim=1)  # [batch, 3, 5]
+        flat_attn = all_attn.view(-1, 5)  # [batch * 3, 5]
+        q_flat = self.shared_branch(flat_attn)  # [batch * 3, 1]
+        q_values = q_flat.reshape(-1, 3)  # [batch, 3]
         
         return q_values
+   
     
-    def process_branch(self, x):
-        x = F.leaky_relu(self.fc1(x))
-        x = F.leaky_relu(self.fc2(x))
-        x = self.out(x)
-        return x
-
     def loss (self, Q_values, rewards, Q_next_Values, dones ):
         Q_new = rewards.to(self.device) + gamma * Q_next_Values.to(self.device) * (1- dones.to(self.device))
         return self.MSELoss(Q_values, Q_new)
