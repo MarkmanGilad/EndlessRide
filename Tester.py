@@ -1,5 +1,5 @@
 from AI_Agent import AI_Agent
-from DQN_with_lanes import DQN
+from DQN_attension import DQN
 from Environment import Environment
 import pygame
 from graphics import Background

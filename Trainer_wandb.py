@@ -8,7 +8,7 @@ from AI_Agent import AI_Agent
 # from DQN import DQN
 # from DuelingDQN import DQN as DQN
 # from DQN import DQN
-from DQN_with_lanes import DQN
+from DQN_attension import DQN
 import torch
 import wandb
 import os

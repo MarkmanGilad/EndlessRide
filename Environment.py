@@ -104,90 +104,7 @@ class Environment:
                 state_list += [0]
 
         return torch.tensor(state_list, dtype=torch.float32)
-
-    def state2D(self):
-        # (channels, rows, cols) = (car, obstacle, coin), 140 rows of 5 px, 5 lanes
-        grid = torch.zeros((3, 140, 5), dtype=torch.float32)
-
-        # --- 1. Car (always in bounds, occupies 100px = 20 rows) ---
-        car_lane = self.car.lane
-        car_y = self.car.rect.y   # top of the car 590
-        car_top = int(car_y / 5)           # = 118
-        car_bottom = int((car_y + 100) // 5)  # = 138
-        grid[0, car_top:car_bottom, car_lane] = 1.0  # No +1 because upper bound is exclusive
-
-        # --- 2. Obstacles ---
-        for obstacle in self.obstacles_group:
-            lane = obstacle.lane
-            y = obstacle.rect.y 
-
-            top_row = max(int(y / 5), 0)
-            bottom_row = min(int((y + 50) / 5), 140)
-
-            if top_row < bottom_row:
-                grid[1, top_row:bottom_row, lane] = 1.0
-
-        # --- 3. Good Points (Coins) ---
-        for good_point in self.good_points_group:
-                lane = good_point.lane
-                y = good_point.rect.y 
-                top_row = max(int(y / 5), 0)
-                bottom_row = min(int((y + 50) / 5), 140)
-                if top_row < bottom_row:
-                    grid[2, top_row:bottom_row, lane] = 1.0
-
-        return grid
-
-    def state_relative (self):
-        HEIGHT = 700
-        LANES, OBJECTS, CHANNELS = 5, 10, 3 # channel 0 - object_type; 1 - dist; 2 - is it car lane (1/0)
-        obs_lanes = [[],[],[],[],[]]
-        coin_lanes = [[],[],[],[],[]]
-        for obstacle in self.obstacles_group:
-            lane = obstacle.lane
-            dist = HEIGHT - obstacle.rect.bottom
-            obs_lanes[lane].append([-1, dist])
-
-        for coin in self.good_points_group:
-            lane = coin.lane
-            dist = HEIGHT - coin.rect.bottom
-            coin_lanes[lane].append([1, dist])
-
-        state = torch.full((LANES, OBJECTS, CHANNELS), fill_value=0, dtype=torch.float32)
-        state[:, :, 1] = -1.0  # Set default distance to -1 (padding)
-        state[self.car.lane,:, 2] = 1.0 # mark entire lane as the current car lane
-
-        for lane in range(LANES):
-            combined = obs_lanes[lane] + coin_lanes[lane]
-            sorted_by_dist = sorted(combined, key=lambda x: x[1])  # Sort by distance
-
-            for i, (obj_type, dist) in enumerate(sorted_by_dist[:OBJECTS]):
-                state[lane, i, 0] = obj_type
-                state[lane, i, 1] = dist / HEIGHT # normalized
-
-        return state.permute(2, 1, 0)  # shape: [3, 10, 5]
-
-    def state_simple(self):
-        # 1. Car's Lane
-        car_lane = self.lane_to_one_hot(self.car.lane)  # Add the car's lane 1-5
-        obj_front = [0,0,0,0,0]
-        for obstacle in self.obstacles_group:
-            lane = obstacle.lane
-            y = -max(obstacle.rect.bottom,0)/700
-            if abs(obj_front[lane]) < abs(y):
-                obj_front[lane] = y
-
-        for coin in self.good_points_group:
-            lane = coin.lane
-            y = max(coin.rect.bottom,0)/700
-            if abs(obj_front[lane]) < abs(y):
-                obj_front[lane] = y
-
-        state_lst = car_lane + obj_front
-        state = torch.tensor(state_lst,dtype=torch.float32)
-        state = self.state_lanes().unsqueeze(0) 
-        return state
-
+        
     def state_lanes(self):
         
         lane_left = self.lane_encoding(max(self.car.lane-1, 0))  
@@ -231,40 +148,6 @@ class Environment:
            return (True,self.lose_reward)  #lose reward
                 
         return (False,self.reward)
-                 
-    def first_sprite_in_lane(self, state: torch.Tensor):
-        car_top_row = self.car_top_row
-        # Unwrap batch dimension: [1, 3, 140, 5] → [3, 140, 5]
-        if state.dim() == 4:
-            state = state.squeeze(0)
-        
-        # Channels
-        CAR, OBSTACLE, COIN = 0, 1, 2
-
-        # 1. Find car's lane from row 130
-        car_row = state[CAR, car_top_row, :]  # shape: (5,)
-        car_lane = torch.nonzero(car_row).item()  # lane index (0–4)
-
-        # 2. Extract the obstacle and coin column (up to row 130)
-        obs_col = state[OBSTACLE, :car_top_row, car_lane]  # shape: (130,)
-        coin_col = state[COIN, :car_top_row, car_lane]     # shape: (130,)
-
-        # 3. Find row indices where object exists
-        obs_rows = torch.nonzero(obs_col, as_tuple=False).squeeze()
-        coin_rows = torch.nonzero(coin_col, as_tuple=False).squeeze()
-
-        # 4. Get bottom row (max row index) for each object type
-        obs_bottom = obs_rows.max().item() if obs_rows.numel() > 0 else -1
-        coin_bottom = coin_rows.max().item() if coin_rows.numel() > 0 else -1
-
-        # 5. Determine first visible object (closest to car)
-        if obs_bottom == -1 and coin_bottom == -1:
-            return 0, None  # no object found
-
-        if obs_bottom > coin_bottom:
-            return obs_bottom, -1  # obstacle is closer
-        else:
-            return coin_bottom, 1  # coin is closer
         
     def lane_to_one_hot (self, lane):
         lane_lst = [0] * 5
@@ -276,16 +159,14 @@ class Environment:
 
         lane_lst[lane] = 5
         for i in range(1, 5):
-            if lane - i > 0:
+            if lane - i >= 0:
                 lane_lst[lane-i] = 5-i    
-            if lane - i > 0:
-                lane_lst[lane-i] = 5-i
+            if lane + i <= 4:
+                lane_lst[lane+i] = 5-i
         
         return lane_lst
             
         
-        return lane_lst
-
     def one_hot_to_lane (self, lane_lst):
         return lane_lst.index(1)
 

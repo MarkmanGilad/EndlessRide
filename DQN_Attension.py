@@ -2,59 +2,64 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import copy
-import math
 
 # Parameters
-input_size = 20 # Q(state) see environment for state shape
-layer1 = 64
-layer2 = 32
-layer3 = 32
-output_size = 3 # Q(state)-> 4 value of stay, left, right, shoot
+input_size = 10 # lane_stay, lane_right, lane_left, obj
+layer1 = 128
+layer2 = 256
+layer3 = 128
+output_size = 1 # Q(state)-> 3 value of stay, left, right
 gamma = 0.99 
  
 
 class DQN (nn.Module):
     def __init__(self, device = torch.device('cpu')) -> None:
         super().__init__()
-        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-        self.lane_layer = nn.Linear(5, 32,device=device)
-        self.obj_layers = nn.Linear(5, 32,device=device)
-        self.lane_norm = nn.LayerNorm(32)
-        self.obj_norm = nn.LayerNorm(32)
-        self.post_mul_norm = nn.LayerNorm(32)
-        self.linear1 = nn.Linear(32, 64,device=device)
-        self.linear2 = nn.Linear(64, 32,device=device)
-        self.output = nn.Linear(32, 3,device=device)
+        self.device = device
+        # Learnable attention weights: one scalar per lane
+        self.attn_weight = nn.Parameter(torch.randn(5))  # shape: [5]
+        self.attn_bias = nn.Parameter(torch.zeros(5))    # shape: [5]
+
+        # FNN to map weighted values to Q-values
+        self.fc1 = nn.Linear(5, 64)
+        self.fc2 = nn.Linear(64, 32)
+        self.out = nn.Linear(32, 3)  # 3 actions: left, stay, right
+
         self.MSELoss = nn.MSELoss()
 
     def forward (self, x):
         x=x.to(self.device)
-        lane = x[:,5:]
-        obj = x[:,:5]
-
-        lane = self.lane_layer(lane)
-        lane = self.lane_norm(lane)
-        lane = F.leaky_relu(lane)
         
-        obj = self.obj_layers(obj)
-        obj = self.obj_norm(obj)
-        obj = F.leaky_relu(obj)
+        left_encode = x[:,0:5]
+        stay_encode = x[:,5:10]
+        right_encode = x[:,10:15]
+        object_values = x[:,15:20]
 
-        x = (lane * obj) / math.sqrt(32)
-        x = self.post_mul_norm(x)
+        # Attention: linear projection of lane weights
+        left_lane = left_encode * self.attn_weight + self.attn_bias  # shape: [batch, 5]
+        stay_lane = stay_encode * self.attn_weight + self.attn_bias  # shape: [batch, 5]
+        right_lane = right_encode * self.attn_weight + self.attn_bias  # shape: [batch, 5]
+        
+        # Elementwise attention * object values
+        left_atten = left_lane * object_values  # shape: [batch, 5]
+        stay_atten = stay_lane * object_values  # shape: [batch, 5]
+        right_atten = right_lane * object_values  # shape: [batch, 5]
 
-        x = self.linear1(x)
-        x = F.leaky_relu(x)
-        x = self.linear2(x)
-        x = F.leaky_relu(x)
-        x = self.output(x)
-        return x
+        # Forward pass through FNN
+        
+        left_value = self.process_branch(left_atten)
+        stay_value = self.process_branch(stay_atten)
+        right_value = self.process_branch(right_atten)
+        
+        q_values = torch.cat([left_value, stay_value, right_value], dim=1)
+        
+        return q_values
     
     def process_branch(self, x):
-        x = F.leaky_relu(self.linear1(x))
-        x = F.leaky_relu(self.linear2(x))
-        x = F.leaky_relu(self.linear3(x))
-        return self.output(x)
+        x = F.leaky_relu(self.fc1(x))
+        x = F.leaky_relu(self.fc2(x))
+        x = F.leaky_relu(self.out(x))
+        return x
 
     def loss (self, Q_values, rewards, Q_next_Values, dones ):
         Q_new = rewards.to(self.device) + gamma * Q_next_Values.to(self.device) * (1- dones.to(self.device))
