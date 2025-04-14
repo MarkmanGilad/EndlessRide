@@ -136,8 +136,7 @@ def main (chkpt):
             action = player.getAction(state=state, epoch=epoch)
             done,reward = env.update(action)
             next_state = env.state_lanes()
-            imediate_reward = env.advanced_reward_lanes (state, next_state)
-            # immediate_reward = 0
+            imediate_reward = env.immediate_reward (state, next_state)
             reward += imediate_reward
             buffer.push(state, torch.tensor(action, dtype=torch.int64), reward, 
                         next_state, torch.tensor(done, dtype=torch.float32))

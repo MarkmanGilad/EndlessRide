@@ -79,7 +79,7 @@ class Environment:
         
     def reset(self):#for AI, we dont need screen,  print is good enough.
         print(self.score)
-        game.loop()
+        # game.loop()
 
     def state(self):
         state_list = []
@@ -170,191 +170,55 @@ class Environment:
     def one_hot_to_lane (self, lane_lst):
         return lane_lst.index(1)
 
-    def simple_reward (self, state, next_state):
-        reward_state = (state[0,:5] * state[0,5:]).sum()
-        reward_next_state = (next_state[0,:5] * next_state[0,5:]).sum()
-        
-        if torch.equal(state[0,:5], next_state[0,:5]): # same lane
-            reward = reward_next_state
-        else:
-            reward = reward_next_state - reward_state
-
-        return reward * self.i_reward
-    
-    def simple_reward_lanes (self, state, next_state):
-        state_lane = state[0, 5:10]   # only one state
-        state_objs = state[0, 15:20]
-        reward_state = (state_lane * state_objs).sum()  
-        
-        next_lane = next_state[0, 5:10]
-        next_objs = next_state[0, 15:20]
-        reward_next_state = (next_lane * next_objs).sum()  
-        
-        if torch.equal(state_lane, next_lane): # same lane
-            reward = reward_next_state
-        else:
-            reward = reward_next_state - reward_state
-
-        return reward * self.i_reward
-    
-    def advanced_reward_lanes (self, state, next_state):
-        state_lane = state[0, 5:10]
-        state_lane = self.lane_fade(state_lane)
-        state_objs = state[0, 15:20]
-        reward_state = (state_lane * state_objs).sum()  
-        
-        next_lane = next_state[0, 5:10]
-        next_lane = self.lane_fade(next_lane)
-        next_objs = next_state[0, 15:20]
-        reward_next_state = (next_lane * next_objs).sum()  
-        
-        if torch.equal(state_lane, next_lane): # same lane
-            reward = reward_next_state
-        else:
-            reward = reward_next_state - reward_state
-
-        return reward * self.i_reward
-
-    def lane_fade (self, lane):
-        decay = {1: 0.2, 2: 0.1, 3: 0.05, 4: 0.025} # {1: 0.2, 2: 0.05, 3: 0.01, 4: 0.005}
-        result = lane.clone()
-        pos = torch.argmax(lane).item()  # Get the index of the '1'
-
-        for d, v in decay.items():
-            if pos - d >= 0:
-                result[pos - d] += v
-            if pos + d < lane.size(0):
-                result[pos + d] += v
-
-        return result
-
-    def immediate_reward(self, state, next_state):
-        if state.dim() == 4:
-            state = state.squeeze(0)
-        if next_state.dim() == 4:
-            next_state = next_state.squeeze(0)
-
-        # Current state
-        lane1 = torch.argmax(state[2, 0, :]).item()
-        type1 = state[0, 0, lane1].item()
-        dist1 = max(state[1, 0, lane1].item(), 0)   # not negative
-
-        # Next state
-        lane2 = torch.argmax(next_state[2, 0, :]).item()
-        type2 = next_state[0, 0, lane2].item()
-        dist2 = max(next_state[1, 0, lane2].item(), 0)  # not negative
+    def immediate_reward (self, state, action):
+        obj = state[0,15:20]
+        lane = self.car.lane
+        after_lane = min(max(lane + action,0),4)
+        reward_state = obj[lane]
+        reward_after_state = obj[after_lane]
 
         reward = 0
         
-        # If there's no sprite in either state, no immediate reward.
-        if type1 == 0 and type2 == 0:
-            return reward
+        if reward_after_state < 0:
+            reward = -self.i_reward
+        else:
+            reward = self.i_reward
 
-        # Case 1: Staying in a coin lane.
-        if type1 == 1 and type2 == 1:
-            reward = self.i_reward * (1-dist2)
+        if action == 0:
+            if reward_state < 0:    # Obstacle
+                reward = -self.i_reward
+            elif reward_state > 0:  # coin
+                reward = self.i_reward
+            else:                   # empty don't stay on the lane
+                reward = -self.i_reward / 10
 
-        # Case 2: Staying in an obstacle lane.
-        elif type1 == -1 and type2 == -1:
-            reward = -self.i_reward * (1-dist2)
-
-        # Case 3: Transition from obstacle to coin.
-        elif type1 == -1 and type2 == 1:
-            reward = self.i_reward * ((1-dist2) + (1-dist1))
-        
-        # Case 4: Transition from coin to obstacle.
-        elif type1 == 1 and type2 == -1:
-            if lane1 == lane2:  # Car stayed in lane: coin was collected.
-                reward += 0   #reward elsewhere   
-            else:
-                reward = -self.i_reward * ((1-dist2) + (1-dist1))
-
-        # Case 5: Transition from coin to clear.
-        elif type1 == 1 and type2 == 0:
-            if lane1 == lane2: # Collected coin
-                reward += 0   #reward elsewhere 
-            else:
-                reward = -self.i_reward * (1-dist1)  # Left coin behind.
-
-        # Case 6: Transition from obstacle to clear.
-        elif type1 == -1 and type2 == 0:
-            reward = self.i_reward * (1-dist1)
-
-        # Case 7: Transition from clear to coin.
-        elif type1 == 0 and type2 == 1:
-            reward = self.i_reward * (1-dist2)
-
-        # Case 8: Transition from clear to obstacle.
-        elif type1 == 0 and type2 == -1:
-            reward = -self.i_reward * (1-dist2)
+        else:
+            if reward_state > 0 and reward_after_state > 0: # coin -> coin
+                if reward_after_state > reward_state:
+                    reward = self.i_reward / 5
+                else:
+                    reward = -self.i_reward / 5
+            elif reward_state > 0 and reward_after_state < 0: # coin -> obsticale
+                reward = -self.i_reward * 2
+            elif reward_state > 0 and reward_after_state == 0: # coin -> empty
+                reward = -self.i_reward
+            elif reward_state < 0 and reward_after_state < 0: # obsticale -> obsticale
+                if reward_after_state > reward_state:
+                    reward = self.i_reward / 5
+                else:
+                    reward = -self.i_reward / 5
+            elif reward_state < 0 and reward_after_state > 0: # obsticale -> coin
+                reward = self.i_reward * 2
+            elif reward_state < 0 and reward_after_state == 0: # obsticale -> empty
+                reward = self.i_reward
+            elif reward_state == 0 and reward_after_state < 0: # empty -> obsticale
+                reward = -self.i_reward
+            elif reward_state == 0 and reward_after_state > 0: # empty -> coin
+                reward = self.i_reward
+            elif reward_state == 0 and reward_after_state == 0: # empty -> empty
+                reward = self.i_reward / 10
 
         return reward
-
-    def immediate_reward_copy(self, state, next_state):
-        # Unwrap batch dimension: [1, 3, 140, 5] → [3, 140, 5]
-        if state.dim() == 4:
-            state = state.squeeze(0)
-        if next_state.dim() == 4:
-            next_state = next_state.squeeze(0)
-
-        # Extract lane information 
-        car1_row = state[0, self.car_top_row, :]  # shape: (5,)
-        lane1 = torch.nonzero(car1_row).item()  # lane index (0–4)
-        
-        car2_row = next_state[0, self.car_top_row, :]  # shape: (5,)
-        lane2 = torch.nonzero(car2_row).item()  # lane index (0–4)
-        
-    
-        # Get sprite type and metric from the lane.
-        max_y1, type1  = self.first_sprite_in_lane(state)
-        max_y2, type2  = self.first_sprite_in_lane(next_state)
-                
-        reward = 0
-        
-        # If there's no sprite in either state, no immediate reward.
-        if type1 is None and type2 is None:
-            return reward
-
-        # Case 1: Staying in a coin lane.
-        if type1 == 1 and type2 == 1:
-            reward = self.i_reward * max_y2#(max_y2-max_y1)
-
-        # Case 2: Staying in an obstacle lane.
-        elif type1 == -1 and type2 == -1:
-            reward = -self.i_reward * max_y2#(max_y2-max_y1)
-
-        # Case 3: Transition from obstacle to coin.
-        elif type1 == -1 and type2 == 1:
-            reward = self.i_reward * (max_y2 + max_y1)
-        
-        # Case 4: Transition from coin to obstacle.
-        elif type1 == 1 and type2 == -1:
-            if lane1 == lane2:  # Car stayed in lane: coin was collected.
-                reward += 0   #reward elsewhere   
-            else:
-                reward = -self.i_reward * (max_y2 + max_y1)
-
-        # Case 5: Transition from coin to clear.
-        elif type1 == 1 and type2 is None:
-            if lane1 == lane2: # Collected coin
-                reward += 0   #reward elsewhere 
-            else:
-                reward = -self.i_reward * max_y1  # Left coin behind.
-
-        # Case 6: Transition from obstacle to clear.
-        elif type1 == -1 and type2 is None:
-            reward = self.i_reward * max_y1
-
-        # Case 7: Transition from clear to coin.
-        elif type1 is None and type2 == 1:
-            reward = self.i_reward * max_y2
-
-        # Case 8: Transition from clear to obstacle.
-        elif type1 is None and type2 == -1:
-            reward = -self.i_reward * max_y2
-
-        return reward
-
 
     def new_game(self):
         self.car.lane = 2
