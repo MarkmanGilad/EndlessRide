@@ -15,7 +15,7 @@ class Environment:
         self.coin_reward = 1
         self.lose_reward = -3
         self.change_line_reward = 0
-        self.i_reward = 0.1
+        self.i_reward = 0.2
         self.chkpt = chkpt
         self.car_top_row = 118
         self.car_top = 590
@@ -156,11 +156,11 @@ class Environment:
        
         if action == 0:
             if reward_state < 0:    # Obstacle
-                reward = -self.i_reward * 5
+                reward = -self.i_reward
             elif reward_state > 0:  # coin
-                reward = self.i_reward * 2
+                reward = self.i_reward
             else:                   # empty don't stay on the lane
-                reward = -self.i_reward / 10
+                reward = 0
 
         else:
             if reward_state > 0 and reward_after_state > 0: # coin -> coin
@@ -174,7 +174,7 @@ class Environment:
                 reward = -self.i_reward
             elif reward_state < 0 and reward_after_state < 0: # obsticale -> obsticale
                 if reward_after_state > reward_state:
-                    reward = self.i_reward / 5
+                    reward = -self.i_reward / 10
                 else:
                     reward = -self.i_reward / 5
             elif reward_state < 0 and reward_after_state > 0: # obsticale -> coin
@@ -186,7 +186,7 @@ class Environment:
             elif reward_state == 0 and reward_after_state > 0: # empty -> coin
                 reward = self.i_reward * 2
             elif reward_state == 0 and reward_after_state == 0: # empty -> empty
-                reward = self.i_reward / 10
+                reward = 0
 
         return reward
 
