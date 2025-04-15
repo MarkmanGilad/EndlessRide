@@ -3,11 +3,12 @@ from graphics import Background
 from Environment import Environment
 from ReplayBuffer import ReplayBuffer
 # from ReplayBuffer_n_step import ReplayBuffer_n_step as ReplayBuffer
-# from AI_Agent import AI_Agent
-from AI_Agent_softmax import AI_Agent
+from AI_Agent import AI_Agent
+# from AI_Agent_softmax import AI_Agent
 # from DuelingDQN import DQN
 # from DQN import DQN
 from DQN_Attension import DQN
+from Tester import Tester
 import torch
 import wandb
 import os
@@ -101,6 +102,7 @@ def main (chkpt):
     wandb.config.update({"Model":str(player.dqn_model)}, allow_val_change=True)
     #endregion
         
+    tester = Tester(player,env)
 
     for epoch in range(start_epoch, ephocs):
         step = 0
@@ -110,7 +112,11 @@ def main (chkpt):
 
         end_of_game = False
         state = env.state()
-        
+        if epoch % 100 == 0:
+            print("\nstart test ...")
+            tester_step, tester_score = tester.test(num_games=10)
+            wandb.log ({"tester_step": tester_step, "tester_score":tester_score })
+            print(f"tester_step: {tester_step}  tester_score: {tester_score}")
         while not end_of_game:
             # clock.tick(60)
             step += 1
@@ -177,38 +183,24 @@ def main (chkpt):
         print (f'chkpt: {num} epoch: {epoch} loss: {loss:.7f} LR: {scheduler.get_last_lr()}  ' \
                f'score: {round(env.score,1)} step {step} ')
         
-        if epoch % 10 == 0:
-            scores.append(env.score)
-            losses.append(loss.item())
         wandb.log ({
                 "score": env.score,
                 "loss": loss.item(),
                 "step":step
             })
-        step = 0
-        avg = (avg * (epoch % 10) + env.score) / (epoch % 10 + 1)
-        if (epoch + 1) % 10 == 0:
-            avg_score.append(avg)
-            wandb.log ({
-                # "score": env.score,
-                # "loss": loss.item(),
-                "avg_score": avg
-            })
-            print (f'average score last 10 games: {avg} ')
-            avg = 0
+        
+        
 
-        if epoch % 10000 == 0 and epoch > 0:
+        if epoch % 1000 == 0 and epoch > 0:
             checkpoint = {
                 'epoch': epoch,
                 'model_state_dict': player.dqn_model.state_dict(),
                 'optimizer_state_dict': optim.state_dict(),
                 'scheduler_state_dict': scheduler.state_dict(),
-                'loss': losses,
-                'scores':scores,
-                'avg_score': avg_score
             }
             torch.save(checkpoint, checkpoint_path)
             torch.save(buffer, buffer_path)
+            
         #endregion
 
 

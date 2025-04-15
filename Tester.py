@@ -1,5 +1,5 @@
 from AI_Agent import AI_Agent
-from DQN_attension import DQN
+from DQN_Attension import DQN
 from Environment import Environment
 import pygame
 from graphics import Background
@@ -10,23 +10,19 @@ class Tester:
         self.agent = agent
         self.env = env
 
-    def test (self, num_games):
+    def test (self, num_games=100):
         total_steps = 0
         total_score = 0
         for game in range(num_games):
             self.env.new_game()
             done = False
-            step = 0
-            score = 0
             while not done:
-                step +=1
                 total_steps += 1
-                state = self.env.state_simple()
-                action = self.agent.getAction(state=state)
+                state = self.env.state()
+                action = self.agent.getAction(state=state, train=False)
                 done, _ = self.env.update(action)
-            score += self.env.score
             total_score += self.env.score
-            print(step, score)
+            print(game, end="\r")
         avg_steps = total_steps / num_games
         avg_score = total_score / num_games
         return avg_steps, avg_score

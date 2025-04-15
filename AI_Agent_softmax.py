@@ -8,8 +8,8 @@ class AI_Agent:
         self.device = device
         self.train = train
         self.temp = 2.0            # start high
-        self.min_temp = 0.01       # avoid full greed
-        self.temp_decay = 0.995    # decay rate
+        self.min_temp = 0.02       # avoid full greed
+        self.temp_decay = 0.998    # decay rate
 
     def getAction(self, state, epoch = 0, events= None, train = True):
         """Get the action based 
