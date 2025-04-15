@@ -1,4 +1,5 @@
 import pygame
+import numpy as np
 from graphics import Background
 from Environment import Environment
 from ReplayBuffer import ReplayBuffer
@@ -43,7 +44,7 @@ def main (chkpt):
     player_hat.dqn_model = player.dqn_model.copy()
     batch_size = 64
     buffer = ReplayBuffer(path=None)
-    learning_rate = 0.0001
+    learning_rate = 0.001
     ephocs = 200000
     start_epoch = 0
     C = 10
@@ -51,9 +52,9 @@ def main (chkpt):
     avg = 0
 
     scores, losses, avg_score = [], [], []
-    optim = torch.optim.Adam(player.dqn_model.parameters(), lr=learning_rate)
+    optim = torch.optim.Adam(player.dqn_model.parameters(), lr=learning_rate, weight_decay=1e-4)
     # scheduler = torch.optim.lr_scheduler.StepLR(optim,100000, gamma=0.50)
-    scheduler = torch.optim.lr_scheduler.MultiStepLR(optim,[5000*200, 10000*200, 20000*200], gamma=0.5)
+    scheduler = torch.optim.lr_scheduler.MultiStepLR(optim,[1000*200, 3000*200, 5000*200], gamma=0.9)
     step = 0
     #endregion
     #region######## checkpoint Load ############
@@ -105,6 +106,11 @@ def main (chkpt):
     tester = Tester(player,env)
 
     for epoch in range(start_epoch, ephocs):
+        if epoch % 100 == 0:
+            print("\nstart test ...")
+            tester_step, tester_score = tester.test(num_games=10)
+            wandb.log ({"tester_step": tester_step, "tester_score":tester_score })
+            print(f"tester_step: {tester_step}  tester_score: {tester_score}")
         step = 0
         clock = pygame.time.Clock()
         env.new_game()
@@ -112,11 +118,7 @@ def main (chkpt):
 
         end_of_game = False
         state = env.state()
-        if epoch % 100 == 0:
-            print("\nstart test ...")
-            tester_step, tester_score = tester.test(num_games=10)
-            wandb.log ({"tester_step": tester_step, "tester_score":tester_score })
-            print(f"tester_step: {tester_step}  tester_score: {tester_score}")
+        
         while not end_of_game:
             # clock.tick(60)
             step += 1
@@ -135,6 +137,7 @@ def main (chkpt):
                     }
                     torch.save(checkpoint, checkpoint_path)
                     torch.save(buffer, buffer_path)
+                    pygame.quit()
                     return
             
             ############## Sample Environement #########################
@@ -180,8 +183,12 @@ def main (chkpt):
             
 
         #region log & print########################################
-        print (f'chkpt: {num} epoch: {epoch} loss: {loss:.7f} LR: {scheduler.get_last_lr()}  ' \
-               f'score: {round(env.score,1)} step {step} ')
+        rounded_np = np.round(player.dqn_model.level_embedding.weight.detach().cpu().numpy(), 4).squeeze()
+        clean_list = [round(float(v), 4) for v in rounded_np.tolist()]
+
+        print (f'chkpt: {num} epoch: {epoch} loss: {loss:.7f} LR: {scheduler.get_last_lr()[0]:.6f}  ',
+               f'score: {round(env.score,1)} step {step}', 
+               f'embedding: {clean_list}')
         
         wandb.log ({
                 "score": env.score,

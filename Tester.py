@@ -28,7 +28,7 @@ class Tester:
         return avg_steps, avg_score
 
 if __name__ == "__main__":
-    num = 308
+    num = 427
     
     pygame.init()
     background = Background(400, 800) 
@@ -42,7 +42,7 @@ if __name__ == "__main__":
     agent = AI_Agent(dqn, train=False) 
     env = Environment()
     teser = Tester(agent,env)
-    res = teser.test(1000)
+    res = teser.test(100)
     print(res)
             
             

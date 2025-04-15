@@ -4,11 +4,6 @@ import torch.nn.functional as F
 import copy
 
 # Parameters
-input_size = 10 # lane_stay, lane_right, lane_left, obj
-layer1 = 128
-layer2 = 256
-layer3 = 128
-output_size = 1 # Q(state)-> 3 value of stay, left, right
 gamma = 0.99 
  
 
@@ -20,9 +15,9 @@ class DQN (nn.Module):
         self.level_embedding = nn.Embedding(5, 1)  # maps 0-4 → scalar weight
 
         # FNN to map weighted values to Q-values
-        self.fc1 = nn.Linear(5, 64)
-        self.fc2 = nn.Linear(64, 32)
-        self.out = nn.Linear(32, 1)  # 1 value per action Q(s, a)
+        self.fc1 = nn.Linear(5, 16)
+        # self.fc2 = nn.Linear(64, 32)
+        self.out = nn.Linear(16, 1)  # 1 value per action Q(s, a)
 
         self.MSELoss = nn.MSELoss()
 
@@ -53,10 +48,11 @@ class DQN (nn.Module):
         return q_values
    
     def shared_branch(self, x):
-        x = F.leaky_relu(self.fc1(x))
-        x = F.leaky_relu(self.fc2(x))
-        x = self.out(x) 
-        return x
+        return x.sum(dim=1, keepdim=True)  # shape: [batch, 1]
+        # x = F.leaky_relu(self.fc1(x))
+        # x = F.leaky_relu(self.fc2(x))
+        # x = self.out(x) 
+        # return x
     
     def loss (self, Q_values, rewards, Q_next_Values, dones ):
         Q_new = rewards.to(self.device) + gamma * Q_next_Values.to(self.device) * (1- dones.to(self.device))

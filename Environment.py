@@ -12,10 +12,10 @@ class Environment:
         #self.spawn_timer = 0
         self.score=0
         GoodPoint.indecis = [None] * 5
-        self.coin_reward = 3
-        self.lose_reward = -1
+        self.coin_reward = 1
+        self.lose_reward = -3
         self.change_line_reward = 0
-        self.i_reward = 0.5
+        self.i_reward = 0.1
         self.chkpt = chkpt
         self.car_top_row = 118
         self.car_top = 590
@@ -141,7 +141,6 @@ class Environment:
                 lane_lst[lane+i] = 4-i
         
         return lane_lst
-            
         
     def one_hot_to_lane (self, lane_lst):
         return lane_lst.index(1)
@@ -154,17 +153,12 @@ class Environment:
         reward_after_state = obj[after_lane]
 
         reward = 0
-        
-        if reward_after_state < 0:
-            reward = -self.i_reward
-        else:
-            reward = self.i_reward
-
+       
         if action == 0:
             if reward_state < 0:    # Obstacle
-                reward = -self.i_reward
+                reward = -self.i_reward * 5
             elif reward_state > 0:  # coin
-                reward = self.i_reward
+                reward = self.i_reward * 2
             else:                   # empty don't stay on the lane
                 reward = -self.i_reward / 10
 
@@ -190,7 +184,7 @@ class Environment:
             elif reward_state == 0 and reward_after_state < 0: # empty -> obsticale
                 reward = -self.i_reward
             elif reward_state == 0 and reward_after_state > 0: # empty -> coin
-                reward = self.i_reward
+                reward = self.i_reward * 2
             elif reward_state == 0 and reward_after_state == 0: # empty -> empty
                 reward = self.i_reward / 10
 
