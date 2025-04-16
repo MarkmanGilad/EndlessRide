@@ -21,7 +21,7 @@ def main (chkpt):
     FPS = 60
     WINDOWWIDTH = 400
     WINDOWHEIGHT = 800
-    MIN_BUFFER=5000
+    MIN_BUFFER=500
     MODEL_PATH = "model/DQN.pth"  # Ensure cross-platform path
     clock = pygame.time.Clock()
     background = Background(WINDOWWIDTH, WINDOWHEIGHT) 
@@ -146,7 +146,7 @@ def main (chkpt):
             action = player.getAction(state=state, epoch=epoch, train=True)
             done,reward = env.update(action)
             next_state = env.state()
-            imediate_reward = env.immediate_reward (state, action)
+            imediate_reward = env.immediate_reward_simple (state, action)
             reward += imediate_reward
             buffer.push(state, torch.tensor(action, dtype=torch.int64), torch.tensor(reward, dtype=torch.float32), 
                         next_state, torch.tensor(done, dtype=torch.float32))

@@ -193,6 +193,20 @@ class Environment:
 
         return reward
 
+    def immediate_reward_simple (self, state, action):
+        obj = state[0,15:20]
+        lane = self.car.lane
+        after_lane = min(max(lane + action,0),4)
+        reward_state = obj[lane]
+        reward_after_state = obj[after_lane]
+
+        if reward_after_state > 0:
+            return self.i_reward
+        elif reward_after_state < 0:
+            return -self.i_reward
+        else:
+            return 0
+
     def new_game(self):
         self.car.lane = 2
         self.obstacles_group = pygame.sprite.Group()

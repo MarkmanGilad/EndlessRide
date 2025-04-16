@@ -14,7 +14,8 @@ class AI_Agent:
 
     def epsilon_greedy(self,epoch):
         # res = final + (start - final) * math.exp(-1 * epoch/decay)
-        return max(self.final, self.start - (self.start - self.final) * epoch/self.decay )
+        res = max(self.final, self.start - (self.start - self.final) * epoch/self.decay )
+        return res
     
     
     def getAction(self, state, epoch = 0, events= None, train = True):
