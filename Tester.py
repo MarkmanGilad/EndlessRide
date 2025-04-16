@@ -13,31 +13,37 @@ class Tester:
     def test (self, num_games=100):
         total_steps = 0
         total_score = 0
+        
         for game in range(num_games):
             self.env.new_game()
             done = False
+            score = 0
+            step = 0
             while not done:
+                step += 1
                 total_steps += 1
                 state = self.env.state()
                 action = self.agent.getAction(state=state, train=False)
                 done, _ = self.env.update(action)
+            score += self.env.score
             total_score += self.env.score
-            print(game, end="\r")
+            # print(game, end="\r")
+            print(f'game: {game} steps: {step} score: {score}')
         avg_steps = total_steps / num_games
         avg_score = total_score / num_games
         return avg_steps, avg_score
 
 if __name__ == "__main__":
-    num = 427
+    num = None
     
     pygame.init()
     background = Background(400, 800) 
-    
-    checkpoint_path = f"Data/checkpoint{num}.pth"
-    chkpt = torch.load(checkpoint_path)
-    params = chkpt["model_state_dict"]
     dqn = DQN()
-    dqn.load_state_dict(params)
+    if num:
+        checkpoint_path = f"Data/checkpoint{num}.pth"
+        chkpt = torch.load(checkpoint_path)
+        params = chkpt["model_state_dict"]
+        dqn.load_state_dict(params)
     
     agent = AI_Agent(dqn, train=False) 
     env = Environment()

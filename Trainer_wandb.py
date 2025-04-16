@@ -21,7 +21,7 @@ def main (chkpt):
     FPS = 60
     WINDOWWIDTH = 400
     WINDOWHEIGHT = 800
-    MIN_BUFFER=500
+    MIN_BUFFER=5000
     MODEL_PATH = "model/DQN.pth"  # Ensure cross-platform path
     clock = pygame.time.Clock()
     background = Background(WINDOWWIDTH, WINDOWHEIGHT) 
@@ -44,10 +44,10 @@ def main (chkpt):
     player_hat.dqn_model = player.dqn_model.copy()
     batch_size = 64
     buffer = ReplayBuffer(path=None)
-    learning_rate = 0.001
+    learning_rate = 1e-4
     ephocs = 200000
     start_epoch = 0
-    C = 10
+    C = 5
     loss = torch.tensor(0)
     avg = 0
 
@@ -106,11 +106,11 @@ def main (chkpt):
     tester = Tester(player,env)
 
     for epoch in range(start_epoch, ephocs):
-        if epoch % 100 == 0:
-            print("\nstart test ...")
-            tester_step, tester_score = tester.test(num_games=10)
-            wandb.log ({"tester_step": tester_step, "tester_score":tester_score })
-            print(f"tester_step: {tester_step}  tester_score: {tester_score}")
+        # if epoch % 100 == 0:
+        #     print("\nstart test ...")
+        #     tester_step, tester_score = tester.test(num_games=10)
+        #     wandb.log ({"tester_step": tester_step, "tester_score":tester_score })
+        #     print(f"tester_step: {tester_step}  tester_score: {tester_score}")
         step = 0
         clock = pygame.time.Clock()
         env.new_game()
@@ -122,6 +122,7 @@ def main (chkpt):
         while not end_of_game:
             # clock.tick(60)
             step += 1
+            print(step, end="\r")
             pygame.event.pump()
             events = pygame.event.get()
             for event in events:
@@ -198,7 +199,7 @@ def main (chkpt):
         
         
 
-        if epoch % 1000 == 0 and epoch > 0:
+        if epoch % 500 == 0 and epoch > 0:
             checkpoint = {
                 'epoch': epoch,
                 'model_state_dict': player.dqn_model.state_dict(),

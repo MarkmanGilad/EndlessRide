@@ -4,10 +4,10 @@ from graphics import Background
 import random
 from Environment import Environment
 
-from Human_Agent import Human_Agent
-from Random_Agent import Random_Agent
+# from Human_Agent import Human_Agent
+# from Random_Agent import Random_Agent
 from AI_Agent import AI_Agent
-from DQN import DQN
+from DQN_Attension import DQN
 import torch
 pygame.init()
 
@@ -33,7 +33,7 @@ if MODEL_PATH:
 
 
 # player = AI_Agent(dqn_model)
-player = Human_Agent()
+player = AI_Agent(dqn_model=dqn_model,train=False)
 class Game:
     def __init__(self):
         pass
@@ -75,7 +75,7 @@ class Game:
                 win = True
 
             state = env.state()
-            action = player.getAction(events)
+            action = player.getAction(events=events, state=env.state())
 
             #env.move(action=action)
             done,reward = env.update(action=action) or win
@@ -97,16 +97,6 @@ class Game:
 if __name__ == "__main__":
     game = Game()
     game.start_new_game()
-
-
-
-
-
-
-
-
-
-
 
 
 # import pygame
