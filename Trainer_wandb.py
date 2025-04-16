@@ -44,7 +44,7 @@ def main (chkpt):
     player_hat.dqn_model = player.dqn_model.copy()
     batch_size = 64
     buffer = ReplayBuffer(path=None)
-    learning_rate = 1e-4
+    learning_rate = 1e-5
     ephocs = 200000
     start_epoch = 0
     C = 5
@@ -52,7 +52,8 @@ def main (chkpt):
     avg = 0
 
     scores, losses, avg_score = [], [], []
-    optim = torch.optim.Adam(player.dqn_model.parameters(), lr=learning_rate, weight_decay=1e-4)
+    # optim = torch.optim.Adam(player.dqn_model.parameters(), lr=learning_rate, weight_decay=1e-4)
+    optim = torch.optim.AdamW(player.dqn_model.parameters(), lr=learning_rate, weight_decay=1e-3)
     # scheduler = torch.optim.lr_scheduler.StepLR(optim,100000, gamma=0.50)
     scheduler = torch.optim.lr_scheduler.MultiStepLR(optim,[1000*200, 3000*200, 5000*200], gamma=0.9)
     step = 0
@@ -142,7 +143,7 @@ def main (chkpt):
                     return
             
             ############## Sample Environement #########################
-            action = player.getAction(state=state, epoch=epoch)
+            action = player.getAction(state=state, epoch=epoch, train=True)
             done,reward = env.update(action)
             next_state = env.state()
             imediate_reward = env.immediate_reward (state, action)

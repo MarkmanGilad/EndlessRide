@@ -19,7 +19,10 @@ class Environment:
         self.chkpt = chkpt
         self.car_top_row = 118
         self.car_top = 590
-
+        self.Max_obstacle = 5
+        self.Max_GoodPoints = 5
+        self.obs_prob = 0.015
+        self.good_prob = 0.015
     def move (self, action):
         lane = self.car.lane
         if action == 1 and lane < 4:
@@ -35,21 +38,21 @@ class Environment:
 
     def Max_obstacle_check(self):
         """Checks if there are more than 10 obstacles in the game."""
-        if len(self.obstacles_group) >= 4:
+        if len(self.obstacles_group) >= self.Max_obstacle:
             return True  # More than 10 obstacles exist
         else:
             return False # 10 or fewer obstacles exist
             
     def Max_GoodPoints_check(self):
         """Checks if there are more than 10 good points in the game."""
-        if len(self.good_points_group) >= 5:
+        if len(self.good_points_group) >= self.Max_obstacle:
             return True  # More than 5 points exist
         else:
             return False # 5 or fewer points exist
         
     def add_obstacle(self):
-        spawn_probability = 0.015  #CHANGE
-        if random.random() < spawn_probability:
+        
+        if random.random() < self.obs_prob:
             obstacle = Obstacle()
             #obstacle.rect.x = random.randrange(0, 400, 80)
             obstacle.rect.y = -obstacle.rect.height  # Spawn at the top of the screen
@@ -60,7 +63,7 @@ class Environment:
 
     def add_coins (self):                                                           ###### Gilad
         # Spawn good points (optional)
-        spawn_good_point_probability = 0.01 #CHANGE  
+        spawn_good_point_probability = self.good_prob #CHANGE  
         if random.random() < spawn_good_point_probability and len(self.good_points_group) < 5:
             good_point = GoodPoint()
             if self._check_obstacle_placement(good_point):
